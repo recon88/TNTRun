@@ -1,0 +1,5 @@
+name: TNTRun
+main: tntrun.TNTRun
+version: 1.0
+author: _Shevchik_
+softdepend: [WorldEdit]
