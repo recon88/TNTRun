@@ -146,7 +146,15 @@ public class Arena {
 		{
 			public void run()
 			{
-				if (curPlayers < 2) {Bukkit.getScheduler().cancelTask(runtaskid); return;}
+				if (curPlayers < 2) 
+				{
+					for (String p : plugin.pdata.getArenaPlayers(thisarena))
+					{
+						Bukkit.getPlayerExact(p).sendMessage("Too much players left the arena, wating for some more");
+					}
+					Bukkit.getScheduler().cancelTask(runtaskid);
+					return;
+				}
 				if (count == 0)
 				{
 					running = true;
