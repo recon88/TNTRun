@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
@@ -111,6 +112,7 @@ public class Arena {
 
 	public void spawnPlayer(Player player)
 	{
+		player.setGameMode(GameMode.SURVIVAL);
 		plugin.pdata.setPlayerLocation(player.getName());
 		plugin.pdata.setPlayerInventory(player.getName());
 		plugin.pdata.setPlayerArmor(player.getName());
