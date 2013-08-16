@@ -27,7 +27,7 @@ public class GameLevel {
 	protected void destroyBlock(Location loc, World w)
 	{
 		w.getBlockAt(loc).setType(Material.AIR);
-		w.getBlockAt(loc.add(0,-1,0)).setType(Material.AIR);
+		w.getBlockAt(loc.clone().add(0,-1,0)).setType(Material.AIR);
 	}
 	
 	
