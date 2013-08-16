@@ -186,7 +186,7 @@ public class Arena {
 	public void saveToConfig()
 	{
 		FileConfiguration config = new YamlConfiguration();
-		config.set("world", world);
+		config.set("world", world.getName());
 		config.set("p1", p1);
 		config.set("p2", p2);
 		config.set("spawnpoint", spawnpoint.toVector());
