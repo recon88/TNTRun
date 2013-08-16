@@ -34,7 +34,7 @@ public class GameLevel {
 	
 	protected boolean isSandLocation(Location loc)
 	{
-		if (loc.toVector().isInAABB(sandp1.clone().add(new Vector(0,-1,0)), sandp2.clone().add(new Vector(0,1,0))))
+		if (loc.toVector().isInAABB(sandp1, sandp2))
 		{
 			return true;
 		}
