@@ -39,6 +39,10 @@ public class LooseLevel {
 		//fill area with water
 		fillArea(w);
 	}	
+	public void regen(World w)
+	{
+		fillArea(w);
+	}
 	private void fillArea(World w)
 	{
 		int y = p1.getBlockY();
@@ -52,16 +56,16 @@ public class LooseLevel {
 	}
 	
 	
-	protected void saveToConfig(String arenaname, FileConfiguration config)
+	protected void saveToConfig(FileConfiguration config)
 	{
-		config.set(arenaname+".looselevel.p1", p1);
-		config.set(arenaname+".looselevel.p2", p2);
+		config.set("looselevel.p1", p1);
+		config.set("looselevel.p2", p2);
 	}
 	
-	protected void loadFromConfig(String arenaname, FileConfiguration config)
+	protected void loadFromConfig(FileConfiguration config)
 	{
-		p1 = config.getVector(arenaname+".looselevel.p1", null);
-		p2 = config.getVector(arenaname+".looselevel.p2", null);
+		p1 = config.getVector("looselevel.p1", null);
+		p2 = config.getVector("looselevel.p2", null);
 	}
 	
 }

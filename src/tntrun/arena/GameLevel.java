@@ -15,16 +15,6 @@ public class GameLevel {
 	private Vector tntp2 = null;
 	
 	
-	protected boolean isConfigured()
-	{
-		if (sandp1 != null && sandp2 != null && tntp1 != null && tntp2 != null)
-		{
-			return true;
-		}
-		return false;
-	}
-	
-	
 	protected boolean isSandLocation(Location loc)
 	{
 		if (loc.toVector().isInAABB(sandp1.add(new Vector(0,-1,0)), sandp2.add(new Vector(0,1,0))))
@@ -51,7 +41,7 @@ public class GameLevel {
 		fillArea(w);
 	}
 	
-	protected void regenGameLocation(World w)
+	protected void regen(World w)
 	{
 		fillArea(w);
 	}
@@ -78,14 +68,22 @@ public class GameLevel {
 	
 	
 
-	protected void saveToConfig(String arenaname, String levelname, FileConfiguration config)
+	protected void saveToConfig(String levelname, FileConfiguration config)
 	{
-		
+		Vector p1 = tntp1;
+		Vector p2 = sandp2;
+		config.set(levelname+".p1", p1);
+		config.set(levelname+".p2", p2);
 	}
 	
-	protected void loadFromConfig(String arenaname, String levelname, FileConfiguration config)
+	protected void loadFromConfig(String levelname, FileConfiguration config)
 	{
-		
+		Vector p1 = config.getVector(levelname+".p1", null);
+		Vector p2 = config.getVector(levelname+".p2", null);
+		this.sandp1 = p1.add(new Vector(0,1,0));
+		this.sandp2 = p2;
+		this.tntp1 = p1;
+		this.tntp2 = p2.add(new Vector(0,-1,0));
 	}
 	
 }
