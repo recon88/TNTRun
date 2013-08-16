@@ -74,7 +74,7 @@ public class SetupCommands implements CommandExecutor {
 			sender.sendMessage("Arena deleted");
 		}
 		//set arena bounds
-		else if (args.length == 2 && args[1].equalsIgnoreCase("setarenapoints"))
+		else if (args.length == 2 && args[1].equalsIgnoreCase("setarena"))
 		{
 			Arena arena = getArenaByName(args[0]);
 			if (arena != null)
@@ -82,6 +82,7 @@ public class SetupCommands implements CommandExecutor {
 				try {
 					Location[] locs = sortLoc(player);
 					arena.setArenaPoints(locs[0],locs[1]);
+					sender.sendMessage("Arena bounds set");
 					return true;
 				}
 				catch (Exception e) {
