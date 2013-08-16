@@ -113,6 +113,7 @@ public class Arena {
 		plugin.pdata.setPlayerLocation(player.getName());
 		plugin.pdata.setPlayerInventory(player.getName());
 		plugin.pdata.setPlayerArmor(player.getName());
+		player.getInventory().clear();
 		plugin.pdata.setPlayerArena(player.getName(), this);
 		player.teleport(spawnpoint);
 		curPlayers++;
@@ -183,6 +184,8 @@ public class Arena {
 			player.sendMessage("You left the arena");
 			removePlayerFromArena(player);
 		}
+		//do not handle game if it is not running
+		if (!running) {return;}
 		//check for game location
 		for (final GameLevel gl : gamelevels.values())
 		{
