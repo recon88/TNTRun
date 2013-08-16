@@ -131,8 +131,8 @@ public class Arena {
 		plugin.pdata.setPlayerInventory(player.getName());
 		plugin.pdata.setPlayerArmor(player.getName());
 		player.getInventory().clear();
-		plugin.pdata.setPlayerArena(player.getName(), this);
 		player.teleport(spawnpoint);
+		plugin.pdata.setPlayerArena(player.getName(), this);
 		curPlayers++;
 		if (curPlayers == maxPlayers)
 		{
