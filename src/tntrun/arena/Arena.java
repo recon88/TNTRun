@@ -223,6 +223,11 @@ public class Arena {
 		{
 			player.sendMessage("You left the arena");
 			removePlayerFromArena(player);
+			if (curPlayers != 0)
+			{
+				votes.remove(player.getName());
+				curPlayers--;
+			}
 		}
 		//do not handle game if it is not running
 		if (!running) {return;}
