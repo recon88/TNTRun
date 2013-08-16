@@ -208,7 +208,7 @@ public class Arena {
 					thisarena.handlePlayer(Bukkit.getPlayerExact(p));
 				}
 			}
-		}, 0, 1);
+		}, 0, 20);
 	}
 	
 	public void handlePlayer(final Player player)
