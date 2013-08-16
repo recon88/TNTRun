@@ -20,6 +20,7 @@ public class TNTRun extends JavaPlugin {
 		scommands = new SetupCommands(this);
 		getCommand("trsetup").setExecutor(scommands);
 		//load arenas
+		new File("plugins/TNTRun/arenas/").mkdirs(); 
 		for (String file : new File("plugins/TNTRun/arenas/").list())
 		{
 			Arena arena = new Arena(file.split("[.]")[0], this);
