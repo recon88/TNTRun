@@ -181,6 +181,7 @@ public class Arena {
 					{
 						Bukkit.getPlayerExact(p).sendMessage("Arena started");
 					}
+					runArenaHandler();
 				} else
 				{
 					for (String p : plugin.pdata.getArenaPlayers(thisarena))
@@ -195,6 +196,19 @@ public class Arena {
 		{
 			runtaskid = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, run, 0, 20);
 		}
+	}
+	private void runArenaHandler()
+	{
+		Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable()
+		{
+			public void run()
+			{
+				for (String p : plugin.pdata.getArenaPlayers(thisarena))
+				{
+					thisarena.handlePlayer(Bukkit.getPlayerExact(p));
+				}
+			}
+		}, 0, 1);
 	}
 	
 	public void handlePlayer(final Player player)
