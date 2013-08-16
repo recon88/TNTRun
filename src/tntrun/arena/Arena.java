@@ -220,19 +220,18 @@ public class Arena {
 			//player lost
 			player.sendMessage("You lost the arena");
 			removePlayerFromArena(player);
-			//now check for win
-			if (plugin.pdata.getArenaPlayers(this).size() == 1)
+		}
+		//now check for win
+		if (plugin.pdata.getArenaPlayers(this).size() == 1)
+		{
+			//last player won
+			player.sendMessage("You won the arena");
+			removePlayerFromArena(player);
+			rewardPlayer(player);
+			//regenerate arena
+			for (final GameLevel gl : gamelevels.values())
 			{
-				//last player won
-				Player winner = Bukkit.getPlayerExact(plugin.pdata.getArenaPlayers(this).iterator().next());
-				winner.sendMessage("You won the arena");
-				removePlayerFromArena(winner);
-				rewardPlayer(winner);
-				//regenerate arena
-				for (final GameLevel gl : gamelevels.values())
-				{
-					gl.regen(world);
-				}
+				gl.regen(world);
 			}
 			//not running
 			this.running = false;
