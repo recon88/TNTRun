@@ -33,11 +33,10 @@ public class GameLevel {
 	
 	protected void setGameLocation(Location p1, Location p2, World w)
 	{
-		this.sandp1 = p1.add(0, 1, 0).toVector();
-		this.sandp2 = p2.toVector();
-		
 		this.tntp1 = p1.toVector();
-		this.tntp2 = p2.add(0, -1, 0).toVector();
+		this.tntp2 = p2.toVector();
+		this.sandp1 = p1.add(0, 1, 0).toVector();
+		this.sandp2 = p2.add(0, 1, 0).toVector();
 		fillArea(w);
 	}
 	protected void regen(World w)
@@ -69,7 +68,7 @@ public class GameLevel {
 	protected void saveToConfig(String levelname, FileConfiguration config)
 	{
 		Vector p1 = tntp1;
-		Vector p2 = sandp2;
+		Vector p2 = tntp2;
 		config.set(levelname+".p1", p1);
 		config.set(levelname+".p2", p2);
 	}
@@ -79,9 +78,9 @@ public class GameLevel {
 		Vector p1 = config.getVector(levelname+".p1", null);
 		Vector p2 = config.getVector(levelname+".p2", null);
 		this.sandp1 = p1.add(new Vector(0,1,0));
-		this.sandp2 = p2;
+		this.sandp2 = p2.add(new Vector(0,1,0));
 		this.tntp1 = p1;
-		this.tntp2 = p2.add(new Vector(0,-1,0));
+		this.tntp2 = p2;
 	}
 	
 }
