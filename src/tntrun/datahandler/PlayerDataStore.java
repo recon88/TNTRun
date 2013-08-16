@@ -1,4 +1,4 @@
-package tntrun.gamehandler;
+package tntrun.datahandler;
 
 import java.util.HashMap;
 import java.util.HashSet;
