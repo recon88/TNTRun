@@ -177,6 +177,10 @@ public class Arena {
 					count = 10;
 					Bukkit.getScheduler().cancelTask(runtaskid);
 					runtaskid = null;
+					for (String p : plugin.pdata.getArenaPlayers(thisarena))
+					{
+						Bukkit.getPlayerExact(p).sendMessage("Arena started");
+					}
 				} else
 				{
 					for (String p : plugin.pdata.getArenaPlayers(thisarena))
