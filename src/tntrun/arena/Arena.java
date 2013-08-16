@@ -220,6 +220,7 @@ public class Arena {
 			//player lost
 			player.sendMessage("You lost the arena");
 			removePlayerFromArena(player);
+			return;
 		}
 		//now check for win
 		if (plugin.pdata.getArenaPlayers(this).size() == 1)
