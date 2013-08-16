@@ -17,7 +17,7 @@ public class GameLevel {
 	
 	protected boolean isSandLocation(Location loc)
 	{
-		if (loc.toVector().isInAABB(sandp1.add(new Vector(0,-1,0)), sandp2.add(new Vector(0,1,0))))
+		if (loc.toVector().isInAABB(sandp1.clone().add(new Vector(0,-1,0)), sandp2.clone().add(new Vector(0,1,0))))
 		{
 			return true;
 		}
@@ -67,20 +67,18 @@ public class GameLevel {
 
 	protected void saveToConfig(String levelname, FileConfiguration config)
 	{
-		Vector p1 = tntp1;
-		Vector p2 = tntp2;
-		config.set(levelname+".p1", p1);
-		config.set(levelname+".p2", p2);
+		config.set(levelname+".p1", tntp1);
+		config.set(levelname+".p2", tntp2);
 	}
 	
 	protected void loadFromConfig(String levelname, FileConfiguration config)
 	{
 		Vector p1 = config.getVector(levelname+".p1", null);
 		Vector p2 = config.getVector(levelname+".p2", null);
-		this.sandp1 = p1.add(new Vector(0,1,0));
-		this.sandp2 = p2.add(new Vector(0,1,0));
 		this.tntp1 = p1;
 		this.tntp2 = p2;
+		this.sandp1 = p1.clone().add(new Vector(0,1,0));
+		this.sandp2 = p2.clone().add(new Vector(0,1,0));
 	}
 	
 }
