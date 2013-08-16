@@ -25,6 +25,7 @@ public class TNTRun extends JavaPlugin {
 		{
 			Arena arena = new Arena(file.split("[.]")[0], this);
 			arena.loadFromConfig();
+			arena.enableArena();
 		}
 	}
 	
