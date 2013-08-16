@@ -50,10 +50,8 @@ public class LooseLevel {
 	
 	protected void setLooseLocation(Location p1, Location p2, World w)
 	{
-		//zone points
 		this.p1 = p1.toVector();
 		this.p2 = p2.toVector();
-		//fill area with water
 		fillArea(w);
 	}	
 	public void regen(World w)
