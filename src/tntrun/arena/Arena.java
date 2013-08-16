@@ -287,7 +287,7 @@ public class Arena {
 					try{
 						GameLevel gl = new GameLevel();
 						gl.loadFromConfig(key, config);
-						gamelevels.put(key,gl);
+						gamelevels.put(key.replace("gamelevel", ""),gl);
 					} catch (Exception e) {}
 				}
 			}
