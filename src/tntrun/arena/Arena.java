@@ -26,7 +26,7 @@ public class Arena {
 	}
 	
 
-	
+	private Arena thisarena = this;
 	private boolean enabled = false;
 	public boolean running = false;
 	
@@ -111,12 +111,15 @@ public class Arena {
 
 	public void spawnPlayer(Player player)
 	{
+		plugin.pdata.setPlayerLocation(player.getName());
+		plugin.pdata.setPlayerInventory(player.getName());
+		plugin.pdata.setPlayerArmor(player.getName());
+		plugin.pdata.setPlayerArena(player.getName(), this);
 		player.teleport(spawnpoint);
 		curPlayers++;
 		if (curPlayers == maxPlayers)
 		{
-			this.running = true;
-			curPlayers = 0;
+			runArena();
 		}
 	}
 	public void leavePlayer(Player player)
@@ -130,8 +133,38 @@ public class Arena {
 		votes.add(player.getName());
 		if (votes.size() >= ((int)curPlayers*votesPercent))
 		{
-			this.running = true;
-			curPlayers = 0;
+			runArena();
+		}
+	}
+	Integer runtaskid = null;
+	int count = 10;
+	private void runArena()
+	{
+		Runnable run = new Runnable()
+		{
+			public void run()
+			{
+				if (curPlayers < 2) {Bukkit.getScheduler().cancelTask(runtaskid); return;}
+				if (count == 0)
+				{
+					running = true;
+					curPlayers = 0;
+					count = 10;
+					Bukkit.getScheduler().cancelTask(runtaskid);
+					runtaskid = null;
+				} else
+				{
+					for (String p : plugin.pdata.getArenaPlayers(thisarena))
+					{
+						Bukkit.getPlayerExact(p).sendMessage("Arena starts in "+count+" seconds");
+					}
+					count--;
+				}
+			}
+		};
+		if (runtaskid != null)
+		{
+			runtaskid = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, run, 0, 20);
 		}
 	}
 	

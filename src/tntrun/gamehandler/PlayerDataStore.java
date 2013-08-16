@@ -48,6 +48,7 @@ public class PlayerDataStore {
 	
 	private HashMap<String, ItemStack[]> plinv = new HashMap<String, ItemStack[]>();
 	private HashMap<String, ItemStack[]> plarmor = new HashMap<String, ItemStack[]>();
+	private HashMap<String, Location> plloc = new HashMap<String, Location>();
 	public ItemStack[] getPlayerInventory(String player)
 	{
 		ItemStack[] inv = plinv.get(player);
@@ -68,8 +69,6 @@ public class PlayerDataStore {
 	{
 		plarmor.put(player, Bukkit.getPlayerExact(player).getInventory().getArmorContents());
 	}
-	
-	private HashMap<String, Location> plloc = new HashMap<String, Location>();
 	public Location getPlayerLocation(String player)
 	{
 		Location loc = plloc.get(player);
