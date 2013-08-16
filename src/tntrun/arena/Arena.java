@@ -48,7 +48,10 @@ public class Arena {
 	private LooseLevel looselevel = new LooseLevel();
 	private Location spawnpoint = null;
 	
-	
+	public boolean isArenaEnabled()
+	{
+		return enabled;
+	}
 	public boolean enableArena()
 	{
 		if (isArenaConfigured())
@@ -68,11 +71,6 @@ public class Arena {
 			removePlayerFromArena(Bukkit.getPlayerExact(player));
 		}
 	}
-	public boolean isArenaEnabled()
-	{
-		return enabled;
-	}
-
 
 	public boolean isArenaConfigured()
 	{
@@ -83,7 +81,6 @@ public class Arena {
 		if (spawnpoint == null) {return false;}
 		return true;
 	}
-	
 	public void setArenaPoints(Location loc1, Location loc2)
 	{
 		this.world = loc1.getWorld();
@@ -248,6 +245,7 @@ public class Arena {
 		config.set("p2", p2);
 		config.set("spawnpoint", spawnpoint.toVector());
 		config.set("maxPlayers", maxPlayers);
+		config.set("votePercent", votesPercent);
 		for (String glname : gamelevels.keySet())
 		{
 			try 
@@ -270,6 +268,8 @@ public class Arena {
 		this.p1 = config.getVector("p1", null);
 		this.p2 = config.getVector("p2", null);
 		Vector v = config.getVector("spawnpoint", null);
+		maxPlayers = config.getInt("maxPlayers",maxPlayers);
+		votesPercent = config.getDouble("votePercent", votesPercent);
 		try {
 			this.spawnpoint = new Location(world, v.getX(), v.getY(), v.getZ());
 		} catch (Exception e) {}
