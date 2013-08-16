@@ -21,39 +21,16 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.event.player.PlayerTeleportEvent;
-
 import tntrun.TNTRun;
 import tntrun.arena.Arena;
 
-public class GameHandler implements Listener {
+public class QuitHandler implements Listener {
 
 	private TNTRun plugin;
-	public GameHandler(TNTRun plugin)
+	public QuitHandler(TNTRun plugin)
 	{
 		this.plugin = plugin;
-	}
-	
-	
-	@EventHandler(priority=EventPriority.HIGHEST,ignoreCancelled = true)
-	public void onPlayerMoveEvent(PlayerMoveEvent e)
-	{
-		Player player = e.getPlayer();
-		Arena arena = plugin.pdata.getPlayerArena(player.getName());
-		//ignore if player is not in arena
-		if (arena == null) {return;}
-		arena.handlePlayer(player);
-	}
-	@EventHandler(priority=EventPriority.HIGHEST,ignoreCancelled = true)
-	public void onPlayerTeleportEvent(PlayerTeleportEvent e)
-	{
-		Player player = e.getPlayer();
-		Arena arena = plugin.pdata.getPlayerArena(player.getName());
-		//ignore if player is not in arena
-		if (arena == null) {return;}
-		arena.handlePlayer(player);
 	}
 	
 	@EventHandler(priority=EventPriority.HIGHEST,ignoreCancelled = true)

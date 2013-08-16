@@ -26,14 +26,14 @@ import tntrun.arena.Arena;
 import tntrun.commands.GameCommands;
 import tntrun.commands.SetupCommands;
 import tntrun.datahandler.PlayerDataStore;
-import tntrun.eventhandler.GameHandler;
+import tntrun.eventhandler.QuitHandler;
 
 public class TNTRun extends JavaPlugin {
 
 	public PlayerDataStore pdata;
 	public SetupCommands scommands;
 	public GameCommands gcommands;
-	public GameHandler ghandler;
+	public QuitHandler ghandler;
 	
 	@Override
 	public void onEnable()
@@ -43,7 +43,7 @@ public class TNTRun extends JavaPlugin {
 		getCommand("trsetup").setExecutor(scommands);
 		gcommands = new GameCommands(this);
 		getCommand("tr").setExecutor(gcommands);
-		ghandler = new GameHandler(this);
+		ghandler = new QuitHandler(this);
 		getServer().getPluginManager().registerEvents(ghandler, this);
 		//load arenas
 		new File("plugins/TNTRun/arenas/").mkdirs(); 
