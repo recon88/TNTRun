@@ -208,16 +208,10 @@ public class Arena {
 		{
 			if (gl.isSandLocation(player.getLocation().add(0,-1,0)))
 			{
-				Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable()
+				if (running)
 				{
-					public void run()
-					{ 
-						if (running)
-						{
-							gl.destroyBlock(player.getLocation().clone().add(0,-1,0), world);
-						}
-					}
-				}, 10);
+					gl.destroyBlock(player.getLocation().clone().add(0,-1,0), world);
+				}
 			}
 		}
 		//check for loose location
