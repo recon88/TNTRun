@@ -101,7 +101,7 @@ public class SetupCommands implements CommandExecutor {
 			if (arena != null)
 			{
 				Location[] locs = sortLoc(player);
-				arena.setGameLevel(args[2], locs[0], locs[0]);
+				arena.setGameLevel(args[2], locs[0], locs[1]);
 				sender.sendMessage("GameLevel set");
 				return true;
 			} else
@@ -117,7 +117,7 @@ public class SetupCommands implements CommandExecutor {
 			if (arena != null)
 			{
 				Location[] locs = sortLoc(player);
-				arena.setLooseLevel(locs[0], locs[2]);
+				arena.setLooseLevel(locs[0], locs[1]);
 				sender.sendMessage("LooseLevel set");
 				return true;
 			} else
