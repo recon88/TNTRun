@@ -74,6 +74,7 @@ public class Arena {
 		if (isArenaConfigured())
 		{
 			enabled = true;
+			runArenaHandler();
 			return true;
 		}
 		return false;
@@ -181,7 +182,6 @@ public class Arena {
 					{
 						Bukkit.getPlayerExact(p).sendMessage("Arena started");
 					}
-					runArenaHandler();
 				} else
 				{
 					for (String p : plugin.pdata.getArenaPlayers(thisarena))
@@ -197,18 +197,23 @@ public class Arena {
 			runtaskid = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, run, 0, 20);
 		}
 	}
+	private Integer arenahandler = null;
 	private void runArenaHandler()
 	{
-		Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable()
+		if (arenahandler == null)
 		{
-			public void run()
+			arenahandler = 
+			Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable()
 			{
-				for (String p : new HashSet<String>(plugin.pdata.getArenaPlayers(thisarena)))
+				public void run()
 				{
-					thisarena.handlePlayer(Bukkit.getPlayerExact(p));
+					for (String p : new HashSet<String>(plugin.pdata.getArenaPlayers(thisarena)))
+					{
+						thisarena.handlePlayer(Bukkit.getPlayerExact(p));
+					}
 				}
-			}
-		}, 0, 20);
+			}, 0, 20);
+		}
 	}
 	
 	public void handlePlayer(final Player player)
