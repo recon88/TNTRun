@@ -5,6 +5,7 @@ import java.io.File;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import tntrun.arena.Arena;
+import tntrun.commands.GameCommands;
 import tntrun.commands.SetupCommands;
 import tntrun.gamehandler.PlayerDataStore;
 
@@ -12,6 +13,7 @@ public class TNTRun extends JavaPlugin {
 
 	public PlayerDataStore pdata;
 	public SetupCommands scommands;
+	public GameCommands gcommands;
 	
 	@Override
 	public void onEnable()
@@ -19,6 +21,8 @@ public class TNTRun extends JavaPlugin {
 		pdata = new PlayerDataStore();
 		scommands = new SetupCommands(this);
 		getCommand("trsetup").setExecutor(scommands);
+		gcommands = new GameCommands(this);
+		getCommand("tr").setExecutor(gcommands);
 		//load arenas
 		new File("plugins/TNTRun/arenas/").mkdirs(); 
 		for (String file : new File("plugins/TNTRun/arenas/").list())
@@ -41,6 +45,7 @@ public class TNTRun extends JavaPlugin {
 			}
 		}
 		scommands = null;
+		gcommands = null;
 		pdata = null;
 	}
 	
