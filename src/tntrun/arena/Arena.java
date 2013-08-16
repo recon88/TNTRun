@@ -3,6 +3,8 @@ package tntrun.arena;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -37,7 +39,9 @@ public class Arena {
 	private Vector p1 = null;
 	private Vector p2 = null;
 	public int maxPlayers = 6;
+	public double votesPercent = 0.75;
 	private int curPlayers = 0;
+	private HashSet<String> votes = new HashSet<String>();
 	
 	private HashMap<String, GameLevel> gamelevels = new HashMap<String, GameLevel>();
 	private LooseLevel looselevel = new LooseLevel();
@@ -118,7 +122,17 @@ public class Arena {
 	public void leavePlayer(Player player)
 	{
 		removePlayerFromArena(player);
+		votes.remove(player.getName());
 		curPlayers--;
+	}
+	public void vote(Player player)
+	{
+		votes.add(player.getName());
+		if (votes.size() >= ((int)curPlayers*votesPercent))
+		{
+			this.running = true;
+			curPlayers = 0;
+		}
 	}
 	
 	public void handlePlayer(final Player player)
