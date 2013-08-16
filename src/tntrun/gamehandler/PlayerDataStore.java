@@ -21,12 +21,12 @@ public class PlayerDataStore {
 	public void setPlayerArena(String player, Arena arena)
 	{
 		plingame.put(player, arena);
-		arenaplayers.get(arena).remove(player);
+		arenaplayers.get(arena).add(player);
 	}
 	public void removePlayerFromArena(String player)
 	{
 		Arena arena = plingame.get(player);
-		arenaplayers.get(arena).add(player);
+		arenaplayers.get(arena).remove(player);
 		plingame.remove(player);
 	}
 	public HashSet<String> getArenaPlayers(Arena arena)
@@ -74,7 +74,6 @@ public class PlayerDataStore {
 		Location loc = plloc.get(player);
 		plloc.remove(player);
 		return loc;
-
 	}
 	public void setPlayerLocation(String player)
 	{
