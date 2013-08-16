@@ -203,7 +203,7 @@ public class Arena {
 		{
 			public void run()
 			{
-				for (String p : plugin.pdata.getArenaPlayers(thisarena))
+				for (String p : new HashSet<String>(plugin.pdata.getArenaPlayers(thisarena)))
 				{
 					thisarena.handlePlayer(Bukkit.getPlayerExact(p));
 				}
