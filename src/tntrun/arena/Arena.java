@@ -214,7 +214,7 @@ public class Arena {
 					{ 
 						if (running)
 						{
-							gl.destroyBlock(player.getLocation(), world);
+							gl.destroyBlock(player.getLocation().clone().add(0,-1,0), world);
 						}
 					}
 				}, 10);
