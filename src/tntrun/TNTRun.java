@@ -5,8 +5,8 @@ import java.io.File;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import tntrun.arena.Arena;
+import tntrun.commands.SetupCommands;
 import tntrun.gamehandler.PlayerDataStore;
-import tntrun.setup.SetupCommands;
 
 public class TNTRun extends JavaPlugin {
 

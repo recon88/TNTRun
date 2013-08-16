@@ -1,4 +1,4 @@
-package tntrun.setup;
+package tntrun.commands;
 
 import java.io.File;
 import java.util.HashMap;
