@@ -1,8 +1,9 @@
 package tntrun.arena;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -32,29 +33,31 @@ public class Arena {
 	public boolean running = false;
 	
 	private String arenaname;
+	public String getArenaName()
+	{
+		return arenaname;
+	}
 	private World world;
 	private Vector p1 = null;
 	private Vector p2 = null;
 	public int maxPlayers = 6;
 	private int curPlayers = 0;
 	
-	private HashSet<GameLevel> gamelevels = new HashSet<GameLevel>();
+	private HashMap<String, GameLevel> gamelevels = new HashMap<String, GameLevel>();
 	private LooseLevel looselevel = new LooseLevel();
 	private List<Location> spawnpoints = new ArrayList<Location>();
 	
 	
-	public void enableArena(Player sender)
+	public boolean enableArena()
 	{
 		if (isArenaConfigured())
 		{
 			enabled = true;
-			sender.sendMessage("Arena "+arenaname+" enabled");
-		} else 
-		{
-			sender.sendMessage("Arena "+arenaname+" is not yet configured");
+			return true;
 		}
+		return false;
 	}
-	public void disableArena(Player sender)
+	public void disableArena()
 	{
 		enabled = false;
 		//drop players
@@ -68,15 +71,9 @@ public class Arena {
 	{
 		return enabled;
 	}
-	
-	
-		
-	public String getArenaName()
-	{
-		return arenaname;
-	}
 
-	private boolean isArenaConfigured()
+
+	public boolean isArenaConfigured()
 	{
 		if (world == null) {return false;}
 		if (p1 == null || p2==null) {return false;}
@@ -84,6 +81,27 @@ public class Arena {
 		if (!looselevel.isConfigured()) {return false;}
 		if (spawnpoints.size() == 0) {return false;}
 		return true;
+	}
+	
+	public void setArenaPoints(Location loc1, Location loc2)
+	{
+		this.world = loc1.getWorld();
+		this.p1 = loc1.toVector();
+		this.p2 = loc2.toVector();
+	}
+	public void setGameLevel(String glname, Location loc1, Location loc2)
+	{
+		GameLevel gl = gamelevels.get(glname);
+		if (gl == null)
+		{
+			gl = new GameLevel();
+			gamelevels.put(glname, gl);
+		}
+		gl.setGameLocation(loc1, loc2, world);
+	}
+	public void setLooseLevel(Location loc1, Location loc2)
+	{
+		looselevel.setLooseLocation(loc1, loc2, world);
 	}
 	
 
@@ -112,7 +130,7 @@ public class Arena {
 			removePlayerFromArena(player);
 		}
 		//check for game location
-		for (final GameLevel gl : gamelevels)
+		for (final GameLevel gl : gamelevels.values())
 		{
 			if (gl.isSandLocation(player.getLocation().add(0,-1,0)))
 			{
@@ -143,7 +161,7 @@ public class Arena {
 				removePlayerFromArena(winner);
 				rewardPlayer(winner);
 				//regenerate arena
-				for (final GameLevel gl : gamelevels)
+				for (final GameLevel gl : gamelevels.values())
 				{
 					gl.regen(world);
 				}
@@ -172,15 +190,20 @@ public class Arena {
 		config.set("p1", p1);
 		config.set("p2", p2);
 		config.set("maxPlayers", maxPlayers);
-		int i = 1;
-		for (GameLevel gl : gamelevels)
+		for (String glname : gamelevels.keySet())
 		{
 			try 
 			{
-				gl.saveToConfig("gamelevel"+i, config);
+				GameLevel gl = gamelevels.get(glname);
+				gl.saveToConfig("gamelevel"+glname, config);
 			} catch (Exception e) {}
 		}
 		looselevel.saveToConfig(config);
+		try {
+			config.save(new File("plugins/TNTRun/arenas/"+arenaname+".yml"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	public void loadFromConfig()
 	{
@@ -199,7 +222,7 @@ public class Arena {
 					try{
 						GameLevel gl = new GameLevel();
 						gl.loadFromConfig(key, config);
-						gamelevels.add(gl);
+						gamelevels.put(key,gl);
 					} catch (Exception e) {}
 				}
 			}
@@ -208,7 +231,7 @@ public class Arena {
 		plugin.pdata.putArenaInHashMap(this);
 		if (isArenaConfigured())
 		{
-			for (GameLevel gl : gamelevels)
+			for (GameLevel gl : gamelevels.values())
 			{
 				gl.regen(world);
 			}

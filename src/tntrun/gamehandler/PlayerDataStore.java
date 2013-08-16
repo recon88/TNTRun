@@ -37,6 +37,10 @@ public class PlayerDataStore {
 	{
 		arenaplayers.put(arena, new HashSet<String>());
 	}
+	public void removeArenaFromHashMap(Arena arena)
+	{
+		arenaplayers.remove(arena);
+	}
 	public Set<Arena> getArenas()
 	{
 		return arenaplayers.keySet();

@@ -40,12 +40,10 @@ public class GameLevel {
 		this.tntp2 = p2.add(0, -1, 0).toVector();
 		fillArea(w);
 	}
-	
 	protected void regen(World w)
 	{
 		fillArea(w);
 	}
-	
 	private void fillArea(World w)
 	{
 		int y = tntp1.getBlockY();

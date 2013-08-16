@@ -31,7 +31,7 @@ public class LooseLevel {
 		return false;
 	};
 	
-	public void setLooseLocation(Location p1, Location p2, World w)
+	protected void setLooseLocation(Location p1, Location p2, World w)
 	{
 		//zone points
 		this.p1 = p1.toVector();
