@@ -134,6 +134,7 @@ public class SetupCommands implements CommandExecutor {
 			if (arena != null)
 			{
 				arena.setSpawnPoint(player.getLocation());
+				sender.sendMessage("Spawnpoint set");
 				return true;
 			} else
 			{
@@ -152,6 +153,7 @@ public class SetupCommands implements CommandExecutor {
 					arena.saveToConfig();
 					plugin.pdata.putArenaInHashMap(arena);
 					arena.enableArena();
+					sender.sendMessage("Arena saved and enabled");
 					return true;
 				} else 
 				{
