@@ -159,6 +159,32 @@ public class SetupCommands implements CommandExecutor {
 				return true;
 			}
 		}
+		//set maxPlayers
+		else if (args.length == 3 && args[1].equalsIgnoreCase("setmaxplayers"))
+		{
+			Arena arena = getArenaByName(args[0]);
+			if (arena != null)
+			{
+				arena.maxPlayers = Integer.valueOf(args[2]);
+			} else
+			{
+				sender.sendMessage("Arena not exists");
+				return true;
+			}
+		}
+		//set vote percent
+		else if (args.length == 3 && args[1].equalsIgnoreCase("setvotepercent"))
+		{
+			Arena arena = getArenaByName(args[0]);
+			if (arena != null)
+			{
+				arena.votesPercent = Double.valueOf(args[2]);
+			} else
+			{
+				sender.sendMessage("Arena not exists");
+				return true;
+			}
+		}
 		//finish arena creation
 		else if (args.length == 2 && args[1].equalsIgnoreCase("finish"))
 		{
