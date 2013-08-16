@@ -4,4 +4,6 @@ version: 1.0
 author: _Shevchik_
 commands:
   trsetup:
-    description: TNTRun arena setup command
+    description: TNTRun arena setup commands
+  tr:
+    description: TNTRun game commands
