@@ -19,18 +19,21 @@ package tntrun;
 
 import java.io.File;
 
+import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import tntrun.arena.Arena;
 import tntrun.commands.GameCommands;
 import tntrun.commands.SetupCommands;
 import tntrun.datahandler.PlayerDataStore;
+import tntrun.eventhandler.GameHandler;
 
 public class TNTRun extends JavaPlugin {
 
 	public PlayerDataStore pdata;
 	public SetupCommands scommands;
 	public GameCommands gcommands;
+	public GameHandler ghandler;
 	
 	@Override
 	public void onEnable()
@@ -40,6 +43,8 @@ public class TNTRun extends JavaPlugin {
 		getCommand("trsetup").setExecutor(scommands);
 		gcommands = new GameCommands(this);
 		getCommand("tr").setExecutor(gcommands);
+		ghandler = new GameHandler(this);
+		getServer().getPluginManager().registerEvents(ghandler, this);
 		//load arenas
 		new File("plugins/TNTRun/arenas/").mkdirs(); 
 		for (String file : new File("plugins/TNTRun/arenas/").list())
@@ -61,8 +66,10 @@ public class TNTRun extends JavaPlugin {
 				arena.saveToConfig();
 			}
 		}
+		HandlerList.unregisterAll(this);
 		scommands = null;
 		gcommands = null;
+		ghandler = null;
 		pdata = null;
 	}
 	
