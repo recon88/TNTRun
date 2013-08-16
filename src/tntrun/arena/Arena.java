@@ -2,11 +2,7 @@ package tntrun.arena;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Random;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -45,7 +41,7 @@ public class Arena {
 	
 	private HashMap<String, GameLevel> gamelevels = new HashMap<String, GameLevel>();
 	private LooseLevel looselevel = new LooseLevel();
-	private List<Location> spawnpoints = new ArrayList<Location>();
+	private Location spawnpoint = null;
 	
 	
 	public boolean enableArena()
@@ -79,7 +75,7 @@ public class Arena {
 		if (p1 == null || p2==null) {return false;}
 		if (gamelevels.size() == 0) {return false;}
 		if (!looselevel.isConfigured()) {return false;}
-		if (spawnpoints.size() == 0) {return false;}
+		if (spawnpoint == null) {return false;}
 		return true;
 	}
 	
@@ -103,11 +99,15 @@ public class Arena {
 	{
 		looselevel.setLooseLocation(loc1, loc2, world);
 	}
+	public void setSpawnPoint(Location loc)
+	{
+		spawnpoint = loc;
+	}
 	
 
 	public void spawnPlayer(Player player)
 	{
-		player.teleport(spawnpoints.get(new Random().nextInt(spawnpoints.size()-1)));
+		player.teleport(spawnpoint);
 		curPlayers++;
 		if (curPlayers == maxPlayers)
 		{
@@ -189,6 +189,7 @@ public class Arena {
 		config.set("world", world);
 		config.set("p1", p1);
 		config.set("p2", p2);
+		config.set("spawnpoint", spawnpoint.toVector());
 		config.set("maxPlayers", maxPlayers);
 		for (String glname : gamelevels.keySet())
 		{
@@ -208,9 +209,13 @@ public class Arena {
 	public void loadFromConfig()
 	{
 		FileConfiguration config = YamlConfiguration.loadConfiguration(new File("plugins/TNTRun/arenas/"+arenaname+".yml"));
-		this.world = Bukkit.getWorld(config.getString("world"));
-		this.p1 = config.getVector("p1");
-		this.p2 = config.getVector("p2");
+		this.world = Bukkit.getWorld(config.getString("world", null));
+		this.p1 = config.getVector("p1", null);
+		this.p2 = config.getVector("p2", null);
+		Vector v = config.getVector("spawnpoint", null);
+		try {
+			this.spawnpoint = new Location(world, v.getX(), v.getY(), v.getZ());
+		} catch (Exception e) {}
 		this.maxPlayers = config.getInt("maxPlayers");
 		ConfigurationSection cs = config.getConfigurationSection("");
 		if (cs != null)

@@ -127,6 +127,20 @@ public class SetupCommands implements CommandExecutor {
 				return true;
 			}
 		}
+		//set spawnpoint
+		else if (args.length == 2 && args[1].equalsIgnoreCase("setspawn"))
+		{
+			Arena arena = getArenaByName(args[0]);
+			if (arena != null)
+			{
+				arena.setSpawnPoint(player.getLocation());
+				return true;
+			} else
+			{
+				sender.sendMessage("Arena not exists");
+				return true;
+			}
+		}
 		//finish arena creation
 		else if (args.length == 2 && args[1].equalsIgnoreCase("finish"))
 		{
