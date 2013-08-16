@@ -187,7 +187,7 @@ public class Arena {
 				}
 			}
 		};
-		if (runtaskid != null)
+		if (runtaskid == null)
 		{
 			runtaskid = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, run, 0, 20);
 		}
