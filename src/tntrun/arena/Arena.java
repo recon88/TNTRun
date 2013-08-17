@@ -65,6 +65,7 @@ public class Arena {
 	private LooseLevel looselevel = new LooseLevel();
 	private Location spawnpoint = null;
 	
+	//arena structure handlers
 	public boolean isArenaEnabled()
 	{
 		return enabled;
@@ -125,6 +126,7 @@ public class Arena {
 	}
 	
 
+	//arena game handlers
 	public void spawnPlayer(Player player)
 	{
 		player.setGameMode(GameMode.SURVIVAL);
@@ -279,6 +281,7 @@ public class Arena {
 	}
 
 	
+	//config handlers
 	public void saveToConfig()
 	{
 		FileConfiguration config = new YamlConfiguration();
@@ -286,8 +289,6 @@ public class Arena {
 		config.set("p1", p1);
 		config.set("p2", p2);
 		config.set("spawnpoint", spawnpoint.toVector());
-		config.set("maxPlayers", maxPlayers);
-		config.set("votePercent", votesPercent);
 		for (String glname : gamelevels.keySet())
 		{
 			try 
@@ -302,6 +303,8 @@ public class Arena {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		config.set("maxPlayers", maxPlayers);
+		config.set("votePercent", votesPercent);
 	}
 	public void loadFromConfig()
 	{
