@@ -225,7 +225,7 @@ public class Arena {
 						thisarena.handlePlayer(Bukkit.getPlayerExact(p));
 					}
 				}
-			}, 0, 20);
+			}, 0, 2);
 		}
 	}
 	
