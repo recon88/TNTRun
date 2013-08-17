@@ -17,6 +17,8 @@
 
 package tntrun.commands;
 
+import java.util.Arrays;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -60,6 +62,23 @@ public class GameCommands implements CommandExecutor{
 			}
 			player.sendMessage(message.toString());
 			return true;
+		}
+		//status
+		else if (args.length == 2 && args[0].equalsIgnoreCase("status"))
+		{
+			Arena arena = getArenaByName(args[1]);
+			if (arena != null)
+			{
+				player.sendMessage("Arena enabled: "+arena.isArenaEnabled());
+				player.sendMessage("Arena running: "+arena.running);
+				player.sendMessage("Current players count: "+plugin.pdata.getArenaPlayers(arena).size());
+				player.sendMessage("Players: "+Arrays.asList(plugin.pdata.getArenaPlayers(arena).toArray()));
+				return true;
+			} else
+			{
+				sender.sendMessage("Arena not exists");
+				return true;
+			}
 		}
 		//join arena
 		else if (args.length == 2 && args[0].equalsIgnoreCase("join"))
