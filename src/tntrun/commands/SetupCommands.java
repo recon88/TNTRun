@@ -210,6 +210,20 @@ public class SetupCommands implements CommandExecutor {
 				return true;
 			}
 		}
+		//set min players
+		else if (args.length == 3 && args[1].equalsIgnoreCase("setminplayers"))
+		{
+			Arena arena = getArenaByName(args[0]);
+			if (arena != null)
+			{
+				arena.minPlayers = Integer.valueOf(args[2]);
+				sender.sendMessage("Min Players set");
+			} else
+			{
+				sender.sendMessage("Arena not exists");
+				return true;
+			}
+		}
 		//set vote percent
 		else if (args.length == 3 && args[1].equalsIgnoreCase("setvotepercent"))
 		{

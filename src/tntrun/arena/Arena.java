@@ -57,6 +57,7 @@ public class Arena {
 	private Vector p1 = null;
 	private Vector p2 = null;
 	public int maxPlayers = 6;
+	public int minPlayers = 2;
 	public double votesPercent = 0.75;
 	private int curPlayers = 0;
 	private HashSet<String> votes = new HashSet<String>();
@@ -137,7 +138,7 @@ public class Arena {
 		player.teleport(spawnpoint);
 		plugin.pdata.setPlayerArena(player.getName(), this);
 		curPlayers++;
-		if (curPlayers == maxPlayers)
+		if (curPlayers == maxPlayers || curPlayers == minPlayers)
 		{
 			runArena();
 		}
@@ -164,7 +165,7 @@ public class Arena {
 		{
 			public void run()
 			{
-				if (curPlayers < 2) 
+				if (curPlayers < minPlayers) 
 				{
 					for (String p : plugin.pdata.getArenaPlayers(thisarena))
 					{
@@ -299,6 +300,7 @@ public class Arena {
 		}
 		loselevel.saveToConfig(config);
 		config.set("maxPlayers", maxPlayers);
+		config.set("minPlayers", minPlayers);
 		config.set("votePercent", votesPercent);
 		try {
 			config.save(new File("plugins/TNTRun/arenas/"+arenaname+".yml"));
@@ -314,6 +316,7 @@ public class Arena {
 		this.p2 = config.getVector("p2", null);
 		Vector v = config.getVector("spawnpoint", null);
 		maxPlayers = config.getInt("maxPlayers",maxPlayers);
+		minPlayers = config.getInt("minPlayers",minPlayers);
 		votesPercent = config.getDouble("votePercent", votesPercent);
 		try {
 			this.spawnpoint = new Location(world, v.getX(), v.getY(), v.getZ());
