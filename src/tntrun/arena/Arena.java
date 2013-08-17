@@ -144,7 +144,7 @@ public class Arena {
 		player.teleport(spawnpoint);
 		for (String p : plugin.pdata.getArenaPlayers(this))
 		{
-			Bukkit.getPlayerExact(p).sendMessage("Player "+player+" joined arena");
+			Bukkit.getPlayerExact(p).sendMessage("Player "+player.getName()+" joined arena");
 		}
 		plugin.pdata.setPlayerArena(player.getName(), this);
 		curPlayers++;
@@ -158,7 +158,7 @@ public class Arena {
 		removePlayerFromArena(player);
 		for (String p : plugin.pdata.getArenaPlayers(this))
 		{
-			Bukkit.getPlayerExact(p).sendMessage("Player "+player+" left arena");
+			Bukkit.getPlayerExact(p).sendMessage("Player "+player.getName()+" left arena");
 		}
 		votes.remove(player.getName());
 		curPlayers--;
