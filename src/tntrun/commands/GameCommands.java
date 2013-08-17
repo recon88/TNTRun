@@ -71,6 +71,7 @@ public class GameCommands implements CommandExecutor{
 				if (arena.running) {sender.sendMessage("Arena already running"); return true;}
 				arena.spawnPlayer(player);
 				player.sendMessage("You have joined the arena");
+				player.sendMessage("Current players count: "+plugin.pdata.getArenaPlayers(arena).size());
 				return true;
 			} else
 			{
