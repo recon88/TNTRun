@@ -23,7 +23,7 @@ import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.util.Vector;
 
-public class LooseLevel {
+public class LoseLevel {
 
 	private Vector p1 = null;
 	private Vector p2 = null;
@@ -73,14 +73,14 @@ public class LooseLevel {
 	
 	protected void saveToConfig(FileConfiguration config)
 	{
-		config.set("looselevel.p1", p1);
-		config.set("looselevel.p2", p2);
+		config.set("loselevel.p1", p1);
+		config.set("loselevel.p2", p2);
 	}
 	
 	protected void loadFromConfig(FileConfiguration config)
 	{
-		p1 = config.getVector("looselevel.p1", null);
-		p2 = config.getVector("looselevel.p2", null);
+		p1 = config.getVector("loselevel.p1", null);
+		p2 = config.getVector("loselevel.p2", null);
 	}
 	
 }

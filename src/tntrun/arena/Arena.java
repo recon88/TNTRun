@@ -62,7 +62,7 @@ public class Arena {
 	private HashSet<String> votes = new HashSet<String>();
 	
 	private HashMap<String, GameLevel> gamelevels = new HashMap<String, GameLevel>();
-	private LooseLevel looselevel = new LooseLevel();
+	private LoseLevel loselevel = new LoseLevel();
 	private Location spawnpoint = null;
 	
 	//arena structure handlers
@@ -96,7 +96,7 @@ public class Arena {
 		if (world == null) {return false;}
 		if (p1 == null || p2==null) {return false;}
 		if (gamelevels.size() == 0) {return false;}
-		if (!looselevel.isConfigured()) {return false;}
+		if (!loselevel.isConfigured()) {return false;}
 		if (spawnpoint == null) {return false;}
 		return true;
 	}
@@ -118,7 +118,7 @@ public class Arena {
 	}
 	public void setLooseLevel(Location loc1, Location loc2)
 	{
-		looselevel.setLooseLocation(loc1, loc2, world);
+		loselevel.setLooseLocation(loc1, loc2, world);
 	}
 	public void setSpawnPoint(Location loc)
 	{
@@ -245,7 +245,7 @@ public class Arena {
 			}
 		}
 		//check for loose location
-		if (looselevel.isLooseLocation(player.getLocation()))
+		if (loselevel.isLooseLocation(player.getLocation()))
 		{
 			//player lost
 			player.sendMessage("You lost the arena");
@@ -297,7 +297,7 @@ public class Arena {
 				gl.saveToConfig("gamelevels."+glname, config);
 			} catch (Exception e) {}
 		}
-		looselevel.saveToConfig(config);
+		loselevel.saveToConfig(config);
 		try {
 			config.save(new File("plugins/TNTRun/arenas/"+arenaname+".yml"));
 		} catch (IOException e) {
@@ -331,7 +331,7 @@ public class Arena {
 				} catch (Exception e) {}
 			}
 		}
-		looselevel.loadFromConfig(config);
+		loselevel.loadFromConfig(config);
 		plugin.pdata.putArenaInHashMap(this);
 		if (isArenaConfigured())
 		{
@@ -339,7 +339,7 @@ public class Arena {
 			{
 				gl.regen(world);
 			}
-			looselevel.regen(world);
+			loselevel.regen(world);
 			this.enabled = true;
 		}
 	}
