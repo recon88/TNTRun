@@ -76,6 +76,10 @@ public class Arena {
 		if (isArenaConfigured().equalsIgnoreCase("yes"))
 		{
 			enabled = true;
+			for (final GameLevel gl : gamelevels.values())
+			{
+				gl.regen(world);
+			}
 			runArenaHandler();
 			return true;
 		}
@@ -92,6 +96,7 @@ public class Arena {
 			votes.clear();
 			curPlayers = 0;
 		}
+		running = false;
 	}
 
 	public String isArenaConfigured()
