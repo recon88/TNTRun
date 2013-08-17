@@ -43,8 +43,19 @@ public class SetupCommands implements CommandExecutor {
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label,
 			String[] args) {
-		if (!(sender instanceof Player)) {return true;}
+		if (!(sender instanceof Player)) 
+		{
+			sender.sendMessage("Player is expected");
+			return true;
+		}
 		Player player = (Player) sender;
+		//check permissions
+		if (!player.hasPermission("tntrun.setup")) 
+		{
+			player.sendMessage("You don't have permission to do this");
+			return true;
+		}
+		//handle commands
 		//locations
 		if (args.length == 1 && args[0].equalsIgnoreCase("setp1"))
 		{
