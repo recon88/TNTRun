@@ -172,6 +172,7 @@ public class Arena {
 						Bukkit.getPlayerExact(p).sendMessage("Too much players left the arena, wating for some more");
 					}
 					Bukkit.getScheduler().cancelTask(runtaskid);
+					runtaskid = null;
 					return;
 				}
 				if (count == 0)
