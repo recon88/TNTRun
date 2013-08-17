@@ -129,7 +129,7 @@ public class SetupCommands implements CommandExecutor {
 			}
 		}
 		//set looselevel
-		else if (args.length == 2 && args[1].equalsIgnoreCase("setlooselevel"))
+		else if (args.length == 2 && args[1].equalsIgnoreCase("setloselevel"))
 		{
 			Arena arena = getArenaByName(args[0]);
 			if (arena != null)
