@@ -99,8 +99,13 @@ public class GameCommands implements CommandExecutor{
 			Arena arena = plugin.pdata.getPlayerArena(player.getName());
 			if (arena != null)
 			{
-				arena.vote(player);
-				player.sendMessage("You voted for game start");
+				if (arena.vote(player))
+				{
+					player.sendMessage("You voted for game start");
+				} else
+				{
+					player.sendMessage("You already voted");
+				}
 			} else
 			{
 				sender.sendMessage("You are not in arena");

@@ -158,13 +158,18 @@ public class Arena {
 		votes.remove(player.getName());
 		curPlayers--;
 	}
-	public void vote(Player player)
+	public boolean vote(Player player)
 	{
-		votes.add(player.getName());
-		if (votes.size() >= ((int)curPlayers*votesPercent))
+		if (!votes.contains(player.getName()))
 		{
-			runArena();
+			votes.add(player.getName());
+			if (votes.size() >= ((int)curPlayers*votesPercent))
+			{
+				runArena();
+			}	
+			return true;
 		}
+		return false;
 	}
 	
 	//arena game handlers
