@@ -89,6 +89,8 @@ public class Arena {
 		{
 			Bukkit.getPlayerExact(player).sendMessage("Arena is disabling");
 			removePlayerFromArena(Bukkit.getPlayerExact(player));
+			votes.clear();
+			curPlayers = 0;
 		}
 	}
 
