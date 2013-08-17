@@ -58,7 +58,9 @@ public class TNTRun extends JavaPlugin {
 		for (String file : new File("plugins/TNTRun/arenas/").list())
 		{
 			Arena arena = new Arena(file.split("[.]")[0], this);
-			arena.loadFromConfig();
+			try {
+				arena.loadFromConfig();
+			} catch (Exception e) {}
 			arena.enableArena();
 		}
 	}
@@ -69,7 +71,7 @@ public class TNTRun extends JavaPlugin {
 		//save configured arenas
 		for (Arena arena : pdata.getArenas())
 		{
-			if (arena.isArenaConfigured())
+			if (arena.isArenaConfigured().equalsIgnoreCase("yes"))
 			{
 				arena.saveToConfig();
 			}

@@ -244,7 +244,7 @@ public class SetupCommands implements CommandExecutor {
 			Arena arena = getArenaByName(args[0]);
 			if (arena != null)
 			{
-				if (arena.isArenaConfigured() && !arena.running)
+				if (arena.isArenaConfigured().equalsIgnoreCase("yes") && !arena.running)
 				{
 					arena.saveToConfig();
 					plugin.pdata.putArenaInHashMap(arena);
@@ -253,7 +253,7 @@ public class SetupCommands implements CommandExecutor {
 					return true;
 				} else 
 				{
-					sender.sendMessage("Arena is not configured or is running currently");
+					sender.sendMessage("Arena is not configured or is running currently. Reason: "+arena.isArenaConfigured());
 					return true;
 				}
 			} else

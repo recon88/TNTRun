@@ -73,7 +73,7 @@ public class Arena {
 	}
 	public boolean enableArena()
 	{
-		if (isArenaConfigured())
+		if (isArenaConfigured().equalsIgnoreCase("yes"))
 		{
 			enabled = true;
 			runArenaHandler();
@@ -92,14 +92,13 @@ public class Arena {
 		}
 	}
 
-	public boolean isArenaConfigured()
+	public String isArenaConfigured()
 	{
-		if (world == null) {return false;}
-		if (p1 == null || p2==null) {return false;}
-		if (gamelevels.size() == 0) {return false;}
-		if (!loselevel.isConfigured()) {return false;}
-		if (spawnpoint == null) {return false;}
-		return true;
+		if (p1 == null || p2==null || world == null) {return "Arena bounds not set";}
+		if (gamelevels.size() == 0) {return "Arena gamelevels not set";}
+		if (!loselevel.isConfigured()) {return "Arena looselevel not set";}
+		if (spawnpoint == null) {return "Arena spawnpoint not set";}
+		return "yes";
 	}
 	public void setArenaPoints(Location loc1, Location loc2)
 	{
@@ -127,7 +126,7 @@ public class Arena {
 	}
 	
 
-	//arena game handlers
+	//arena join/leave handlers
 	public void spawnPlayer(Player player)
 	{
 		player.setGameMode(GameMode.SURVIVAL);
@@ -165,6 +164,8 @@ public class Arena {
 			runArena();
 		}
 	}
+	
+	//arena game handlers
 	Integer runtaskid = null;
 	int count = 10;
 	private void runArena()
@@ -346,7 +347,7 @@ public class Arena {
 		}
 		loselevel.loadFromConfig(config);
 		plugin.pdata.putArenaInHashMap(this);
-		if (isArenaConfigured())
+		if (isArenaConfigured().equalsIgnoreCase("yes"))
 		{
 			for (GameLevel gl : gamelevels.values())
 			{
