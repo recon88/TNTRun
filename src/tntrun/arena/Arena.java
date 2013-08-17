@@ -294,7 +294,7 @@ public class Arena {
 			try 
 			{
 				GameLevel gl = gamelevels.get(glname);
-				gl.saveToConfig("gamelevel"+glname, config);
+				gl.saveToConfig("gamelevels."+glname, config);
 			} catch (Exception e) {}
 		}
 		looselevel.saveToConfig(config);
@@ -319,19 +319,16 @@ public class Arena {
 			this.spawnpoint = new Location(world, v.getX(), v.getY(), v.getZ());
 		} catch (Exception e) {}
 		this.maxPlayers = config.getInt("maxPlayers");
-		ConfigurationSection cs = config.getConfigurationSection("");
+		ConfigurationSection cs = config.getConfigurationSection("gamelevels");
 		if (cs != null)
 		{
 			for (String key : cs.getKeys(false))
 			{
-				if (key.contains("gamelevel"))
-				{
-					try{
-						GameLevel gl = new GameLevel();
-						gl.loadFromConfig(key, config);
-						gamelevels.put(key.replace("gamelevel", ""),gl);
-					} catch (Exception e) {}
-				}
+				try{
+					GameLevel gl = new GameLevel();
+					gl.loadFromConfig("gamelevels."+key, config);
+					gamelevels.put(key,gl);
+				} catch (Exception e) {}
 			}
 		}
 		looselevel.loadFromConfig(config);
