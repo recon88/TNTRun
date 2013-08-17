@@ -298,13 +298,13 @@ public class Arena {
 			} catch (Exception e) {}
 		}
 		loselevel.saveToConfig(config);
+		config.set("maxPlayers", maxPlayers);
+		config.set("votePercent", votesPercent);
 		try {
 			config.save(new File("plugins/TNTRun/arenas/"+arenaname+".yml"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		config.set("maxPlayers", maxPlayers);
-		config.set("votePercent", votesPercent);
 	}
 	public void loadFromConfig()
 	{
