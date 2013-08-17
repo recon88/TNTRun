@@ -241,7 +241,6 @@ public class Arena {
 			}, 0, 2);
 		}
 	}
-	
 	public void handlePlayer(final Player player)
 	{
 		//check if player is in arena
@@ -269,7 +268,7 @@ public class Arena {
 			}
 		}
 		//check for loose location
-		if (loselevel.isLooseLocation(player.getLocation()))
+		if (plugin.pdata.getArenaPlayers(this).size() > 1 && loselevel.isLooseLocation(player.getLocation()))
 		{
 			//player lost
 			player.sendMessage("You lost the arena");
