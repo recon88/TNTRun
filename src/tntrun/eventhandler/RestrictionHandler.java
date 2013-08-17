@@ -21,6 +21,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
 import tntrun.TNTRun;
@@ -46,4 +47,15 @@ public class RestrictionHandler implements Listener {
 			e.setCancelled(true);
 		}
 	}
+	
+	@EventHandler(priority=EventPriority.HIGHEST,ignoreCancelled = true)
+	public void onPlayerBlockBreak(BlockBreakEvent e)
+	{
+		Player player = e.getPlayer();
+		Arena arena = plugin.pdata.getPlayerArena(player.getName());
+		//ignore if player is not in arena
+		if (arena == null) {return;}
+		e.setCancelled(true);
+	}
+	
 }
