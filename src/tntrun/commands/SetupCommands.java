@@ -131,9 +131,16 @@ public class SetupCommands implements CommandExecutor {
 			{
 				try {
 					Location[] locs = sortLoc(player);
-					arena.setGameLevel(args[2], locs[0], locs[1]);
-					sender.sendMessage("GameLevel set");
-					return true;
+					if (isOneBlockHigh(locs))
+					{
+						arena.setGameLevel(args[2], locs[0], locs[1]);
+						sender.sendMessage("GameLevel set");
+						return true;
+					} else 
+					{
+						sender.sendMessage("Bounds should be 1 block high");
+						return true;
+					}
 				}
 				catch (Exception e) {
 					sender.sendMessage("Locations are wrong or not defined");
@@ -153,9 +160,16 @@ public class SetupCommands implements CommandExecutor {
 			{
 				try {
 					Location[] locs = sortLoc(player);
-					arena.setLooseLevel(locs[0], locs[1]);
-					sender.sendMessage("LooseLevel set");
-					return true;
+					if (isOneBlockHigh(locs))
+					{
+						arena.setLooseLevel(locs[0], locs[1]);
+						sender.sendMessage("LoseLevel set");
+						return true;
+					} else 
+					{
+						sender.sendMessage("Bounds should be 1 block high");
+						return true;
+					}
 				}
 				catch (Exception e) {
 					sender.sendMessage("Locations are wrong or not defined");
@@ -307,6 +321,16 @@ public class SetupCommands implements CommandExecutor {
 		return locs;
 		
 	}
+	
+	
+	private boolean isOneBlockHigh(Location[] locs)
+	{
+		int y1 = locs[0].getBlockY();
+		int y2 = locs[1].getBlockY();
+		if (y1==y2) {return true;}
+		return false;
+	}
+	
 	
 	private Arena getArenaByName(String name)
 	{
