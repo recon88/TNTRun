@@ -7,3 +7,4 @@ commands:
     description: TNTRun arena setup commands
   tr:
     description: TNTRun game commands
+    usage: Use /tr help to show all commands available in plugin.

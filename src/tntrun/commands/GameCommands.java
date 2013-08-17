@@ -51,8 +51,18 @@ public class GameCommands implements CommandExecutor{
 			return true;
 		}
 		//handle commands
+		//help command
+		if (args.length == 1 && args[0].equalsIgnoreCase("help"))
+		{
+			sender.sendMessage("/tr list - list all arenas");
+			sender.sendMessage("/tr status {arena} - show arena status");
+			sender.sendMessage("/tr join {arena} - join arena");
+			sender.sendMessage("/tr leave - leave current arena");
+			sender.sendMessage("/tr vote - vote for current arena start");
+			return true;
+		}
 		//list arenas
-		if (args.length == 1 && args[0].equalsIgnoreCase("list"))
+		else if (args.length == 1 && args[0].equalsIgnoreCase("list"))
 		{
 			StringBuilder message = new StringBuilder(200);
 			message.append("Available arenas: ");
