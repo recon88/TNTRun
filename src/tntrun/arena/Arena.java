@@ -136,6 +136,10 @@ public class Arena {
 		plugin.pdata.setPlayerArmor(player.getName());
 		player.getInventory().clear();
 		player.teleport(spawnpoint);
+		for (String p : plugin.pdata.getArenaPlayers(this))
+		{
+			Bukkit.getPlayerExact(p).sendMessage("Player "+player+" joined arena");
+		}
 		plugin.pdata.setPlayerArena(player.getName(), this);
 		curPlayers++;
 		if (curPlayers == maxPlayers || curPlayers == minPlayers)
@@ -146,6 +150,10 @@ public class Arena {
 	public void leavePlayer(Player player)
 	{
 		removePlayerFromArena(player);
+		for (String p : plugin.pdata.getArenaPlayers(this))
+		{
+			Bukkit.getPlayerExact(p).sendMessage("Player "+player+" left arena");
+		}
 		votes.remove(player.getName());
 		curPlayers--;
 	}
@@ -173,6 +181,7 @@ public class Arena {
 					}
 					Bukkit.getScheduler().cancelTask(runtaskid);
 					runtaskid = null;
+					count = 10;
 					return;
 				}
 				if (count == 0)
