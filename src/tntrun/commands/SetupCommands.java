@@ -129,10 +129,16 @@ public class SetupCommands implements CommandExecutor {
 			Arena arena = getArenaByName(args[0]);
 			if (arena != null)
 			{
-				Location[] locs = sortLoc(player);
-				arena.setGameLevel(args[2], locs[0], locs[1]);
-				sender.sendMessage("GameLevel set");
-				return true;
+				try {
+					Location[] locs = sortLoc(player);
+					arena.setGameLevel(args[2], locs[0], locs[1]);
+					sender.sendMessage("GameLevel set");
+					return true;
+				}
+				catch (Exception e) {
+					sender.sendMessage("Locations are wrong or not defined");
+					return true;
+				}
 			} else
 			{
 				sender.sendMessage("Arena not exists");
@@ -145,10 +151,16 @@ public class SetupCommands implements CommandExecutor {
 			Arena arena = getArenaByName(args[0]);
 			if (arena != null)
 			{
-				Location[] locs = sortLoc(player);
-				arena.setLooseLevel(locs[0], locs[1]);
-				sender.sendMessage("LooseLevel set");
-				return true;
+				try {
+					Location[] locs = sortLoc(player);
+					arena.setLooseLevel(locs[0], locs[1]);
+					sender.sendMessage("LooseLevel set");
+					return true;
+				}
+				catch (Exception e) {
+					sender.sendMessage("Locations are wrong or not defined");
+					return true;
+				}
 			} else
 			{
 				sender.sendMessage("Arena not exists");
