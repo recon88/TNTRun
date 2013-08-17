@@ -203,6 +203,7 @@ public class SetupCommands implements CommandExecutor {
 			if (arena != null)
 			{
 				arena.maxPlayers = Integer.valueOf(args[2]);
+				sender.sendMessage("Max Players set");
 			} else
 			{
 				sender.sendMessage("Arena not exists");
@@ -216,6 +217,7 @@ public class SetupCommands implements CommandExecutor {
 			if (arena != null)
 			{
 				arena.votesPercent = Double.valueOf(args[2]);
+				sender.sendMessage("Vote percent set");
 			} else
 			{
 				sender.sendMessage("Arena not exists");
