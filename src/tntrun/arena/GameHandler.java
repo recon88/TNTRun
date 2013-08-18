@@ -36,10 +36,10 @@ public class GameHandler {
 		runArenaHandler();
 	}
 	
-
+	
+	//arena start handler (running status updater)
 	Integer runtaskid = null;
 	int count = 10;
-	//arena start handler (running status updater)
 	protected void runArena()
 	{
 		Runnable run = new Runnable()
@@ -85,6 +85,7 @@ public class GameHandler {
 			runtaskid = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, run, 0, 20);
 		}
 	}
+	
 	//main arena handler (start on arena enable)
 	private int arenahandler;
 	private void runArenaHandler()
@@ -98,7 +99,7 @@ public class GameHandler {
 					{
 						handlePlayer(Bukkit.getPlayerExact(p));
 					}
-				} catch (Exception e ) {
+				} catch (Exception e) {
 					//if we caught and exception it means that arena is deleted, so we must stop arena handler
 					Bukkit.getScheduler().cancelTask(arenahandler);
 				}
@@ -121,10 +122,7 @@ public class GameHandler {
 		{
 			if (gl.isSandLocation(player.getLocation().add(0,-1,0)))
 			{
-				if (arena.running)
-				{
-					gl.destroyBlock(player.getLocation().clone().add(0,-1,0), arena.getWorld());
-				}
+				gl.destroyBlock(player.getLocation().clone().add(0,-1,0), arena.getWorld());
 			}
 		}
 		//check for loose location
