@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -302,7 +303,7 @@ public class Arena {
 	}
 	private void broadcastWin(Player player)
 	{
-		
+		Bukkit.broadcastMessage(ChatColor.BLUE+"[TNTRun] "+ChatColor.GREEN+player.getName()+ChatColor.WHITE+" won the game on arena "+ChatColor.RED+arenaname+ChatColor.WHITE);
 	}
 	private void rewardPlayer(Player player)
 	{
