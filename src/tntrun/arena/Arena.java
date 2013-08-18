@@ -60,7 +60,6 @@ public class Arena {
 	public int maxPlayers = 6;
 	public int minPlayers = 2;
 	public double votesPercent = 0.75;
-	private int curPlayers = 0;
 	private HashSet<String> votes = new HashSet<String>();
 	
 	private HashMap<String, GameLevel> gamelevels = new HashMap<String, GameLevel>();
@@ -95,7 +94,6 @@ public class Arena {
 			Bukkit.getPlayerExact(player).sendMessage("Arena is disabling");
 			removePlayerFromArena(Bukkit.getPlayerExact(player));
 			votes.clear();
-			curPlayers = 0;
 		}
 		running = false;
 	}
@@ -148,8 +146,7 @@ public class Arena {
 			Bukkit.getPlayerExact(p).sendMessage("Player "+player.getName()+" joined arena");
 		}
 		plugin.pdata.setPlayerArena(player.getName(), this);
-		curPlayers++;
-		if (curPlayers == maxPlayers || curPlayers == minPlayers)
+		if (plugin.pdata.getArenaPlayers(this).size() == maxPlayers || plugin.pdata.getArenaPlayers(this).size() == minPlayers)
 		{
 			runArena();
 		}
@@ -162,14 +159,13 @@ public class Arena {
 			Bukkit.getPlayerExact(p).sendMessage("Player "+player.getName()+" left arena");
 		}
 		votes.remove(player.getName());
-		curPlayers--;
 	}
 	public boolean vote(Player player)
 	{
 		if (!votes.contains(player.getName()))
 		{
 			votes.add(player.getName());
-			if (votes.size() >= ((int)curPlayers*votesPercent))
+			if (votes.size() >= ((int)plugin.pdata.getArenaPlayers(this).size()*votesPercent))
 			{
 				runArena();
 			}	
@@ -187,7 +183,8 @@ public class Arena {
 		{
 			public void run()
 			{
-				if (curPlayers < minPlayers) 
+				//cancel countdown if not enough players
+				if (plugin.pdata.getArenaPlayers(thisarena).size() < minPlayers) 
 				{
 					for (String p : plugin.pdata.getArenaPlayers(thisarena))
 					{
@@ -198,11 +195,11 @@ public class Arena {
 					count = 10;
 					return;
 				}
+				//now arena start sequence
 				if (count == 0)
 				{
 					running = true;
 					votes.clear();
-					curPlayers = 0;
 					count = 10;
 					Bukkit.getScheduler().cancelTask(runtaskid);
 					runtaskid = null;
@@ -220,6 +217,7 @@ public class Arena {
 				}
 			}
 		};
+		//schedule arena run task only if this task is not running
 		if (runtaskid == null)
 		{
 			runtaskid = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, run, 0, 20);
@@ -249,12 +247,7 @@ public class Arena {
 		if (!player.getLocation().toVector().isInAABB(p1, p2))
 		{
 			player.sendMessage("You left the arena");
-			removePlayerFromArena(player);
-			if (curPlayers != 0)
-			{
-				votes.remove(player.getName());
-				curPlayers--;
-			}
+			leavePlayer(player);
 			return;
 		}
 		//do not handle game if it is not running
