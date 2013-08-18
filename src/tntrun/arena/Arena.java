@@ -255,6 +255,7 @@ public class Arena {
 				votes.remove(player.getName());
 				curPlayers--;
 			}
+			return;
 		}
 		//do not handle game if it is not running
 		if (!running) {return;}
