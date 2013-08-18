@@ -19,18 +19,14 @@ package tntrun.arena;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
-
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
 import tntrun.TNTRun;
@@ -38,14 +34,14 @@ import tntrun.TNTRun;
 public class Arena {
 
 	private TNTRun plugin;
+	public GameHandler arenagh;
 	public Arena(String name, TNTRun plugin)
 	{
 		this.arenaname = name;
 		this.plugin = plugin;
+		arenagh = new GameHandler(plugin,this);
 	}
 	
-
-	private Arena thisarena = this;
 	private boolean enabled = false;
 	public boolean running = false;
 	
@@ -54,19 +50,44 @@ public class Arena {
 	{
 		return arenaname;
 	}
+	
 	private World world;
+	protected World getWorld()
+	{
+		return world;
+	}
 	private Vector p1 = null;
+	protected Vector getP1()
+	{
+		return p1;
+	}
 	private Vector p2 = null;
+	protected Vector getP2()
+	{
+		return p2;
+	}
+	private HashMap<String, GameLevel> gamelevels = new HashMap<String, GameLevel>();
+	protected Collection<GameLevel> getGameLevels()
+	{
+		return gamelevels.values();
+	}
+	private LoseLevel loselevel = new LoseLevel();
+	protected LoseLevel getLoseLevel()
+	{
+		return loselevel;
+	}
+	private Location spawnpoint = null;
+	protected Location getSpawnPoint()
+	{
+		return spawnpoint;
+	}
+	
 	public int maxPlayers = 6;
 	public int minPlayers = 2;
 	public double votesPercent = 0.75;
-	private HashSet<String> votes = new HashSet<String>();
+
 	
-	private HashMap<String, GameLevel> gamelevels = new HashMap<String, GameLevel>();
-	private LoseLevel loselevel = new LoseLevel();
-	private Location spawnpoint = null;
-	
-	//arena structure handlers
+	//arena status handler
 	public boolean isArenaEnabled()
 	{
 		return enabled;
@@ -76,11 +97,7 @@ public class Arena {
 		if (isArenaConfigured().equalsIgnoreCase("yes"))
 		{
 			enabled = true;
-			for (final GameLevel gl : gamelevels.values())
-			{
-				gl.regen(world);
-			}
-			runArenaHandler();
+			regenGameLevels();
 			return true;
 		}
 		return false;
@@ -92,12 +109,13 @@ public class Arena {
 		for (String player : plugin.pdata.getArenaPlayers(this))
 		{
 			Bukkit.getPlayerExact(player).sendMessage("Arena is disabling");
-			removePlayerFromArena(Bukkit.getPlayerExact(player));
-			votes.clear();
+			arenagh.removePlayerFromArena(Bukkit.getPlayerExact(player));
+			arenagh.leavePlayer(Bukkit.getPlayerExact(player));
 		}
 		running = false;
 	}
 
+	//arena structure handler
 	public String isArenaConfigured()
 	{
 		if (p1 == null || p2==null || world == null) {return "Arena bounds not set";}
@@ -122,6 +140,13 @@ public class Arena {
 		}
 		gl.setGameLocation(loc1, loc2, world);
 	}
+	public void regenGameLevels()
+	{
+		for (final GameLevel gl : gamelevels.values())
+		{
+			gl.regen(world);
+		}
+	}
 	public void setLooseLevel(Location loc1, Location loc2)
 	{
 		loselevel.setLooseLocation(loc1, loc2, world);
@@ -131,181 +156,8 @@ public class Arena {
 		spawnpoint = loc;
 	}
 	
-
-	//arena join/leave handlers
-	public void spawnPlayer(Player player)
-	{
-		player.setGameMode(GameMode.SURVIVAL);
-		plugin.pdata.setPlayerLocation(player.getName());
-		plugin.pdata.setPlayerInventory(player.getName());
-		plugin.pdata.setPlayerArmor(player.getName());
-		player.getInventory().clear();
-		player.teleport(spawnpoint);
-		for (String p : plugin.pdata.getArenaPlayers(this))
-		{
-			Bukkit.getPlayerExact(p).sendMessage("Player "+player.getName()+" joined arena");
-		}
-		plugin.pdata.setPlayerArena(player.getName(), this);
-		if (plugin.pdata.getArenaPlayers(this).size() == maxPlayers || plugin.pdata.getArenaPlayers(this).size() == minPlayers)
-		{
-			runArena();
-		}
-	}
-	public void leavePlayer(Player player)
-	{
-		removePlayerFromArena(player);
-		for (String p : plugin.pdata.getArenaPlayers(this))
-		{
-			Bukkit.getPlayerExact(p).sendMessage("Player "+player.getName()+" left arena");
-		}
-		votes.remove(player.getName());
-	}
-	public boolean vote(Player player)
-	{
-		if (!votes.contains(player.getName()))
-		{
-			votes.add(player.getName());
-			if (votes.size() >= ((int)plugin.pdata.getArenaPlayers(this).size()*votesPercent))
-			{
-				runArena();
-			}	
-			return true;
-		}
-		return false;
-	}
 	
-	//arena game handlers
-	Integer runtaskid = null;
-	int count = 10;
-	private void runArena()
-	{
-		Runnable run = new Runnable()
-		{
-			public void run()
-			{
-				//cancel countdown if not enough players
-				if (plugin.pdata.getArenaPlayers(thisarena).size() < minPlayers) 
-				{
-					for (String p : plugin.pdata.getArenaPlayers(thisarena))
-					{
-						Bukkit.getPlayerExact(p).sendMessage("Too much players left the arena, wating for some more");
-					}
-					Bukkit.getScheduler().cancelTask(runtaskid);
-					runtaskid = null;
-					count = 10;
-					return;
-				}
-				//now arena start sequence
-				if (count == 0)
-				{
-					running = true;
-					votes.clear();
-					count = 10;
-					Bukkit.getScheduler().cancelTask(runtaskid);
-					runtaskid = null;
-					for (String p : plugin.pdata.getArenaPlayers(thisarena))
-					{
-						Bukkit.getPlayerExact(p).sendMessage("Arena started");
-					}
-				} else
-				{
-					for (String p : plugin.pdata.getArenaPlayers(thisarena))
-					{
-						Bukkit.getPlayerExact(p).sendMessage("Arena starts in "+count+" seconds");
-					}
-					count--;
-				}
-			}
-		};
-		//schedule arena run task only if this task is not running
-		if (runtaskid == null)
-		{
-			runtaskid = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, run, 0, 20);
-		}
-	}
-	private Integer arenahandler = null;
-	private void runArenaHandler()
-	{
-		if (arenahandler == null)
-		{
-			arenahandler = 
-			Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable()
-			{
-				public void run()
-				{
-					for (String p : new HashSet<String>(plugin.pdata.getArenaPlayers(thisarena)))
-					{
-						thisarena.handlePlayer(Bukkit.getPlayerExact(p));
-					}
-				}
-			}, 0, 2);
-		}
-	}
-	public void handlePlayer(final Player player)
-	{
-		//check if player is in arena
-		if (!player.getLocation().toVector().isInAABB(p1, p2))
-		{
-			player.sendMessage("You left the arena");
-			leavePlayer(player);
-			return;
-		}
-		//do not handle game if it is not running
-		if (!running) {return;}
-		//check for game location
-		for (final GameLevel gl : gamelevels.values())
-		{
-			if (gl.isSandLocation(player.getLocation().add(0,-1,0)))
-			{
-				if (running)
-				{
-					gl.destroyBlock(player.getLocation().clone().add(0,-1,0), world);
-				}
-			}
-		}
-		//check for loose location
-		if (plugin.pdata.getArenaPlayers(this).size() > 1 && loselevel.isLooseLocation(player.getLocation()))
-		{
-			//player lost
-			player.sendMessage("You lost the arena");
-			removePlayerFromArena(player);
-			return;
-		}
-		//now check for win
-		if (plugin.pdata.getArenaPlayers(this).size() == 1)
-		{
-			//last player won
-			player.sendMessage("You won the arena");
-			removePlayerFromArena(player);
-			broadcastWin(player);
-			rewardPlayer(player);
-			//regenerate arena
-			for (final GameLevel gl : gamelevels.values())
-			{
-				gl.regen(world);
-			}
-			//not running
-			this.running = false;
-		}
-	}
-	private void removePlayerFromArena(Player player)
-	{
-		plugin.pdata.removePlayerFromArena(player.getName());
-		player.teleport(plugin.pdata.getPlayerLocation(player.getName()));
-		player.getInventory().setContents(plugin.pdata.getPlayerInventory(player.getName()));
-		player.getInventory().setArmorContents(plugin.pdata.getPlayerArmor(player.getName()));
-	}
-	private void broadcastWin(Player player)
-	{
-		Bukkit.broadcastMessage(ChatColor.BLUE+"[TNTRun] "+ChatColor.GREEN+player.getName()+ChatColor.WHITE+" won the game on arena "+ChatColor.RED+arenaname+ChatColor.WHITE);
-	}
-	private void rewardPlayer(Player player)
-	{
-		
-	}
-
-	
-	//config handlers
+	//arena config handlers
 	public void saveToConfig()
 	{
 		FileConfiguration config = new YamlConfiguration();

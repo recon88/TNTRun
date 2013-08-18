@@ -98,7 +98,7 @@ public class GameCommands implements CommandExecutor{
 			{
 				if (!arena.isArenaEnabled()) {sender.sendMessage("Arena is disabled"); return true;}
 				if (arena.running) {sender.sendMessage("Arena already running"); return true;}
-				arena.spawnPlayer(player);
+				arena.arenagh.spawnPlayer(player);
 				player.sendMessage("You have joined the arena");
 				player.sendMessage("Current players count: "+plugin.pdata.getArenaPlayers(arena).size());
 				return true;
@@ -114,7 +114,7 @@ public class GameCommands implements CommandExecutor{
 				Arena arena = plugin.pdata.getPlayerArena(player.getName());
 				if (arena != null)
 				{
-					arena.leavePlayer(player);
+					arena.arenagh.leavePlayer(player);
 					player.sendMessage("You left the arena");
 					return true;
 				} else
@@ -129,7 +129,7 @@ public class GameCommands implements CommandExecutor{
 			Arena arena = plugin.pdata.getPlayerArena(player.getName());
 			if (arena != null)
 			{
-				if (arena.vote(player))
+				if (arena.arenagh.vote(player))
 				{
 					player.sendMessage("You voted for game start");
 				} else

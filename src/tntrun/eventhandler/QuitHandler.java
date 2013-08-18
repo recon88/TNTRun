@@ -40,7 +40,7 @@ public class QuitHandler implements Listener {
 		Arena arena = plugin.pdata.getPlayerArena(player.getName());
 		//ignore if player is not in arena
 		if (arena == null) {return;}
-		arena.leavePlayer(player);
+		arena.arenagh.leavePlayer(player);
 	}
 
 	
