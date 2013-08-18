@@ -35,11 +35,13 @@ public class Arena {
 
 	private TNTRun plugin;
 	public GameHandler arenagh;
+	public PlayerHandler arenaph;
 	public Arena(String name, TNTRun plugin)
 	{
 		this.arenaname = name;
 		this.plugin = plugin;
 		arenagh = new GameHandler(plugin,this);
+		arenaph = new PlayerHandler(plugin,this);
 	}
 	
 	private boolean enabled = false;
@@ -108,7 +110,7 @@ public class Arena {
 		//drop players
 		for (String player : plugin.pdata.getArenaPlayers(this))
 		{
-			arenagh.leavePlayer(Bukkit.getPlayerExact(player), "Arena is disabling","");
+			arenaph.leavePlayer(Bukkit.getPlayerExact(player), "Arena is disabling","");
 		}
 		running = false;
 	}

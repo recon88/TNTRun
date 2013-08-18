@@ -21,7 +21,6 @@ import java.util.HashSet;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 
 import tntrun.TNTRun;
@@ -38,66 +37,10 @@ public class GameHandler {
 	}
 	
 
-	
-	//arena join/leave handlers
-	public void spawnPlayer(Player player)
-	{
-		player.setGameMode(GameMode.SURVIVAL);
-		plugin.pdata.setPlayerLocation(player.getName());
-		plugin.pdata.setPlayerInventory(player.getName());
-		plugin.pdata.setPlayerArmor(player.getName());
-		player.getInventory().clear();
-		player.teleport(arena.getSpawnPoint());
-		for (String p : plugin.pdata.getArenaPlayers(arena))
-		{
-			Bukkit.getPlayerExact(p).sendMessage("Player "+player.getName()+" joined arena");
-		}
-		plugin.pdata.setPlayerArena(player.getName(), arena);
-		if (plugin.pdata.getArenaPlayers(arena).size() == arena.maxPlayers || plugin.pdata.getArenaPlayers(arena).size() == arena.minPlayers)
-		{
-			runArena();
-		}
-	}
-	public void leavePlayer(Player player, String msgtoplayer, String msgtoarenaplayers)
-	{
-		plugin.pdata.removePlayerFromArena(player.getName());
-		player.teleport(plugin.pdata.getPlayerLocation(player.getName()));
-		player.getInventory().setContents(plugin.pdata.getPlayerInventory(player.getName()));
-		player.getInventory().setArmorContents(plugin.pdata.getPlayerArmor(player.getName()));
-		if (!msgtoplayer.equalsIgnoreCase(""))
-		{
-			player.sendMessage(msgtoplayer);
-		}
-		if (!msgtoarenaplayers.equalsIgnoreCase(""))
-		{
-			for (String p : plugin.pdata.getArenaPlayers(arena))
-			{
-				Bukkit.getPlayerExact(p).sendMessage(msgtoarenaplayers);
-			}
-		}
-		
-		votes.remove(player.getName());
-	}
-	private HashSet<String> votes = new HashSet<String>();
-	public boolean vote(Player player)
-	{
-		if (!votes.contains(player.getName()))
-		{
-			votes.add(player.getName());
-			if (votes.size() >= ((int)plugin.pdata.getArenaPlayers(arena).size()*arena.votesPercent))
-			{
-				runArena();
-			}	
-			return true;
-		}
-		return false;
-	}
-	
-	//arena game handlers
 	Integer runtaskid = null;
 	int count = 10;
 	//arena start handler (running status updater)
-	private void runArena()
+	protected void runArena()
 	{
 		Runnable run = new Runnable()
 		{
@@ -119,7 +62,6 @@ public class GameHandler {
 				if (count == 0)
 				{
 					arena.running = true;
-					votes.clear();
 					count = 10;
 					Bukkit.getScheduler().cancelTask(runtaskid);
 					runtaskid = null;
@@ -169,7 +111,7 @@ public class GameHandler {
 		//check if player is in arena
 		if (!player.getLocation().toVector().isInAABB(arena.getP1(), arena.getP2()))
 		{
-			leavePlayer(player, "You left the arena", "Player "+player.getName()+" left the arena");
+			arena.arenaph.leavePlayer(player, "You left the arena", "Player "+player.getName()+" left the arena");
 			return;
 		}
 		//do not handle game if it is not running
@@ -189,14 +131,14 @@ public class GameHandler {
 		if (plugin.pdata.getArenaPlayers(arena).size() > 1 && arena.getLoseLevel().isLooseLocation(player.getLocation()))
 		{
 			//player lost
-			leavePlayer(player, "You lost the arena", "Player "+player.getName()+" lost the arena");
+			arena.arenaph.leavePlayer(player, "You lost the arena", "Player "+player.getName()+" lost the arena");
 			return;
 		}
 		//now check for win
 		if (plugin.pdata.getArenaPlayers(arena).size() == 1)
 		{
 			//last player won
-			leavePlayer(player, "You won the arena", "");
+			arena.arenaph.leavePlayer(player, "You won the arena", "");
 			broadcastWin(player);
 			rewardPlayer(player);
 			//regenerate arena
