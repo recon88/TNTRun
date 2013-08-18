@@ -108,9 +108,7 @@ public class Arena {
 		//drop players
 		for (String player : plugin.pdata.getArenaPlayers(this))
 		{
-			Bukkit.getPlayerExact(player).sendMessage("Arena is disabling");
-			arenagh.removePlayerFromArena(Bukkit.getPlayerExact(player));
-			arenagh.leavePlayer(Bukkit.getPlayerExact(player));
+			arenagh.leavePlayer(Bukkit.getPlayerExact(player), "Arena is disabling","");
 		}
 		running = false;
 	}

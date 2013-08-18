@@ -114,8 +114,7 @@ public class GameCommands implements CommandExecutor{
 				Arena arena = plugin.pdata.getPlayerArena(player.getName());
 				if (arena != null)
 				{
-					arena.arenagh.leavePlayer(player);
-					player.sendMessage("You left the arena");
+					arena.arenagh.leavePlayer(player,"You left the arena","Player "+player.getName()+" left the arena");
 					return true;
 				} else
 				{

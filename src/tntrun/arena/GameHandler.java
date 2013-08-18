@@ -58,13 +58,24 @@ public class GameHandler {
 			runArena();
 		}
 	}
-	public void leavePlayer(Player player)
+	public void leavePlayer(Player player, String msgtoplayer, String msgtoarenaplayers)
 	{
-		removePlayerFromArena(player);
-		for (String p : plugin.pdata.getArenaPlayers(arena))
+		plugin.pdata.removePlayerFromArena(player.getName());
+		player.teleport(plugin.pdata.getPlayerLocation(player.getName()));
+		player.getInventory().setContents(plugin.pdata.getPlayerInventory(player.getName()));
+		player.getInventory().setArmorContents(plugin.pdata.getPlayerArmor(player.getName()));
+		if (!msgtoplayer.equalsIgnoreCase(""))
 		{
-			Bukkit.getPlayerExact(p).sendMessage("Player "+player.getName()+" left arena");
+			player.sendMessage(msgtoplayer);
 		}
+		if (!msgtoarenaplayers.equalsIgnoreCase(""))
+		{
+			for (String p : plugin.pdata.getArenaPlayers(arena))
+			{
+				Bukkit.getPlayerExact(p).sendMessage(msgtoarenaplayers);
+			}
+		}
+		
 		votes.remove(player.getName());
 	}
 	private HashSet<String> votes = new HashSet<String>();
@@ -158,8 +169,7 @@ public class GameHandler {
 		//check if player is in arena
 		if (!player.getLocation().toVector().isInAABB(arena.getP1(), arena.getP2()))
 		{
-			player.sendMessage("You left the arena");
-			leavePlayer(player);
+			leavePlayer(player, "You left the arena", "Player "+player.getName()+" left the arena");
 			return;
 		}
 		//do not handle game if it is not running
@@ -179,16 +189,14 @@ public class GameHandler {
 		if (plugin.pdata.getArenaPlayers(arena).size() > 1 && arena.getLoseLevel().isLooseLocation(player.getLocation()))
 		{
 			//player lost
-			player.sendMessage("You lost the arena");
-			removePlayerFromArena(player);
+			leavePlayer(player, "You lost the arena", "Player "+player.getName()+" lost the arena");
 			return;
 		}
 		//now check for win
 		if (plugin.pdata.getArenaPlayers(arena).size() == 1)
 		{
 			//last player won
-			player.sendMessage("You won the arena");
-			removePlayerFromArena(player);
+			leavePlayer(player, "You won the arena", "");
 			broadcastWin(player);
 			rewardPlayer(player);
 			//regenerate arena
@@ -196,13 +204,6 @@ public class GameHandler {
 			//not running
 			arena.running = false;
 		}
-	}
-	protected void removePlayerFromArena(Player player)
-	{
-		plugin.pdata.removePlayerFromArena(player.getName());
-		player.teleport(plugin.pdata.getPlayerLocation(player.getName()));
-		player.getInventory().setContents(plugin.pdata.getPlayerInventory(player.getName()));
-		player.getInventory().setArmorContents(plugin.pdata.getPlayerArmor(player.getName()));
 	}
 	private void broadcastWin(Player player)
 	{
