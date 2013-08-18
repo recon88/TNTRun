@@ -133,23 +133,24 @@ public class GameHandler {
 		}
 	}
 	//main arena handler (start on arena enable)
-	private Integer arenahandler = null;
+	private int arenahandler;
 	private void runArenaHandler()
 	{
-		if (arenahandler == null)
+		arenahandler = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable()
 		{
-			arenahandler = 
-			Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable()
+			public void run()
 			{
-				public void run()
-				{
+				try{
 					for (String p : new HashSet<String>(plugin.pdata.getArenaPlayers(arena)))
 					{
 						handlePlayer(Bukkit.getPlayerExact(p));
 					}
+				} catch (Exception e ) {
+					//if we caught and exception it means that arena is deleted, so we must stop arena handler
+					Bukkit.getScheduler().cancelTask(arenahandler);
 				}
-			}, 0, 2);
-		}
+			}
+		}, 0, 2);
 	}
 	//player handlers
 	public void handlePlayer(final Player player)
