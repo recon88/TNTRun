@@ -200,6 +200,7 @@ public class Arena {
 				if (count == 0)
 				{
 					running = true;
+					votes.clear();
 					curPlayers = 0;
 					count = 10;
 					Bukkit.getScheduler().cancelTask(runtaskid);
@@ -281,6 +282,7 @@ public class Arena {
 			//last player won
 			player.sendMessage("You won the arena");
 			removePlayerFromArena(player);
+			broadcastWin(player);
 			rewardPlayer(player);
 			//regenerate arena
 			for (final GameLevel gl : gamelevels.values())
@@ -297,6 +299,10 @@ public class Arena {
 		player.teleport(plugin.pdata.getPlayerLocation(player.getName()));
 		player.getInventory().setContents(plugin.pdata.getPlayerInventory(player.getName()));
 		player.getInventory().setArmorContents(plugin.pdata.getPlayerArmor(player.getName()));
+	}
+	private void broadcastWin(Player player)
+	{
+		
 	}
 	private void rewardPlayer(Player player)
 	{
