@@ -116,6 +116,7 @@ public class GameCommands implements CommandExecutor{
 				{
 					arena.leavePlayer(player);
 					player.sendMessage("You left the arena");
+					return true;
 				} else
 				{
 					sender.sendMessage("You are not in arena");
