@@ -26,7 +26,7 @@ import tntrun.arena.Arena;
 import tntrun.commands.GameCommands;
 import tntrun.commands.SetupCommands;
 import tntrun.datahandler.PlayerDataStore;
-import tntrun.eventhandler.DamageHandler;
+import tntrun.eventhandler.PlayerStatusHandler;
 import tntrun.eventhandler.QuitHandler;
 import tntrun.eventhandler.RestrictionHandler;
 
@@ -36,7 +36,7 @@ public class TNTRun extends JavaPlugin {
 	public SetupCommands scommands;
 	public GameCommands gcommands;
 	public QuitHandler ghandler;
-	public DamageHandler dhandler;
+	public PlayerStatusHandler pshandler;
 	public RestrictionHandler rhandler;
 	
 	@Override
@@ -49,8 +49,8 @@ public class TNTRun extends JavaPlugin {
 		getCommand("tr").setExecutor(gcommands);
 		ghandler = new QuitHandler(this);
 		getServer().getPluginManager().registerEvents(ghandler, this);
-		dhandler = new DamageHandler(this);
-		getServer().getPluginManager().registerEvents(dhandler, this);
+		pshandler = new PlayerStatusHandler(this);
+		getServer().getPluginManager().registerEvents(pshandler, this);
 		rhandler = new RestrictionHandler(this);
 		getServer().getPluginManager().registerEvents(rhandler, this);
 		//load arenas
@@ -80,7 +80,7 @@ public class TNTRun extends JavaPlugin {
 		scommands = null;
 		gcommands = null;
 		ghandler = null;
-		dhandler = null;
+		pshandler = null;
 		rhandler = null;
 		pdata = null;
 	}
