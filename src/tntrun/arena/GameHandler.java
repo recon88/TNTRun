@@ -47,7 +47,7 @@ public class GameHandler {
 			public void run()
 			{
 				//cancel countdown if not enough players
-				if (plugin.pdata.getArenaPlayers(arena).size() < arena.minPlayers) 
+				if (plugin.pdata.getArenaPlayers(arena).size() < arena.getMinPlayers()) 
 				{
 					for (String p : plugin.pdata.getArenaPlayers(arena))
 					{
@@ -61,14 +61,14 @@ public class GameHandler {
 				//now arena start sequence
 				if (count == 0)
 				{
-					timelimit = arena.timelimit*20; //timelimit is in ticks
+					timelimit = arena.getTimeLimit()*20; //timelimit is in ticks
 					arena.running = true;
 					count = 10;
 					Bukkit.getScheduler().cancelTask(runtaskid);
 					runtaskid = null;
 					for (String p : plugin.pdata.getArenaPlayers(arena))
 					{
-						Bukkit.getPlayerExact(p).sendMessage("Arena started. Time limit is "+arena.timelimit+" seconds");
+						Bukkit.getPlayerExact(p).sendMessage("Arena started. Time limit is "+arena.getTimeLimit()+" seconds");
 					}
 				} else
 				{

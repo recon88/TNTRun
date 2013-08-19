@@ -84,10 +84,26 @@ public class Arena {
 		return spawnpoint;
 	}
 	
-	public int maxPlayers = 6;
-	public int minPlayers = 2;
-	public double votesPercent = 0.75;
-	public int timelimit = 180;
+	private int maxPlayers = 6;
+	protected int getMaxPlayers()
+	{
+		return maxPlayers;
+	}
+	private int minPlayers = 2;
+	protected int getMinPlayers()
+	{
+		return minPlayers;
+	}
+	private double votesPercent = 0.75;
+	protected double getVotePercent()
+	{
+		return votesPercent;
+	}
+	private int timelimit = 180;
+	protected int getTimeLimit()
+	{
+		return timelimit;
+	}
 	
 	//arena status handler
 	public boolean isArenaEnabled()
@@ -116,6 +132,7 @@ public class Arena {
 	}
 
 	//arena structure handler
+	//main
 	public String isArenaConfigured()
 	{
 		if (p1 == null || p2==null || world == null) {return "Arena bounds not set";}
@@ -155,7 +172,23 @@ public class Arena {
 	{
 		spawnpoint = loc;
 	}
-	
+	//additional
+	public void setMaxPlayers(int maxplayers)
+	{
+		this.maxPlayers = maxplayers;
+	}
+	public void setMinPlayers(int minplayers)
+	{
+		this.minPlayers = minplayers;
+	}
+	public void setVotePercent(double votepercent)
+	{
+		this.votesPercent = votepercent;
+	}
+	public void setTimeLimit(int timelimit)
+	{
+		this.timelimit = timelimit;
+	}
 	
 	//arena config handlers
 	public void saveToConfig()

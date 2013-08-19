@@ -202,7 +202,7 @@ public class SetupCommands implements CommandExecutor {
 			Arena arena = getArenaByName(args[0]);
 			if (arena != null)
 			{
-				arena.maxPlayers = Integer.valueOf(args[2]);
+				arena.setMaxPlayers(Integer.valueOf(args[2]));
 				sender.sendMessage("Max Players set");
 			} else
 			{
@@ -216,7 +216,7 @@ public class SetupCommands implements CommandExecutor {
 			Arena arena = getArenaByName(args[0]);
 			if (arena != null)
 			{
-				arena.minPlayers = Integer.valueOf(args[2]);
+				arena.setMinPlayers(Integer.valueOf(args[2]));
 				sender.sendMessage("Min Players set");
 			} else
 			{
@@ -230,7 +230,7 @@ public class SetupCommands implements CommandExecutor {
 			Arena arena = getArenaByName(args[0]);
 			if (arena != null)
 			{
-				arena.votesPercent = Double.valueOf(args[2]);
+				arena.setVotePercent(Double.valueOf(args[2]));
 				sender.sendMessage("Vote percent set");
 			} else
 			{
@@ -244,7 +244,7 @@ public class SetupCommands implements CommandExecutor {
 			Arena arena = getArenaByName(args[0]);
 			if (arena != null)
 			{
-				arena.timelimit = Integer.valueOf(args[2]);
+				arena.setTimeLimit(Integer.valueOf(args[2]));
 				sender.sendMessage("Time limit set");
 			} else
 			{

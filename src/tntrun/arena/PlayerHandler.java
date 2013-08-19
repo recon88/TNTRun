@@ -43,7 +43,7 @@ public class PlayerHandler {
 		//set player on arena data
 		plugin.pdata.setPlayerArena(player.getName(), arena);
 		//check for game start
-		if (plugin.pdata.getArenaPlayers(arena).size() == arena.maxPlayers || plugin.pdata.getArenaPlayers(arena).size() == arena.minPlayers)
+		if (plugin.pdata.getArenaPlayers(arena).size() == arena.getMaxPlayers() || plugin.pdata.getArenaPlayers(arena).size() == arena.getMinPlayers())
 		{
 			arena.arenagh.runArena();
 		}
@@ -80,7 +80,7 @@ public class PlayerHandler {
 		if (!votes.contains(player.getName()))
 		{
 			votes.add(player.getName());
-			if (votes.size() >= ((int)plugin.pdata.getArenaPlayers(arena).size()*arena.votesPercent))
+			if (votes.size() >= ((int)plugin.pdata.getArenaPlayers(arena).size()*arena.getVotePercent()))
 			{
 				arena.arenagh.runArena();
 			}	
