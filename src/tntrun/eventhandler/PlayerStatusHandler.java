@@ -34,7 +34,7 @@ public class PlayerStatusHandler implements Listener {
 		this.plugin = plugin;
 	}
 	
-	//player should be invincible
+	//player should be invincible while in arena
 	@EventHandler(priority=EventPriority.HIGHEST,ignoreCancelled = true)
 	public void onPlayerDamage(EntityDamageEvent e)
 	{
@@ -48,7 +48,7 @@ public class PlayerStatusHandler implements Listener {
 		}
 	}
 	
-	//player should have infinite food
+	//player should have infinite food while in arena
 	@EventHandler(priority=EventPriority.HIGHEST,ignoreCancelled = true)
 	public void onPlayerDamage(FoodLevelChangeEvent e)
 	{

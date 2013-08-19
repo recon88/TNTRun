@@ -33,6 +33,7 @@ public class QuitHandler implements Listener {
 		this.plugin = plugin;
 	}
 	
+	//remove player from arena on quit
 	@EventHandler(priority=EventPriority.HIGHEST,ignoreCancelled = true)
 	public void onPlayerQuitEvent(PlayerQuitEvent e)
 	{
