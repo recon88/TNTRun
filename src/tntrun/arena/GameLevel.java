@@ -49,21 +49,21 @@ public class GameLevel {
 	private Location getPlayerStandOnBlockLocation(Location locationUnderPlayer)
 	{
 		Location b11 = locationUnderPlayer.clone().add(0.3,0,-0.3);
-		Location b12 = locationUnderPlayer.clone().add(-0.3,0,-0.3);
-		Location b21 = locationUnderPlayer.clone().add(0.3,0,0.3);
-		Location b22 = locationUnderPlayer.clone().add(-0.3,0,+0.3);
 		if (b11.getBlock().getType() != Material.AIR)
 		{
 			return b11;
-		} else 
+		} 
+		Location b12 = locationUnderPlayer.clone().add(-0.3,0,-0.3);
 		if (b12.getBlock().getType() != Material.AIR)
 		{
 			return b12;
-		} else 
+		}
+		Location b21 = locationUnderPlayer.clone().add(0.3,0,0.3);
 		if (b21.getBlock().getType() != Material.AIR)
 		{
 			return b21;
-		} else
+		}
+		Location b22 = locationUnderPlayer.clone().add(-0.3,0,+0.3);
 		if (b22.getBlock().getType() != Material.AIR)
 		{
 			return b22;
