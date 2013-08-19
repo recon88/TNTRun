@@ -238,6 +238,20 @@ public class SetupCommands implements CommandExecutor {
 				return true;
 			}
 		}
+		//set time limit
+		else if (args.length == 3 && args[1].equalsIgnoreCase("timelimit"))
+		{
+			Arena arena = getArenaByName(args[0]);
+			if (arena != null)
+			{
+				arena.timelimit = Integer.valueOf(args[2]);
+				sender.sendMessage("Time limit set");
+			} else
+			{
+				sender.sendMessage("Arena not exists");
+				return true;
+			}
+		}
 		//finish arena creation
 		else if (args.length == 2 && args[1].equalsIgnoreCase("finish"))
 		{
