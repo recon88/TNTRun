@@ -61,9 +61,9 @@ public class LoseLevel {
 	private void fillArea(World w)
 	{
 		int y = p1.getBlockY();
-		for (int x = p1.getBlockX(); x<=p2.getBlockX(); x++)
+		for (int x = p1.getBlockX()+1; x<p2.getBlockX(); x++)
 		{
-			for (int z = p1.getBlockZ(); z<=p2.getBlockZ(); z++)
+			for (int z = p1.getBlockZ()+1; z<p2.getBlockZ(); z++)
 			{
 				w.getBlockAt(x, y, z).setType(Material.WATER);
 			}

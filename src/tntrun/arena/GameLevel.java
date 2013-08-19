@@ -92,17 +92,17 @@ public class GameLevel {
 	private void fillArea(World w)
 	{
 		int y = tntp1.getBlockY();
-		for (int x = tntp1.getBlockX(); x<=tntp2.getBlockX(); x++)
+		for (int x = tntp1.getBlockX()+1; x<tntp2.getBlockX(); x++)
 		{
-			for (int z = tntp1.getBlockZ(); z<=tntp2.getBlockZ(); z++)
+			for (int z = tntp1.getBlockZ()+1; z<tntp2.getBlockZ(); z++)
 			{
 				w.getBlockAt(x, y, z).setType(Material.TNT);
 			}
 		}
 		y = sandp1.getBlockY();
-		for (int x = sandp1.getBlockX(); x<=sandp2.getBlockX(); x++)
+		for (int x = sandp1.getBlockX()+1; x<sandp2.getBlockX(); x++)
 		{
-			for (int z = sandp1.getBlockZ(); z<=sandp2.getBlockZ(); z++)
+			for (int z = sandp1.getBlockZ()+1; z<sandp2.getBlockZ(); z++)
 			{
 				w.getBlockAt(x, y, z).setType(Material.SAND);
 			}
