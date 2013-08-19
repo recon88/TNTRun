@@ -35,6 +35,7 @@ public class RestrictionHandler implements Listener {
 		this.plugin = plugin;
 	}
 	
+	//player should not be able to issue any commands besides /tr leave and /tr vote while in arena
 	@EventHandler(priority=EventPriority.HIGHEST,ignoreCancelled = true)
 	public void onPlayerCommand(PlayerCommandPreprocessEvent e)
 	{
@@ -48,6 +49,7 @@ public class RestrictionHandler implements Listener {
 		}
 	}
 	
+	//player should not be able to break blocks while in arena
 	@EventHandler(priority=EventPriority.HIGHEST,ignoreCancelled = true)
 	public void onPlayerBlockBreak(BlockBreakEvent e)
 	{
