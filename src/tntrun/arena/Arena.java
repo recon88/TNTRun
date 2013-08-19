@@ -27,6 +27,7 @@ import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 import tntrun.TNTRun;
@@ -103,7 +104,13 @@ public class Arena {
 	protected int getTimeLimit()
 	{
 		return timelimit;
+	}	
+	private Rewards rewards = new Rewards();
+	protected Rewards getRewards()
+	{
+		return rewards;
 	}
+
 	
 	//arena status handler
 	public boolean isArenaEnabled()
@@ -189,6 +196,11 @@ public class Arena {
 	{
 		this.timelimit = timelimit;
 	}
+	public void setRewards(ItemStack[] rewards)
+	{
+		this.rewards.setRewards(rewards);
+	}
+	
 	
 	//arena config handlers
 	public void saveToConfig()
@@ -211,6 +223,7 @@ public class Arena {
 		config.set("minPlayers", minPlayers);
 		config.set("votePercent", votesPercent);
 		config.set("timelimit", timelimit);
+		rewards.saveToConfig(config);
 		try {
 			config.save(new File("plugins/TNTRun/arenas/"+arenaname+".yml"));
 		} catch (IOException e) {
@@ -228,6 +241,7 @@ public class Arena {
 		minPlayers = config.getInt("minPlayers",minPlayers);
 		votesPercent = config.getDouble("votePercent", votesPercent);
 		timelimit = config.getInt("timelimit",timelimit);
+		rewards.loadFromConfig(config);
 		try {
 			this.spawnpoint = new Location(world, v.getX(), v.getY(), v.getZ());
 		} catch (Exception e) {}

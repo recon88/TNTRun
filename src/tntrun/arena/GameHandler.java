@@ -181,7 +181,7 @@ public class GameHandler {
 	}
 	private void rewardPlayer(Player player)
 	{
-		
+		arena.getRewards().rewardPlayer(player);
 	}
 	
 }
