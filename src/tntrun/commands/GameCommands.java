@@ -98,8 +98,7 @@ public class GameCommands implements CommandExecutor{
 			{
 				if (!arena.isArenaEnabled()) {sender.sendMessage("Arena is disabled"); return true;}
 				if (arena.running) {sender.sendMessage("Arena already running"); return true;}
-				arena.arenaph.spawnPlayer(player);
-				player.sendMessage("You have joined the arena");
+				arena.arenaph.spawnPlayer(player, "You have joined the arena", "Player "+player.getName()+" joined the arena");
 				player.sendMessage("Current players count: "+plugin.pdata.getArenaPlayers(arena).size());
 				return true;
 			} else

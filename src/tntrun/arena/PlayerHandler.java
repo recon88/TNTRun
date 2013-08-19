@@ -19,7 +19,7 @@ public class PlayerHandler {
 	}
 	
 	//spawn player on arena
-	public void spawnPlayer(Player player)
+	public void spawnPlayer(Player player, String msgtoplayer, String msgtoarenaplayers)
 	{
 		//change player status
 		player.setGameMode(GameMode.SURVIVAL);
@@ -27,10 +27,18 @@ public class PlayerHandler {
 		plugin.pdata.storePlayerInventory(player.getName());
 		plugin.pdata.storePlayerArmor(player.getName());
 		player.teleport(arena.getSpawnPoint());
-		//broadcast message to other players
-		for (String p : plugin.pdata.getArenaPlayers(arena))
+		//send message to player
+		if (!msgtoplayer.equalsIgnoreCase(""))
 		{
-			Bukkit.getPlayerExact(p).sendMessage("Player "+player.getName()+" joined arena");
+			player.sendMessage(msgtoplayer);
+		}
+		//send message to other players
+		if (!msgtoplayer.equalsIgnoreCase(""))
+		{
+			for (String p : plugin.pdata.getArenaPlayers(arena))
+			{
+				Bukkit.getPlayerExact(p).sendMessage(msgtoarenaplayers);
+			}
 		}
 		//set player on arena data
 		plugin.pdata.setPlayerArena(player.getName(), arena);
