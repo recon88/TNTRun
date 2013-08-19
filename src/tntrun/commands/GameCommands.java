@@ -86,7 +86,7 @@ public class GameCommands implements CommandExecutor{
 				return true;
 			} else
 			{
-				sender.sendMessage("Arena not exists");
+				sender.sendMessage("Arena does not exist");
 				return true;
 			}
 		}
@@ -104,7 +104,7 @@ public class GameCommands implements CommandExecutor{
 				return true;
 			} else
 			{
-				sender.sendMessage("Arena not exists");
+				sender.sendMessage("Arena does not exist");
 				return true;
 			}
 		}

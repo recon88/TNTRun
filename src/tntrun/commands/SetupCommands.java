@@ -89,7 +89,7 @@ public class SetupCommands implements CommandExecutor {
 			Arena arena = getArenaByName(args[0]);
 			if (arena == null)
 			{
-				sender.sendMessage("Arena not exists");
+				sender.sendMessage("Arena does not exist");
 				return true;
 			}
 			if (arena.isArenaEnabled())
@@ -119,7 +119,7 @@ public class SetupCommands implements CommandExecutor {
 				}
 			} else
 			{
-				sender.sendMessage("Arena not exists");
+				sender.sendMessage("Arena does not exist");
 				return true;
 			}
 		}
@@ -148,7 +148,7 @@ public class SetupCommands implements CommandExecutor {
 				}
 			} else
 			{
-				sender.sendMessage("Arena not exists");
+				sender.sendMessage("Arena does not exist");
 				return true;
 			}
 		}
@@ -177,7 +177,7 @@ public class SetupCommands implements CommandExecutor {
 				}
 			} else
 			{
-				sender.sendMessage("Arena not exists");
+				sender.sendMessage("Arena does not exist");
 				return true;
 			}
 		}
@@ -192,7 +192,7 @@ public class SetupCommands implements CommandExecutor {
 				return true;
 			} else
 			{
-				sender.sendMessage("Arena not exists");
+				sender.sendMessage("Arena does not exist");
 				return true;
 			}
 		}
@@ -206,7 +206,7 @@ public class SetupCommands implements CommandExecutor {
 				sender.sendMessage("Max Players set");
 			} else
 			{
-				sender.sendMessage("Arena not exists");
+				sender.sendMessage("Arena does not exist");
 				return true;
 			}
 		}
@@ -220,7 +220,7 @@ public class SetupCommands implements CommandExecutor {
 				sender.sendMessage("Min Players set");
 			} else
 			{
-				sender.sendMessage("Arena not exists");
+				sender.sendMessage("Arena does not exist");
 				return true;
 			}
 		}
@@ -234,7 +234,7 @@ public class SetupCommands implements CommandExecutor {
 				sender.sendMessage("Vote percent set");
 			} else
 			{
-				sender.sendMessage("Arena not exists");
+				sender.sendMessage("Arena does not exist");
 				return true;
 			}
 		}
@@ -248,7 +248,7 @@ public class SetupCommands implements CommandExecutor {
 				sender.sendMessage("Time limit set");
 			} else
 			{
-				sender.sendMessage("Arena not exists");
+				sender.sendMessage("Arena does not exist");
 				return true;
 			}
 		}
@@ -272,7 +272,7 @@ public class SetupCommands implements CommandExecutor {
 				}
 			} else
 			{
-				sender.sendMessage("Arena not exists");
+				sender.sendMessage("Arena does not exist");
 				return true;
 			}
 		}
@@ -287,7 +287,7 @@ public class SetupCommands implements CommandExecutor {
 				return true;
 			} else
 			{
-				sender.sendMessage("Arena not exists");
+				sender.sendMessage("Arena does not exist");
 				return true;
 			}
 		}
@@ -307,7 +307,7 @@ public class SetupCommands implements CommandExecutor {
 				return true;
 			} else
 			{
-				sender.sendMessage("Arena not exists");
+				sender.sendMessage("Arena does not exist");
 				return true;
 			}
 		}
