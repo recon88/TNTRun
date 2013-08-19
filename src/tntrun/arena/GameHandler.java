@@ -61,13 +61,14 @@ public class GameHandler {
 				//now arena start sequence
 				if (count == 0)
 				{
+					timelimit = arena.timelimit*20; //timelimit is in ticks
 					arena.running = true;
 					count = 10;
 					Bukkit.getScheduler().cancelTask(runtaskid);
 					runtaskid = null;
 					for (String p : plugin.pdata.getArenaPlayers(arena))
 					{
-						Bukkit.getPlayerExact(p).sendMessage("Arena started");
+						Bukkit.getPlayerExact(p).sendMessage("Arena started. Time limit is "+arena.timelimit+" seconds");
 					}
 				} else
 				{
@@ -87,6 +88,7 @@ public class GameHandler {
 	}
 	
 	//main arena handler (start on arena enable)
+	private int timelimit;
 	private int arenahandler;
 	private void runArenaHandler()
 	{
@@ -95,9 +97,27 @@ public class GameHandler {
 			public void run()
 			{
 				try{
-					for (String p : new HashSet<String>(plugin.pdata.getArenaPlayers(arena)))
+					//check arena time limit
+					if (checkDraw())
 					{
-						handlePlayer(Bukkit.getPlayerExact(p));
+						for (String p : new HashSet<String>(plugin.pdata.getArenaPlayers(arena)))
+						{
+							//kick all players
+							arena.arenaph.leavePlayer(Bukkit.getPlayerExact(p), "Time is out", "");
+							//not running
+							arena.running = false;
+							//regenerate arena
+							arena.regenGameLevels();
+						}
+					} else
+					{
+						//decrease timelimit
+						timelimit-=2;
+						//handle players
+						for (String p : new HashSet<String>(plugin.pdata.getArenaPlayers(arena)))
+						{
+							handlePlayer(Bukkit.getPlayerExact(p));
+						}
 					}
 				} catch (Exception e) {
 					//if we caught and exception it means that arena is deleted, so we must stop arena handler
@@ -105,6 +125,16 @@ public class GameHandler {
 				}
 			}
 		}, 0, 2);
+	}
+	//check for time is out
+	private boolean checkDraw()
+	{
+		if (arena.running && timelimit < 0)
+		{
+			//it's a draw
+			return true;
+		}
+		return false;
 	}
 	//player handlers
 	public void handlePlayer(final Player player)
@@ -139,10 +169,10 @@ public class GameHandler {
 			arena.arenaph.leavePlayer(player, "You won the arena", "");
 			broadcastWin(player);
 			rewardPlayer(player);
-			//regenerate arena
-			arena.regenGameLevels();
 			//not running
 			arena.running = false;
+			//regenerate arena
+			arena.regenGameLevels();
 		}
 	}
 	private void broadcastWin(Player player)

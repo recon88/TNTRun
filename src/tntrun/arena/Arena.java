@@ -87,7 +87,7 @@ public class Arena {
 	public int maxPlayers = 6;
 	public int minPlayers = 2;
 	public double votesPercent = 0.75;
-
+	public int timelimit = 180;
 	
 	//arena status handler
 	public boolean isArenaEnabled()
@@ -177,6 +177,7 @@ public class Arena {
 		config.set("maxPlayers", maxPlayers);
 		config.set("minPlayers", minPlayers);
 		config.set("votePercent", votesPercent);
+		config.set("timelimit", timelimit);
 		try {
 			config.save(new File("plugins/TNTRun/arenas/"+arenaname+".yml"));
 		} catch (IOException e) {
@@ -193,6 +194,7 @@ public class Arena {
 		maxPlayers = config.getInt("maxPlayers",maxPlayers);
 		minPlayers = config.getInt("minPlayers",minPlayers);
 		votesPercent = config.getDouble("votePercent", votesPercent);
+		timelimit = config.getInt("timelimit",timelimit);
 		try {
 			this.spawnpoint = new Location(world, v.getX(), v.getY(), v.getZ());
 		} catch (Exception e) {}
