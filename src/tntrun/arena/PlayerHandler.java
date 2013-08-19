@@ -21,17 +21,20 @@ public class PlayerHandler {
 	//spawn player on arena
 	public void spawnPlayer(Player player)
 	{
+		//change player status
 		player.setGameMode(GameMode.SURVIVAL);
-		plugin.pdata.setPlayerLocation(player.getName());
-		plugin.pdata.setPlayerInventory(player.getName());
-		plugin.pdata.setPlayerArmor(player.getName());
-		player.getInventory().clear();
+		plugin.pdata.storePlayerLocation(player.getName());
+		plugin.pdata.storePlayerInventory(player.getName());
+		plugin.pdata.storePlayerArmor(player.getName());
 		player.teleport(arena.getSpawnPoint());
+		//broadcast message to other players
 		for (String p : plugin.pdata.getArenaPlayers(arena))
 		{
 			Bukkit.getPlayerExact(p).sendMessage("Player "+player.getName()+" joined arena");
 		}
+		//set player on arena data
 		plugin.pdata.setPlayerArena(player.getName(), arena);
+		//check for game start
 		if (plugin.pdata.getArenaPlayers(arena).size() == arena.maxPlayers || plugin.pdata.getArenaPlayers(arena).size() == arena.minPlayers)
 		{
 			arena.arenagh.runArena();
@@ -40,14 +43,18 @@ public class PlayerHandler {
 	//remove player from arena
 	public void leavePlayer(Player player, String msgtoplayer, String msgtoarenaplayers)
 	{
+		//remove player on arena data
 		plugin.pdata.removePlayerFromArena(player.getName());
-		player.teleport(plugin.pdata.getPlayerLocation(player.getName()));
-		player.getInventory().setContents(plugin.pdata.getPlayerInventory(player.getName()));
-		player.getInventory().setArmorContents(plugin.pdata.getPlayerArmor(player.getName()));
+		//restore player status
+		plugin.pdata.restorePlayerLocation(player.getName());
+		plugin.pdata.restorePlayerInventory(player.getName());
+		plugin.pdata.restorePlayerArmor(player.getName());
+		//send message to player
 		if (!msgtoplayer.equalsIgnoreCase(""))
 		{
 			player.sendMessage(msgtoplayer);
 		}
+		//send message to other players
 		if (!msgtoarenaplayers.equalsIgnoreCase(""))
 		{
 			for (String p : plugin.pdata.getArenaPlayers(arena))

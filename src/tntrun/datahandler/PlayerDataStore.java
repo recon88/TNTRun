@@ -24,6 +24,7 @@ import java.util.Set;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 
 import tntrun.arena.Arena;
 
@@ -66,34 +67,36 @@ public class PlayerDataStore {
 	private HashMap<String, ItemStack[]> plinv = new HashMap<String, ItemStack[]>();
 	private HashMap<String, ItemStack[]> plarmor = new HashMap<String, ItemStack[]>();
 	private HashMap<String, Location> plloc = new HashMap<String, Location>();
-	public ItemStack[] getPlayerInventory(String player)
+	public void storePlayerInventory(String player)
 	{
-		ItemStack[] inv = plinv.get(player);
-		plinv.remove(player);
-		return inv;
+		PlayerInventory pinv = Bukkit.getPlayerExact(player).getInventory();
+		plinv.put(player, pinv.getContents());
+		pinv.clear();
 	}
-	public void setPlayerInventory(String player)
+	public void storePlayerArmor(String player)
 	{
-		plinv.put(player, Bukkit.getPlayerExact(player).getInventory().getContents());
+		PlayerInventory pinv = Bukkit.getPlayerExact(player).getInventory();
+		plarmor.put(player, pinv.getArmorContents());
+		pinv.setArmorContents(null);
 	}
-	public ItemStack[] getPlayerArmor(String player)
-	{
-		ItemStack[] armor = plarmor.get(player);
-		plarmor.remove(player);
-		return armor;
-	}
-	public void setPlayerArmor(String player)
-	{
-		plarmor.put(player, Bukkit.getPlayerExact(player).getInventory().getArmorContents());
-	}
-	public Location getPlayerLocation(String player)
-	{
-		Location loc = plloc.get(player);
-		plloc.remove(player);
-		return loc;
-	}
-	public void setPlayerLocation(String player)
+	public void storePlayerLocation(String player)
 	{
 		plloc.put(player, Bukkit.getPlayerExact(player).getLocation());
 	}
+	public void restorePlayerInventory(String player)
+	{
+		Bukkit.getPlayerExact(player).getInventory().setContents(plinv.get(player));
+		plinv.remove(player);
+	}
+	public void restorePlayerArmor(String player)
+	{
+		Bukkit.getPlayerExact(player).getInventory().setArmorContents(plarmor.get(player));
+		plarmor.remove(player);
+	}
+	public void restorePlayerLocation(String player)
+	{
+		Bukkit.getPlayerExact(player).teleport(plloc.get(player));
+		plloc.remove(player);
+	}
+
 }
