@@ -41,10 +41,39 @@ public class GameLevel {
 		return false;
 	};
 	
-	protected void destroyBlock(Location loc, World w)
+	protected void destroyBlock(Location loc)
 	{
-		w.getBlockAt(loc).setType(Material.AIR);
-		w.getBlockAt(loc.clone().add(0,-1,0)).setType(Material.AIR);
+		Location blockUnderFeetLocation = getPlayerStandOnBlockLocation(loc);
+		removeGLBlocks(blockUnderFeetLocation);
+	}
+	private Location getPlayerStandOnBlockLocation(Location locationUnderPlayer)
+	{
+		Location b11 = locationUnderPlayer.clone().add(0.3,0,-0.3);
+		Location b12 = locationUnderPlayer.clone().add(-0.3,0,-0.3);
+		Location b21 = locationUnderPlayer.clone().add(0.3,0,0.3);
+		Location b22 = locationUnderPlayer.clone().add(-0.3,0,+0.3);
+		if (b11.getBlock().getType() != Material.AIR)
+		{
+			return b11;
+		} else 
+		if (b12.getBlock().getType() != Material.AIR)
+		{
+			return b12;
+		} else 
+		if (b21.getBlock().getType() != Material.AIR)
+		{
+			return b21;
+		} else
+		if (b22.getBlock().getType() != Material.AIR)
+		{
+			return b22;
+		}
+		return locationUnderPlayer;
+	}
+	private void removeGLBlocks(Location blockLocation)
+	{
+		blockLocation.getBlock().setType(Material.AIR);
+		blockLocation.clone().add(0,-1,0).getBlock().setType(Material.AIR);
 	}
 	
 	
