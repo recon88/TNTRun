@@ -23,6 +23,8 @@ public class PlayerHandler {
 	{
 		//change player status
 		player.setGameMode(GameMode.SURVIVAL);
+		player.setFlying(false);
+		player.setAllowFlight(false);
 		plugin.pdata.storePlayerLocation(player.getName());
 		plugin.pdata.storePlayerInventory(player.getName());
 		plugin.pdata.storePlayerArmor(player.getName());
