@@ -272,17 +272,23 @@ public class SetupCommands implements CommandExecutor {
 			Arena arena = getArenaByName(args[0]);
 			if (arena != null)
 			{
-				if (arena.isArenaConfigured().equalsIgnoreCase("yes") && !arena.running)
+				if (!arena.isArenaEnabled())
 				{
-					arena.saveToConfig();
-					plugin.pdata.putArenaInHashMap(arena);
-					arena.enableArena();
-					sender.sendMessage("Arena saved and enabled");
-					return true;
-				} else 
+					if (arena.isArenaConfigured().equalsIgnoreCase("yes"))
+					{
+						arena.saveToConfig();
+						plugin.pdata.putArenaInHashMap(arena);
+						arena.enableArena();
+						sender.sendMessage("Arena saved and enabled");
+						return true;
+					} else 
+					{
+						sender.sendMessage("Arena is not configured. Reason: "+arena.isArenaConfigured());
+						return true;
+					}
+				} else
 				{
-					sender.sendMessage("Arena is not configured or is running currently. Reason: "+arena.isArenaConfigured());
-					return true;
+					sender.sendMessage("Disable arena first");
 				}
 			} else
 			{
