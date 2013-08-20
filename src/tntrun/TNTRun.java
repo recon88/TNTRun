@@ -73,6 +73,7 @@ public class TNTRun extends JavaPlugin {
 		{
 			if (arena.isArenaConfigured().equalsIgnoreCase("yes"))
 			{
+				arena.disableArena();
 				arena.saveToConfig();
 			}
 		}
