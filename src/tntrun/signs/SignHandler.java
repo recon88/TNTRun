@@ -32,9 +32,11 @@ import tntrun.TNTRun;
 public class SignHandler implements Listener {
 
 	private JoinSign joinsign;
+	private LeaveSign leavesign;
 	public SignHandler(TNTRun plugin)
 	{
 		joinsign = new JoinSign(plugin);
+		leavesign = new LeaveSign(plugin);
 	}
 	
 	
@@ -59,7 +61,7 @@ public class SignHandler implements Listener {
 			}
 			else if (e.getLine(1).equalsIgnoreCase("[leave]"))
 			{
-				
+				leavesign.handleCreation(e);
 			}
 			else if (e.getLine(1).equalsIgnoreCase("[vote]"))
 			{
@@ -91,7 +93,7 @@ public class SignHandler implements Listener {
 			}
 			else if (sign.getLine(1).equalsIgnoreCase("[leave]"))
 			{
-				
+				leavesign.handleClick(e);
 			}
 			else if (sign.getLine(1).equalsIgnoreCase("[vote]"))
 			{
