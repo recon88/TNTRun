@@ -33,10 +33,12 @@ public class SignHandler implements Listener {
 
 	private JoinSign joinsign;
 	private LeaveSign leavesign;
+	private VoteSign votesign;
 	public SignHandler(TNTRun plugin)
 	{
 		joinsign = new JoinSign(plugin);
 		leavesign = new LeaveSign(plugin);
+		votesign = new VoteSign(plugin);
 	}
 	
 	
@@ -65,7 +67,7 @@ public class SignHandler implements Listener {
 			}
 			else if (e.getLine(1).equalsIgnoreCase("[vote]"))
 			{
-				
+				votesign.handleCreation(e);
 			}
 		}
 	}
@@ -97,7 +99,7 @@ public class SignHandler implements Listener {
 			}
 			else if (sign.getLine(1).equalsIgnoreCase("[vote]"))
 			{
-				
+				votesign.handleClick(e);
 			}
 		}
 	}
