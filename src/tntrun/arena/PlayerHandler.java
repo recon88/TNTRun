@@ -39,6 +39,11 @@ public class PlayerHandler {
 	//spawn player on arena
 	public void spawnPlayer(Player player, String msgtoplayer, String msgtoarenaplayers)
 	{
+		if (plugin.pdata.getArenaPlayers(arena).size() == arena.getMaxPlayers())
+		{
+			Messages.sendMessage(player, Messages.limitreached);
+			return;
+		}
 		//change player status
 		player.setGameMode(GameMode.SURVIVAL);
 		player.setFlying(false);
@@ -56,6 +61,8 @@ public class PlayerHandler {
 		}
 		//set player on arena data
 		plugin.pdata.setPlayerArena(player.getName(), arena);
+		//send message about arena player count
+		Messages.sendMessage(player, Messages.playerscount+plugin.pdata.getArenaPlayers(arena).size());
 		//check for game start
 		if (plugin.pdata.getArenaPlayers(arena).size() == arena.getMaxPlayers() || plugin.pdata.getArenaPlayers(arena).size() == arena.getMinPlayers())
 		{

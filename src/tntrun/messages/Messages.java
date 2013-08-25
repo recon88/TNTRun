@@ -20,6 +20,7 @@ public class Messages {
 	public static String arenadisabling = "&9Arena is disabling";
 	
 	public static String playerscount = "&9Current players count:&r ";
+	public static String limitreached = "&9Slot limit reached.";
 	public static String playerjoinedtoplayer = "&9You joined the arena";
 	public static String playerjoinedtoothers = "&9Player {PLAYER} joined the arena";
 	public static String playerlefttoplayer = "&9You left the arena";
@@ -68,6 +69,7 @@ public class Messages {
 		arenarunning = config.getString("arenarunning",arenarunning);
 		arenadisabling = config.getString("arenadisabling",arenadisabling);
 		playerscount = config.getString("playerscount",playerscount);
+		limitreached = config.getString("limitreached",limitreached );
 		playerjoinedtoplayer = config.getString("playerjoinedtoplayer",playerjoinedtoplayer);
 		playerjoinedtoothers = config.getString("playerjoinedtoothers",playerjoinedtoothers);
 		playerlefttoplayer = config.getString("playerlefttoplayer",playerlefttoplayer);
@@ -92,6 +94,7 @@ public class Messages {
 		config.set("arenarunning",arenarunning);
 		config.set("arenadisabling",arenadisabling);
 		config.set("playerscount",playerscount);
+		config.set("limitreached",limitreached );
 		config.set("playerjoinedtoplayer",playerjoinedtoplayer);
 		config.set("playerjoinedtoothers",playerjoinedtoothers);
 		config.set("playerlefttoplayer",playerlefttoplayer);
