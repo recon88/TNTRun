@@ -134,8 +134,13 @@ public class SetupCommands implements CommandExecutor {
 					Location[] locs = sortLoc(player);
 					if (isOneBlockHigh(locs))
 					{
-						arena.setGameLevel(args[2], locs[0], locs[1]);
-						sender.sendMessage("GameLevel set");
+						if (arena.setGameLevel(args[2], locs[0], locs[1]))
+						{
+							sender.sendMessage("GameLevel set");
+						} else
+						{
+							sender.sendMessage("GameLevel should be in arena bounds");
+						}
 						return true;
 					} else 
 					{
@@ -163,8 +168,13 @@ public class SetupCommands implements CommandExecutor {
 					Location[] locs = sortLoc(player);
 					if (isOneBlockHigh(locs))
 					{
-						arena.setLooseLevel(locs[0], locs[1]);
-						sender.sendMessage("LoseLevel set");
+						if (arena.setLooseLevel(locs[0], locs[1]))
+						{
+							sender.sendMessage("LoseLevel set");
+						} else
+						{
+							sender.sendMessage("LoseLevel should be in arena bounds");
+						}
 						return true;
 					} else 
 					{
@@ -188,8 +198,13 @@ public class SetupCommands implements CommandExecutor {
 			Arena arena = getArenaByName(args[0]);
 			if (arena != null)
 			{
-				arena.setSpawnPoint(player.getLocation());
-				sender.sendMessage("Spawnpoint set");
+				if (arena.setSpawnPoint(player.getLocation()))
+				{
+					sender.sendMessage("Spawnpoint set");
+				} else 
+				{
+					sender.sendMessage("Spawnpoint should be in arena bounds");
+				}
 				return true;
 			} else
 			{

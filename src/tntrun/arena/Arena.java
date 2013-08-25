@@ -162,15 +162,20 @@ public class Arena {
 		this.p1 = loc1.toVector();
 		this.p2 = loc2.toVector();
 	}
-	public void setGameLevel(String glname, Location loc1, Location loc2)
+	public boolean setGameLevel(String glname, Location loc1, Location loc2)
 	{
-		GameLevel gl = gamelevels.get(glname);
-		if (gl == null)
+		if (isInArenaBounds(loc1) && isInArenaBounds(loc2))
 		{
-			gl = new GameLevel();
-			gamelevels.put(glname, gl);
+			GameLevel gl = gamelevels.get(glname);
+			if (gl == null)
+			{
+				gl = new GameLevel();
+				gamelevels.put(glname, gl);
+			}
+			gl.setGameLocation(loc1, loc2, world);
+			return true;
 		}
-		gl.setGameLocation(loc1, loc2, world);
+		return false;
 	}
 	public void regenGameLevels()
 	{
@@ -179,13 +184,23 @@ public class Arena {
 			gl.regen(world);
 		}
 	}
-	public void setLooseLevel(Location loc1, Location loc2)
+	public boolean setLooseLevel(Location loc1, Location loc2)
 	{
-		loselevel.setLooseLocation(loc1, loc2, world);
+		if (isInArenaBounds(loc1) && isInArenaBounds(loc2))
+		{
+			loselevel.setLooseLocation(loc1, loc2, world);			
+			return true;
+		} 
+		return false;
 	}
-	public void setSpawnPoint(Location loc)
+	public boolean setSpawnPoint(Location loc)
 	{
-		spawnpoint = loc;
+		if (isInArenaBounds(loc))
+		{
+			spawnpoint = loc;
+			return true;
+		}
+		return false;
 	}
 	//additional
 	public void setMaxPlayers(int maxplayers)
