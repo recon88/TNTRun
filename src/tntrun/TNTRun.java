@@ -58,28 +58,25 @@ public class TNTRun extends JavaPlugin {
 		signs = new SignHandler(this);
 		getServer().getPluginManager().registerEvents(signs, this);
 		//load arenas
-		new File("plugins/TNTRun/arenas/").mkdirs(); 
-		for (String file : new File("plugins/TNTRun/arenas/").list())
+		File arenasfolder = new File("plugins/TNTRun/arenas/");
+		arenasfolder.mkdirs(); 
+		for (String file : arenasfolder.list())
 		{
 			Arena arena = new Arena(file.split("[.]")[0], this);
 			try {
 				arena.loadFromConfig();
 			} catch (Exception e) {}
-			arena.enableArena();
 		}
 	}
 	
 	@Override
 	public void onDisable()
 	{
-		//save configured arenas
+		//save arenas
 		for (Arena arena : pdata.getArenas())
 		{
-			if (arena.isArenaConfigured().equalsIgnoreCase("yes"))
-			{
-				arena.disableArena();
-				arena.saveToConfig();
-			}
+			arena.disableArena();
+			arena.saveToConfig();
 		}
 		HandlerList.unregisterAll(this);
 		scommands = null;

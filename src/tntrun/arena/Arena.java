@@ -43,6 +43,7 @@ public class Arena {
 		this.plugin = plugin;
 		arenagh = new GameHandler(plugin,this);
 		arenaph = new PlayerHandler(plugin,this);
+		arenafile = new File("plugins/TNTRun/arenas/"+arenaname+".yml");
 	}
 	
 	private boolean enabled = false;
@@ -130,12 +131,12 @@ public class Arena {
 	public void disableArena()
 	{
 		enabled = false;
+		running = false;
 		//drop players
 		for (String player : plugin.pdata.getArenaPlayers(this))
 		{
 			arenaph.leavePlayer(Bukkit.getPlayerExact(player), "Arena is disabling","");
 		}
-		running = false;
 	}
 
 	//arena structure handler
@@ -203,49 +204,58 @@ public class Arena {
 	
 	
 	//arena config handlers
+	private File arenafile;
 	public void saveToConfig()
 	{
 		FileConfiguration config = new YamlConfiguration();
-		config.set("world", world.getName());
-		config.set("p1", p1);
-		config.set("p2", p2);
-		config.set("spawnpoint", spawnpoint.toVector());
+		//save arena bounds
+		try {
+			config.set("world", world.getName());
+			config.set("p1", p1);
+			config.set("p2", p2);
+		} catch (Exception e) {}
+		//save gamelevels
 		for (String glname : gamelevels.keySet())
 		{
-			try 
-			{
+			try {
 				GameLevel gl = gamelevels.get(glname);
 				gl.saveToConfig("gamelevels."+glname, config);
 			} catch (Exception e) {}
 		}
-		loselevel.saveToConfig(config);
+		//save looselevel
+		try {
+			loselevel.saveToConfig(config);
+		} catch (Exception e) {}
+		//save spawnpoint
+		try {
+			config.set("spawnpoint", spawnpoint.toVector());
+		} catch (Exception e) {}
+		//save maxplayers
 		config.set("maxPlayers", maxPlayers);
+		//save minplayers
 		config.set("minPlayers", minPlayers);
+		//save vote percent
 		config.set("votePercent", votesPercent);
+		//save timelimit
 		config.set("timelimit", timelimit);
+		//save rewards
 		rewards.saveToConfig(config);
 		try {
-			config.save(new File("plugins/TNTRun/arenas/"+arenaname+".yml"));
+			config.save(arenafile);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 	public void loadFromConfig()
 	{
-		FileConfiguration config = YamlConfiguration.loadConfiguration(new File("plugins/TNTRun/arenas/"+arenaname+".yml"));
-		this.world = Bukkit.getWorld(config.getString("world", null));
-		this.p1 = config.getVector("p1", null);
-		this.p2 = config.getVector("p2", null);
-		Vector v = config.getVector("spawnpoint", null);
-		maxPlayers = config.getInt("maxPlayers",maxPlayers);
-		minPlayers = config.getInt("minPlayers",minPlayers);
-		votesPercent = config.getDouble("votePercent", votesPercent);
-		timelimit = config.getInt("timelimit",timelimit);
-		rewards.loadFromConfig(config);
+		FileConfiguration config = YamlConfiguration.loadConfiguration(arenafile);
+		//load arena bounds
 		try {
-			this.spawnpoint = new Location(world, v.getX(), v.getY(), v.getZ());
+			world = Bukkit.getWorld(config.getString("world", null));
+			p1 = config.getVector("p1", null);
+			p2 = config.getVector("p2", null);
 		} catch (Exception e) {}
-		this.maxPlayers = config.getInt("maxPlayers");
+		//load gamelevels
 		ConfigurationSection cs = config.getConfigurationSection("gamelevels");
 		if (cs != null)
 		{
@@ -258,8 +268,26 @@ public class Arena {
 				} catch (Exception e) {}
 			}
 		}
+		//load looselevel
 		loselevel.loadFromConfig(config);
+		//load spawnpoint
+		try {
+			Vector v = config.getVector("spawnpoint", null);
+			spawnpoint = new Location(world, v.getX(), v.getY(), v.getZ());
+		} catch (Exception e) {}
+		//load maxplayers
+		maxPlayers = config.getInt("maxPlayers",maxPlayers);
+		//load minplayers
+		minPlayers = config.getInt("minPlayers",minPlayers);
+		//load vote percent
+		votesPercent = config.getDouble("votePercent", votesPercent);
+		//load timelimit
+		timelimit = config.getInt("timelimit",timelimit);
+		//load rewards
+		rewards.loadFromConfig(config);
+		//register arena
 		plugin.pdata.putArenaInHashMap(this);
+		//enable if fully configured
 		if (isArenaConfigured().equalsIgnoreCase("yes"))
 		{
 			for (GameLevel gl : gamelevels.values())
@@ -267,7 +295,7 @@ public class Arena {
 				gl.regen(world);
 			}
 			loselevel.regen(world);
-			this.enabled = true;
+			enabled = true;
 		}
 	}
 	

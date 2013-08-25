@@ -317,14 +317,21 @@ public class SetupCommands implements CommandExecutor {
 			Arena arena = getArenaByName(args[0]);
 			if (arena != null)
 			{
-				if (arena.enableArena())
+				if (arena.isArenaEnabled())
 				{
-					sender.sendMessage("Arena enabled");
+					sender.sendMessage("Arena already enabled.");
+					return true;
 				} else
 				{
-					sender.sendMessage("Arena is not configured");
+					if (arena.enableArena())
+					{
+						sender.sendMessage("Arena enabled");
+					} else
+					{
+						sender.sendMessage("Arena is not configured. Reason: "+arena.isArenaConfigured());
+					}
+					return true;
 				}
-				return true;
 			} else
 			{
 				sender.sendMessage("Arena does not exist");
