@@ -67,6 +67,7 @@ public class PlayerDataStore {
 	private HashMap<String, ItemStack[]> plinv = new HashMap<String, ItemStack[]>();
 	private HashMap<String, ItemStack[]> plarmor = new HashMap<String, ItemStack[]>();
 	private HashMap<String, Location> plloc = new HashMap<String, Location>();
+	private HashMap<String, Integer> plhunger = new HashMap<String, Integer>();
 	public void storePlayerInventory(String player)
 	{
 		PlayerInventory pinv = Bukkit.getPlayerExact(player).getInventory();
@@ -83,6 +84,10 @@ public class PlayerDataStore {
 	{
 		plloc.put(player, Bukkit.getPlayerExact(player).getLocation());
 	}
+	public void storePlayerHunger(String player)
+	{
+		plhunger.put(player, Bukkit.getPlayerExact(player).getFoodLevel());
+	}
 	public void restorePlayerInventory(String player)
 	{
 		Bukkit.getPlayerExact(player).getInventory().setContents(plinv.get(player));
@@ -97,6 +102,11 @@ public class PlayerDataStore {
 	{
 		Bukkit.getPlayerExact(player).teleport(plloc.get(player));
 		plloc.remove(player);
+	}
+	public void restorePlayerHunger(String player)
+	{
+		Bukkit.getPlayerExact(player).setFoodLevel(plhunger.get(player));
+		plhunger.remove(player);
 	}
 
 }

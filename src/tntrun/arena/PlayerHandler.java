@@ -51,6 +51,8 @@ public class PlayerHandler {
 		plugin.pdata.storePlayerLocation(player.getName());
 		plugin.pdata.storePlayerInventory(player.getName());
 		plugin.pdata.storePlayerArmor(player.getName());
+		plugin.pdata.storePlayerHunger(player.getName());
+		player.setFoodLevel(20);
 		player.teleport(arena.getSpawnPoint());
 		//send message to player
 		Messages.sendMessage(player, msgtoplayer);
@@ -78,6 +80,7 @@ public class PlayerHandler {
 		plugin.pdata.restorePlayerLocation(player.getName());
 		plugin.pdata.restorePlayerInventory(player.getName());
 		plugin.pdata.restorePlayerArmor(player.getName());
+		plugin.pdata.restorePlayerHunger(player.getName());
 		//send message to player
 		if (!msgtoplayer.equalsIgnoreCase(""))
 		{
