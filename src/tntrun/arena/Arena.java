@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -31,6 +32,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 import tntrun.TNTRun;
+import tntrun.messages.Messages;
 
 public class Arena {
 
@@ -135,7 +137,7 @@ public class Arena {
 		//drop players
 		for (String player : plugin.pdata.getArenaPlayers(this))
 		{
-			arenaph.leavePlayer(Bukkit.getPlayerExact(player), "Arena is disabling","");
+			arenaph.leavePlayer(Bukkit.getPlayerExact(player), Messages.arenadisabling,"");
 		}
 	}
 

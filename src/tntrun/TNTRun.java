@@ -29,6 +29,7 @@ import tntrun.datahandler.PlayerDataStore;
 import tntrun.eventhandler.PlayerStatusHandler;
 import tntrun.eventhandler.QuitHandler;
 import tntrun.eventhandler.RestrictionHandler;
+import tntrun.messages.Messages;
 import tntrun.signs.SignHandler;
 
 public class TNTRun extends JavaPlugin {
@@ -44,6 +45,7 @@ public class TNTRun extends JavaPlugin {
 	@Override
 	public void onEnable()
 	{
+		Messages.loadMessages();
 		pdata = new PlayerDataStore();
 		scommands = new SetupCommands(this);
 		getCommand("trsetup").setExecutor(scommands);

@@ -20,10 +20,10 @@ package tntrun.arena;
 import java.util.HashSet;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import tntrun.TNTRun;
+import tntrun.messages.Messages;
 
 public class GameHandler {
 
@@ -68,13 +68,13 @@ public class GameHandler {
 					runtaskid = null;
 					for (String p : plugin.pdata.getArenaPlayers(arena))
 					{
-						Bukkit.getPlayerExact(p).sendMessage("Arena started. Time limit is "+arena.getTimeLimit()+" seconds");
+						Messages.sendMessage(Bukkit.getPlayerExact(p), Messages.arenastarted, arena.getTimeLimit());
 					}
 				} else
 				{
 					for (String p : plugin.pdata.getArenaPlayers(arena))
 					{
-						Bukkit.getPlayerExact(p).sendMessage("Arena starts in "+count+" seconds");
+						Messages.sendMessage(Bukkit.getPlayerExact(p), Messages.arenacountdown, count);
 					}
 					count--;
 				}
@@ -103,7 +103,7 @@ public class GameHandler {
 						for (String p : new HashSet<String>(plugin.pdata.getArenaPlayers(arena)))
 						{
 							//kick all players
-							arena.arenaph.leavePlayer(Bukkit.getPlayerExact(p), "Time is out", "");
+							arena.arenaph.leavePlayer(Bukkit.getPlayerExact(p), Messages.arenatimeout, "");
 							//not running
 							arena.running = false;
 							//regenerate arena
@@ -142,7 +142,7 @@ public class GameHandler {
 		//check if player is in arena
 		if (!player.getLocation().toVector().isInAABB(arena.getP1(), arena.getP2()))
 		{
-			arena.arenaph.leavePlayer(player, "You left the arena", "Player "+player.getName()+" left the arena");
+			arena.arenaph.leavePlayer(player, Messages.playerlefttoplayer, Messages.playerlefttoothers);
 			return;
 		}
 		//do not handle game if it is not running
@@ -159,14 +159,14 @@ public class GameHandler {
 		if (plugin.pdata.getArenaPlayers(arena).size() > 1 && arena.getLoseLevel().isLooseLocation(player.getLocation()))
 		{
 			//player lost
-			arena.arenaph.leavePlayer(player, "You lost the arena", "Player "+player.getName()+" lost the arena");
+			arena.arenaph.leavePlayer(player, Messages.playerlosttoplayer, Messages.playerlosttoothers);
 			return;
 		}
 		//now check for win
 		if (plugin.pdata.getArenaPlayers(arena).size() == 1)
 		{
 			//last player won
-			arena.arenaph.leavePlayer(player, "You won the arena", "");
+			arena.arenaph.leavePlayer(player, Messages.playerwontoplayer, "");
 			broadcastWin(player);
 			rewardPlayer(player);
 			//not running
@@ -177,7 +177,7 @@ public class GameHandler {
 	}
 	private void broadcastWin(Player player)
 	{
-		Bukkit.broadcastMessage(ChatColor.BLUE+"[TNTRun] "+ChatColor.GREEN+player.getName()+ChatColor.WHITE+" won the game on arena "+ChatColor.RED+arena.getArenaName()+ChatColor.WHITE);
+		Messages.broadsactMessage(player, arena.getArenaName(), Messages.playerwonbroadcast);
 	}
 	private void rewardPlayer(Player player)
 	{

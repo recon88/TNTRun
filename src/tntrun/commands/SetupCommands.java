@@ -28,6 +28,7 @@ import org.bukkit.entity.Player;
 
 import tntrun.TNTRun;
 import tntrun.arena.Arena;
+import tntrun.messages.Messages;
 
 public class SetupCommands implements CommandExecutor {
 
@@ -52,7 +53,7 @@ public class SetupCommands implements CommandExecutor {
 		//check permissions
 		if (!player.hasPermission("tntrun.setup")) 
 		{
-			player.sendMessage("You don't have permission to do this");
+			Messages.sendMessage(player, Messages.nopermission);
 			return true;
 		}
 		//handle commands
@@ -337,6 +338,13 @@ public class SetupCommands implements CommandExecutor {
 				sender.sendMessage("Arena does not exist");
 				return true;
 			}
+		}
+		//reload messages
+		else if (args.length == 1 && args[0].equalsIgnoreCase("reloadmsg"))
+		{
+			Messages.loadMessages();
+			sender.sendMessage("Messages reloaded");
+			return true;
 		}
 		return false;
 	}

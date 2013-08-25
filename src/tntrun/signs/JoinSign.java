@@ -24,6 +24,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 import tntrun.TNTRun;
 import tntrun.arena.Arena;
+import tntrun.messages.Messages;
 
 public class JoinSign {
 
@@ -54,7 +55,7 @@ public class JoinSign {
 		Arena arena = getArenaByName(((Sign)e.getClickedBlock().getState()).getLine(2));
 		if (arena!=null)
 		{
-			arena.arenaph.spawnPlayer(e.getPlayer(), "You have joined the arena", "Player "+e.getPlayer().getName()+" joined the arena");
+			arena.arenaph.spawnPlayer(e.getPlayer(), Messages.playerjoinedtoplayer, Messages.playerjoinedtoothers);
 			e.setCancelled(true);
 		} else
 		{

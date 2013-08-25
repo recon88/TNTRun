@@ -23,6 +23,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 import tntrun.TNTRun;
 import tntrun.arena.Arena;
+import tntrun.messages.Messages;
 
 public class LeaveSign {
 
@@ -44,7 +45,7 @@ public class LeaveSign {
 		Arena arena = plugin.pdata.getPlayerArena(e.getPlayer().getName());
 		if (arena!=null)
 		{
-			arena.arenaph.leavePlayer(e.getPlayer(), "You left the arena", "Player "+e.getPlayer()+" left the arena");
+			arena.arenaph.leavePlayer(e.getPlayer(), Messages.playerlefttoplayer, Messages.playerlefttoothers);
 			e.setCancelled(true);
 		} else
 		{

@@ -24,6 +24,7 @@ import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 
 import tntrun.TNTRun;
+import tntrun.messages.Messages;
 
 public class PlayerHandler {
 
@@ -47,17 +48,11 @@ public class PlayerHandler {
 		plugin.pdata.storePlayerArmor(player.getName());
 		player.teleport(arena.getSpawnPoint());
 		//send message to player
-		if (!msgtoplayer.equalsIgnoreCase(""))
-		{
-			player.sendMessage(msgtoplayer);
-		}
+		Messages.sendMessage(player, msgtoplayer);
 		//send message to other players
-		if (!msgtoplayer.equalsIgnoreCase(""))
+		for (String p : plugin.pdata.getArenaPlayers(arena))
 		{
-			for (String p : plugin.pdata.getArenaPlayers(arena))
-			{
-				Bukkit.getPlayerExact(p).sendMessage(msgtoarenaplayers);
-			}
+			Messages.sendMessage(Bukkit.getPlayerExact(p),msgtoarenaplayers);
 		}
 		//set player on arena data
 		plugin.pdata.setPlayerArena(player.getName(), arena);
@@ -79,14 +74,14 @@ public class PlayerHandler {
 		//send message to player
 		if (!msgtoplayer.equalsIgnoreCase(""))
 		{
-			player.sendMessage(msgtoplayer);
+			Messages.sendMessage(player, msgtoplayer);
 		}
 		//send message to other players
 		if (!msgtoarenaplayers.equalsIgnoreCase(""))
 		{
 			for (String p : plugin.pdata.getArenaPlayers(arena))
 			{
-				Bukkit.getPlayerExact(p).sendMessage(msgtoarenaplayers);
+				Messages.sendMessage(Bukkit.getPlayerExact(p), msgtoarenaplayers);
 			}
 		}
 		

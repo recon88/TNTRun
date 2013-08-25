@@ -26,6 +26,7 @@ import org.bukkit.entity.Player;
 
 import tntrun.TNTRun;
 import tntrun.arena.Arena;
+import tntrun.messages.Messages;
 
 public class GameCommands implements CommandExecutor{
 
@@ -47,7 +48,7 @@ public class GameCommands implements CommandExecutor{
 		//check permissions
 		if (!player.hasPermission("tntrun.game")) 
 		{
-			player.sendMessage("You don't have permission to do this");
+			Messages.sendMessage(player, Messages.nopermission);
 			return true;
 		}
 		//handle commands
@@ -65,12 +66,18 @@ public class GameCommands implements CommandExecutor{
 		else if (args.length == 1 && args[0].equalsIgnoreCase("list"))
 		{
 			StringBuilder message = new StringBuilder(200);
-			message.append("Available arenas: ");
+			message.append(Messages.availablearenas);
 			for (Arena arena : plugin.pdata.getArenas())
 			{
-				message.append(arena.getArenaName()+" ");
+				if (arena.isArenaEnabled())
+				{
+					message.append("&a"+arena.getArenaName()+" ");
+				} else
+				{
+					message.append("&c"+arena.getArenaName()+" ");
+				}
 			}
-			player.sendMessage(message.toString());
+			Messages.sendMessage(player, message.toString());
 			return true;
 		}
 		//status
@@ -96,10 +103,10 @@ public class GameCommands implements CommandExecutor{
 			Arena arena = getArenaByName(args[1]);
 			if (arena != null)
 			{
-				if (!arena.isArenaEnabled()) {sender.sendMessage("Arena is disabled"); return true;}
-				if (arena.running) {sender.sendMessage("Arena already running"); return true;}
-				arena.arenaph.spawnPlayer(player, "You have joined the arena", "Player "+player.getName()+" joined the arena");
-				player.sendMessage("Current players count: "+plugin.pdata.getArenaPlayers(arena).size());
+				if (!arena.isArenaEnabled()) {Messages.sendMessage(player, Messages.arenadisabled); return true;}
+				if (arena.running) {Messages.sendMessage(player, Messages.arenarunning); return true;}
+				arena.arenaph.spawnPlayer(player, Messages.playerjoinedtoplayer, Messages.playerjoinedtoothers);
+				Messages.sendMessage(player, Messages.playerscount+plugin.pdata.getArenaPlayers(arena).size());
 				return true;
 			} else
 			{
@@ -113,7 +120,7 @@ public class GameCommands implements CommandExecutor{
 				Arena arena = plugin.pdata.getPlayerArena(player.getName());
 				if (arena != null)
 				{
-					arena.arenaph.leavePlayer(player,"You left the arena","Player "+player.getName()+" left the arena");
+					arena.arenaph.leavePlayer(player,Messages.playerlefttoplayer,Messages.playerlefttoothers);
 					return true;
 				} else
 				{
@@ -129,10 +136,10 @@ public class GameCommands implements CommandExecutor{
 			{
 				if (arena.arenaph.vote(player))
 				{
-					player.sendMessage("You voted for game start");
+					Messages.sendMessage(player, Messages.playervotedforstart);
 				} else
 				{
-					player.sendMessage("You already voted");
+					Messages.sendMessage(player, Messages.playeralreadyvotedforstart);
 				}
 			} else
 			{

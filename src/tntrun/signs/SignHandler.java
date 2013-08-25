@@ -28,6 +28,7 @@ import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 import tntrun.TNTRun;
+import tntrun.messages.Messages;
 
 public class SignHandler implements Listener {
 
@@ -51,7 +52,7 @@ public class SignHandler implements Listener {
 		{
 			if (!player.hasPermission("tntrun.setupsigns")) 
 			{
-				player.sendMessage("You don't have permission to do this");
+				Messages.sendMessage(player, Messages.nopermission);
 				e.setCancelled(true);
 				e.getBlock().breakNaturally();
 				return;
