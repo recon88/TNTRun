@@ -22,8 +22,10 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
+
 import tntrun.TNTRun;
 import tntrun.arena.Arena;
+import tntrun.messages.Messages;
 
 public class QuitHandler implements Listener {
 
@@ -41,7 +43,7 @@ public class QuitHandler implements Listener {
 		Arena arena = plugin.pdata.getPlayerArena(player.getName());
 		//ignore if player is not in arena
 		if (arena == null) {return;}
-		arena.arenaph.leavePlayer(player, "", "Player "+player.getName()+" left arena");
+		arena.arenaph.leavePlayer(player, "", Messages.playerlefttoothers);
 	}
 
 	
