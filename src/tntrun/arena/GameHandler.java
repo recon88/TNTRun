@@ -104,11 +104,11 @@ public class GameHandler {
 						{
 							//kick all players
 							arena.arenaph.leavePlayer(Bukkit.getPlayerExact(p), Messages.arenatimeout, "");
-							//not running
-							arena.running = false;
-							//regenerate arena
-							arena.regenGameLevels();
 						}
+						//not running
+						arena.running = false;
+						//regenerate arena
+						arena.regenGameLevels();
 					} else
 					{
 						//decrease timelimit
