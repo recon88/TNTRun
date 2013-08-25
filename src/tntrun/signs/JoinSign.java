@@ -55,6 +55,8 @@ public class JoinSign {
 		Arena arena = getArenaByName(((Sign)e.getClickedBlock().getState()).getLine(2));
 		if (arena!=null)
 		{
+			if (!arena.isArenaEnabled()) {Messages.sendMessage(e.getPlayer(), Messages.arenadisabled); return;}
+			if (arena.running) {Messages.sendMessage(e.getPlayer(), Messages.arenarunning); return;}
 			arena.arenaph.spawnPlayer(e.getPlayer(), Messages.playerjoinedtoplayer, Messages.playerjoinedtoothers);
 			e.setCancelled(true);
 		} else
