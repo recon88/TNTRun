@@ -88,7 +88,6 @@ public class GameCommands implements CommandExecutor{
 			{
 				player.sendMessage("Arena enabled: "+arena.isArenaEnabled());
 				player.sendMessage("Arena running: "+arena.running);
-				player.sendMessage("Current players count: "+plugin.pdata.getArenaPlayers(arena).size());
 				player.sendMessage("Players: "+Arrays.asList(plugin.pdata.getArenaPlayers(arena).toArray()));
 				return true;
 			} else
