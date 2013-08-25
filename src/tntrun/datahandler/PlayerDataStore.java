@@ -22,6 +22,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -68,6 +69,7 @@ public class PlayerDataStore {
 	private HashMap<String, ItemStack[]> plarmor = new HashMap<String, ItemStack[]>();
 	private HashMap<String, Location> plloc = new HashMap<String, Location>();
 	private HashMap<String, Integer> plhunger = new HashMap<String, Integer>();
+	private HashMap<String, GameMode> plgamemode = new HashMap<String, GameMode>();
 	public void storePlayerInventory(String player)
 	{
 		PlayerInventory pinv = Bukkit.getPlayerExact(player).getInventory();
@@ -87,6 +89,12 @@ public class PlayerDataStore {
 	public void storePlayerHunger(String player)
 	{
 		plhunger.put(player, Bukkit.getPlayerExact(player).getFoodLevel());
+		Bukkit.getPlayerExact(player).setFoodLevel(20);
+	}
+	public void storePlayerGameMode(String player)
+	{
+		plgamemode.put(player, Bukkit.getPlayerExact(player).getGameMode());
+		Bukkit.getPlayerExact(player).setGameMode(GameMode.SURVIVAL);
 	}
 	public void restorePlayerInventory(String player)
 	{
@@ -107,6 +115,11 @@ public class PlayerDataStore {
 	{
 		Bukkit.getPlayerExact(player).setFoodLevel(plhunger.get(player));
 		plhunger.remove(player);
+	}	
+	public void restorePlayerGameMode(String player)
+	{
+		Bukkit.getPlayerExact(player).setGameMode(plgamemode.get(player));
+		plgamemode.remove(player);
 	}
 
 }
