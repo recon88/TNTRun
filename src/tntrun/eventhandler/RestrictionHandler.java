@@ -44,7 +44,7 @@ public class RestrictionHandler implements Listener {
 		Arena arena = plugin.pdata.getPlayerArena(player.getName());
 		//ignore if player is not in arena
 		if (arena == null) {return;}
-		if (!(e.getMessage().startsWith("/tr leave") || e.getMessage().startsWith("/tr vote")))
+		if (!(e.getMessage().equalsIgnoreCase("/tr leave") || e.getMessage().equalsIgnoreCase("/tr vote")))
 		{
 			e.setCancelled(true);
 		}
