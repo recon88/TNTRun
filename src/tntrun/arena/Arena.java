@@ -143,6 +143,11 @@ public class Arena {
 
 	//arena structure handler
 	//main
+	public boolean isInArenaBounds(Location loc)
+	{
+		if (loc.toVector().isInAABB(p1, p2)) {return true;}
+		return false;
+	}
 	public String isArenaConfigured()
 	{
 		if (p1 == null || p2==null || world == null) {return "Arena bounds not set";}

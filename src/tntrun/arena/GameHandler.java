@@ -140,7 +140,7 @@ public class GameHandler {
 	public void handlePlayer(final Player player)
 	{
 		//check if player is in arena
-		if (!player.getLocation().toVector().isInAABB(arena.getP1(), arena.getP2()))
+		if (!arena.isInArenaBounds(player.getLocation()))
 		{
 			arena.arenaph.leavePlayer(player, Messages.playerlefttoplayer, Messages.playerlefttoothers);
 			return;
