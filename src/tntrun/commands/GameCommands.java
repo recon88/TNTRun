@@ -139,6 +139,7 @@ public class GameCommands implements CommandExecutor{
 				{
 					Messages.sendMessage(player, Messages.playeralreadyvotedforstart);
 				}
+				return true;
 			} else
 			{
 				sender.sendMessage("You are not in arena");
