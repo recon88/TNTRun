@@ -81,19 +81,13 @@ public class PlayerHandler {
 		plugin.pdata.restorePlayerHunger(player.getName());
 		plugin.pdata.restorePlayerGameMode(player.getName());
 		//send message to player
-		if (!msgtoplayer.equalsIgnoreCase(""))
-		{
-			Messages.sendMessage(player, msgtoplayer);
-		}
+		Messages.sendMessage(player, msgtoplayer);
 		//send message to other players
-		if (!msgtoarenaplayers.equalsIgnoreCase(""))
+		for (String p : plugin.pdata.getArenaPlayers(arena))
 		{
-			for (String p : plugin.pdata.getArenaPlayers(arena))
-			{
 				Messages.sendMessage(Bukkit.getPlayerExact(p), msgtoarenaplayers);
-			}
 		}
-		
+		//remove vote
 		votes.remove(player.getName());
 	}
 	//vote for game start
@@ -103,7 +97,7 @@ public class PlayerHandler {
 		if (!votes.contains(player.getName()))
 		{
 			votes.add(player.getName());
-			if (votes.size() >= ((int)plugin.pdata.getArenaPlayers(arena).size()*arena.getVotePercent()))
+			if (plugin.pdata.getArenaPlayers(arena).size() > 1	&& (votes.size() >= plugin.pdata.getArenaPlayers(arena).size()*arena.getVotePercent()))
 			{
 				arena.arenagh.runArena();
 			}	
