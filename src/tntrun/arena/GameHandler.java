@@ -47,7 +47,7 @@ public class GameHandler {
 			public void run()
 			{
 				//cancel countdown if not enough players
-				if (plugin.pdata.getArenaPlayers(arena).size() < arena.getMinPlayers()) 
+				if (plugin.pdata.getArenaPlayers(arena).size() < 2) 
 				{
 					for (String p : plugin.pdata.getArenaPlayers(arena))
 					{
