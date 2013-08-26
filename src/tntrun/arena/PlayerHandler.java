@@ -47,10 +47,11 @@ public class PlayerHandler {
 		plugin.pdata.storePlayerGameMode(player.getName());
 		player.setFlying(false);
 		player.setAllowFlight(false);
-		plugin.pdata.storePlayerLocation(player.getName());
 		plugin.pdata.storePlayerInventory(player.getName());
 		plugin.pdata.storePlayerArmor(player.getName());
 		plugin.pdata.storePlayerHunger(player.getName());
+		//teleport player to arena
+		plugin.pdata.storePlayerLocation(player.getName());
 		player.teleport(arena.getSpawnPoint());
 		//send message to player
 		Messages.sendMessage(player, msgtoplayer);
@@ -74,8 +75,9 @@ public class PlayerHandler {
 	{
 		//remove player on arena data
 		plugin.pdata.removePlayerFromArena(player.getName());
-		//restore player status
+		//restore location
 		plugin.pdata.restorePlayerLocation(player.getName());
+		//restore player status
 		plugin.pdata.restorePlayerInventory(player.getName());
 		plugin.pdata.restorePlayerArmor(player.getName());
 		plugin.pdata.restorePlayerHunger(player.getName());
@@ -85,7 +87,7 @@ public class PlayerHandler {
 		//send message to other players
 		for (String p : plugin.pdata.getArenaPlayers(arena))
 		{
-				Messages.sendMessage(Bukkit.getPlayerExact(p), msgtoarenaplayers);
+			Messages.sendMessage(Bukkit.getPlayerExact(p), msgtoarenaplayers);
 		}
 		//remove vote
 		votes.remove(player.getName());
