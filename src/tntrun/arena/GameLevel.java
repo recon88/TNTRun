@@ -17,11 +17,14 @@
 
 package tntrun.arena;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.util.Vector;
+
+import tntrun.TNTRun;
 
 public class GameLevel {
 
@@ -41,10 +44,16 @@ public class GameLevel {
 		return false;
 	};
 	
-	protected void destroyBlock(Location loc)
+	protected void destroyBlock(Location loc, int delay, TNTRun plugin)
 	{
-		Location blockUnderFeetLocation = getPlayerStandOnBlockLocation(loc);
-		removeGLBlocks(blockUnderFeetLocation);
+		final Location blockUnderFeetLocation = getPlayerStandOnBlockLocation(loc);
+		Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable()
+		{
+			public void run()
+			{
+				removeGLBlocks(blockUnderFeetLocation);
+			}
+		},delay);
 	}
 	private Location getPlayerStandOnBlockLocation(Location locationUnderPlayer)
 	{

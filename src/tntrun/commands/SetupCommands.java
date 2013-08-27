@@ -158,6 +158,21 @@ public class SetupCommands implements CommandExecutor {
 				return true;
 			}
 		}
+		//set gamelevel destroy delay
+		else if (args.length == 3 && args[1].equalsIgnoreCase("setgameleveldestroydelay"))
+		{
+			Arena arena = getArenaByName(args[0]);
+			if (arena != null)
+			{
+				arena.setGameLevelDestroyDelay(Integer.valueOf(args[2]));
+				sender.sendMessage("GameLevel blocks destroy delay set");
+				return true;
+			} else
+			{
+				sender.sendMessage("Arena does not exist");
+				return true;
+			}
+		}
 		//set looselevel
 		else if (args.length == 2 && args[1].equalsIgnoreCase("setloselevel"))
 		{

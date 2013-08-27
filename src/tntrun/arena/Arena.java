@@ -77,6 +77,11 @@ public class Arena {
 	{
 		return gamelevels.values();
 	}
+	private int gameleveldestroydelay = 1;
+	protected int getGameLevelDestroyDelay()
+	{
+		return gameleveldestroydelay;
+	}
 	private LoseLevel loselevel = new LoseLevel();
 	protected LoseLevel getLoseLevel()
 	{
@@ -177,6 +182,10 @@ public class Arena {
 		}
 		return false;
 	}
+	public void setGameLevelDestroyDelay(int delay)
+	{
+		gameleveldestroydelay = delay;
+	}
 	public void regenGameLevels()
 	{
 		for (final GameLevel gl : gamelevels.values())
@@ -244,6 +253,8 @@ public class Arena {
 				gl.saveToConfig("gamelevels."+glname, config);
 			} catch (Exception e) {}
 		}
+		//save gamelevel destroy delay
+		config.set("gameleveldestroydelay",gameleveldestroydelay);
 		//save looselevel
 		try {
 			loselevel.saveToConfig(config);
@@ -290,6 +301,8 @@ public class Arena {
 				} catch (Exception e) {}
 			}
 		}
+		//load gamelevel destroy delay
+		gameleveldestroydelay = config.getInt("gameleveldestroydelay",gameleveldestroydelay);
 		//load looselevel
 		loselevel.loadFromConfig(config);
 		//load spawnpoint

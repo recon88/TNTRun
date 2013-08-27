@@ -152,7 +152,7 @@ public class GameHandler {
 		{
 			if (gl.isSandLocation(player.getLocation().add(0,-1,0)))
 			{
-				gl.destroyBlock(player.getLocation().clone().add(0,-1,0));
+				gl.destroyBlock(player.getLocation().clone().add(0,-1,0), arena.getGameLevelDestroyDelay(), plugin);
 			}
 		}
 		//check for loose location
