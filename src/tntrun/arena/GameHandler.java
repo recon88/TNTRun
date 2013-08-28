@@ -152,10 +152,8 @@ public class GameHandler {
 		if (plugin.pdata.getArenaPlayers(arena).size() == 1)
 		{
 			//last player won
-			arena.arenaph.leavePlayer(player, Messages.playerwontoplayer, "");
+			arena.arenaph.leaveWinner(player, Messages.playerwontoplayer);
 			broadcastWin(player);
-			rewardPlayer(player);
-			//not running
 			return;
 		}
 		//check for lose
@@ -169,10 +167,6 @@ public class GameHandler {
 	private void broadcastWin(Player player)
 	{
 		Messages.broadsactMessage(player.getName(), arena.getArenaName(), Messages.playerwonbroadcast);
-	}
-	private void rewardPlayer(Player player)
-	{
-		arena.getRewards().rewardPlayer(player);
 	}
 	
 }

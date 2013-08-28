@@ -20,7 +20,6 @@ package tntrun.arena;
 import java.util.HashSet;
 
 import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 
 import tntrun.TNTRun;
@@ -45,7 +44,7 @@ public class PlayerHandler {
 			return;
 		}
 		//change player status
-		player.setGameMode(GameMode.SURVIVAL);
+		plugin.pdata.storePlayerGameMode(player.getName());
 		player.setFlying(false);
 		player.setAllowFlight(false);
 		plugin.pdata.storePlayerInventory(player.getName());
@@ -82,6 +81,7 @@ public class PlayerHandler {
 		plugin.pdata.restorePlayerInventory(player.getName());
 		plugin.pdata.restorePlayerArmor(player.getName());
 		plugin.pdata.restorePlayerHunger(player.getName());
+		plugin.pdata.restorePlayerGameMode(player.getName());
 		//send message to player
 		Messages.sendMessage(player, msgtoplayer);
 		//send message to other players
@@ -89,6 +89,25 @@ public class PlayerHandler {
 		{
 			Messages.sendMessage(Bukkit.getPlayerExact(p), player.getName(), msgtoarenaplayers);
 		}
+		//remove vote
+		votes.remove(player.getName());
+	}
+	protected void leaveWinner(Player player, String msgtoplayer)
+	{
+		//remove player on arena data
+		plugin.pdata.removePlayerFromArena(player.getName());
+		//restore location
+		plugin.pdata.restorePlayerLocation(player.getName());
+		//restore player status
+		plugin.pdata.restorePlayerInventory(player.getName());
+		plugin.pdata.restorePlayerArmor(player.getName());
+		plugin.pdata.restorePlayerHunger(player.getName());
+		//reward player before restoring gamemode
+		arena.getRewards().rewardPlayer(player);
+		//now restore gamemode
+		plugin.pdata.restorePlayerGameMode(player.getName());
+		//send message to player
+		Messages.sendMessage(player, msgtoplayer);
 		//remove vote
 		votes.remove(player.getName());
 	}
