@@ -20,6 +20,7 @@ package tntrun.arena;
 import java.util.HashSet;
 
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 
 import tntrun.TNTRun;
@@ -44,7 +45,7 @@ public class PlayerHandler {
 			return;
 		}
 		//change player status
-		plugin.pdata.storePlayerGameMode(player.getName());
+		player.setGameMode(GameMode.SURVIVAL);
 		player.setFlying(false);
 		player.setAllowFlight(false);
 		plugin.pdata.storePlayerInventory(player.getName());
@@ -81,7 +82,6 @@ public class PlayerHandler {
 		plugin.pdata.restorePlayerInventory(player.getName());
 		plugin.pdata.restorePlayerArmor(player.getName());
 		plugin.pdata.restorePlayerHunger(player.getName());
-		plugin.pdata.restorePlayerGameMode(player.getName());
 		//send message to player
 		Messages.sendMessage(player, msgtoplayer);
 		//send message to other players
