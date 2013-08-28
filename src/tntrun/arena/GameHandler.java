@@ -60,8 +60,6 @@ public class GameHandler {
 				//now arena start sequence
 				if (count == 0)
 				{
-					timelimit = arena.getTimeLimit()*20; //timelimit is in ticks
-					arena.running = true;
 					count = 10;
 					Bukkit.getScheduler().cancelTask(runtaskid);
 					runtaskid = null;
@@ -93,6 +91,8 @@ public class GameHandler {
 	private int arenahandler;
 	private void runArenaHandler()
 	{
+		arena.running = true;
+		timelimit = arena.getTimeLimit()*20; //timelimit is in ticks
 		arenahandler = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable()
 		{
 			public void run()
