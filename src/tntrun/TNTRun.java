@@ -26,6 +26,7 @@ import tntrun.arena.Arena;
 import tntrun.commands.GameCommands;
 import tntrun.commands.SetupCommands;
 import tntrun.datahandler.PlayerDataStore;
+import tntrun.eventhandler.PlayerLeaveArenaChecker;
 import tntrun.eventhandler.PlayerStatusHandler;
 import tntrun.eventhandler.QuitHandler;
 import tntrun.eventhandler.RestrictionHandler;
@@ -40,6 +41,7 @@ public class TNTRun extends JavaPlugin {
 	public QuitHandler ghandler;
 	public PlayerStatusHandler pshandler;
 	public RestrictionHandler rhandler;
+	public PlayerLeaveArenaChecker plachecker;
 	public SignHandler signs;
 	
 	@Override
@@ -57,6 +59,8 @@ public class TNTRun extends JavaPlugin {
 		getServer().getPluginManager().registerEvents(pshandler, this);
 		rhandler = new RestrictionHandler(this);
 		getServer().getPluginManager().registerEvents(rhandler, this);
+		plachecker = new PlayerLeaveArenaChecker(this);
+		getServer().getPluginManager().registerEvents(plachecker, this);
 		signs = new SignHandler(this);
 		getServer().getPluginManager().registerEvents(signs, this);
 		//load arenas
@@ -86,6 +90,7 @@ public class TNTRun extends JavaPlugin {
 		ghandler = null;
 		pshandler = null;
 		rhandler = null;
+		plachecker = null;
 		signs = null;
 		pdata = null;
 	}

@@ -33,7 +33,6 @@ public class GameHandler {
 	{
 		this.plugin = plugin;
 		this.arena = arena;
-		runArenaHandler();
 	}
 	
 	
@@ -70,7 +69,9 @@ public class GameHandler {
 					{
 						Messages.sendMessage(Bukkit.getPlayerExact(p), Messages.arenastarted, arena.getTimeLimit());
 					}
+					runArenaHandler();
 				} else
+				//countdown
 				{
 					for (String p : plugin.pdata.getArenaPlayers(arena))
 					{
@@ -87,7 +88,7 @@ public class GameHandler {
 		}
 	}
 	
-	//main arena handler (start on arena enable)
+	//main arena handler
 	private int timelimit;
 	private int arenahandler;
 	private void runArenaHandler()
@@ -96,52 +97,49 @@ public class GameHandler {
 		{
 			public void run()
 			{
-				try{
-					//check arena time limit
-					if (arena.running && timelimit < 0)
-					{
-						draw();
-					} else
-					{
-						//decrease timelimit
-						timelimit-=2;
-						//handle players
-						for (String p : new HashSet<String>(plugin.pdata.getArenaPlayers(arena)))
-						{
-							handlePlayer(Bukkit.getPlayerExact(p));
-						}
-					}
-				} catch (Exception e) {
-					//if we caught and exception it means that arena is deleted, so we must stop arena handler
+				if (arena.isArenaEnabled())
+				{
+					handleArenaTick();
+				} else
+				{
 					Bukkit.getScheduler().cancelTask(arenahandler);
 				}
 			}
 		}, 0, 2);
 	}
-	//time is out
-	private void draw()
+	private void handleArenaTick()
 	{
-		for (String p : new HashSet<String>(plugin.pdata.getArenaPlayers(arena)))
+		if (plugin.pdata.getArenaPlayers(arena).size() != 0)
 		{
-			//kick all players
-			arena.arenaph.leavePlayer(Bukkit.getPlayerExact(p), Messages.arenatimeout, "");
+			//check arena time limit
+			if (timelimit < 0)
+			{
+				for (String p : new HashSet<String>(plugin.pdata.getArenaPlayers(arena)))
+				{
+					//kick all players
+					arena.arenaph.leavePlayer(Bukkit.getPlayerExact(p), Messages.arenatimeout, "");
+				}
+			} else
+			{
+				//decrease timelimit
+				timelimit-=2;
+				//handle players
+				for (String p : new HashSet<String>(plugin.pdata.getArenaPlayers(arena)))
+				{
+					handlePlayer(Bukkit.getPlayerExact(p));
+				}
+			}
+		} else
+		{
+			//game ended
+			Bukkit.getScheduler().cancelTask(arenahandler);
+			arena.running = false;
+			arena.regenGameLevels();
 		}
-		//not running
-		arena.running = false;
-		//regenerate arena
-		arena.regenGameLevels();
 	}
 	//player handlers
 	public void handlePlayer(final Player player)
 	{
-		//check if player is in arena
-		if (!arena.isInArenaBounds(player.getLocation()))
-		{
-			arena.arenaph.leavePlayer(player, Messages.playerlefttoplayer, Messages.playerlefttoothers);
-			return;
-		}
-		//do not handle game if it is not running
-		if (!arena.running) {return;}
 		//check for game location
 		for (final GameLevel gl : arena.getGameLevels())
 		{
@@ -150,14 +148,7 @@ public class GameHandler {
 				gl.destroyBlock(player.getLocation().clone().add(0,-1,0), arena.getGameLevelDestroyDelay(), plugin);
 			}
 		}
-		//check for loose location
-		if (plugin.pdata.getArenaPlayers(arena).size() > 1 && arena.getLoseLevel().isLooseLocation(player.getLocation()))
-		{
-			//player lost
-			arena.arenaph.leavePlayer(player, Messages.playerlosttoplayer, Messages.playerlosttoothers);
-			return;
-		}
-		//now check for win
+		//check for win
 		if (plugin.pdata.getArenaPlayers(arena).size() == 1)
 		{
 			//last player won
@@ -165,9 +156,14 @@ public class GameHandler {
 			broadcastWin(player);
 			rewardPlayer(player);
 			//not running
-			arena.running = false;
-			//regenerate arena
-			arena.regenGameLevels();
+			return;
+		}
+		//check for lose
+		if (arena.getLoseLevel().isLooseLocation(player.getLocation()))
+		{
+			//player lost
+			arena.arenaph.leavePlayer(player, Messages.playerlosttoplayer, Messages.playerlosttoothers);
+			return;
 		}
 	}
 	private void broadcastWin(Player player)
