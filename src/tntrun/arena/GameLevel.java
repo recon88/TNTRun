@@ -53,7 +53,7 @@ public class GameLevel {
 		{
 			public void run()
 			{
-				removeGLBlocks(blockUnderFeetLocation);
+				removeGLBlocks(blockUnderFeetLocation.getBlock());
 			}
 		},delay);
 	}
@@ -81,10 +81,10 @@ public class GameLevel {
 		}
 		return locationUnderPlayer;
 	}
-	private void removeGLBlocks(Location blockLocation)
+	private void removeGLBlocks(Block block)
 	{
-		blockLocation.getBlock().setType(Material.AIR);
-		blockLocation.clone().add(0,-1,0).getBlock().setType(Material.AIR);
+		block.setType(Material.AIR);
+		block.getRelative(BlockFace.DOWN).setType(Material.AIR);
 	}
 	
 	
@@ -125,16 +125,16 @@ public class GameLevel {
 
 	protected void saveToConfig(String levelname, FileConfiguration config)
 	{
-		config.set(levelname+".p1", tntp1);
-		config.set(levelname+".p2", tntp2);
+		config.set(levelname+".p1", p1);
+		config.set(levelname+".p2", p2);
 	}
 	
 	protected void loadFromConfig(String levelname, FileConfiguration config)
 	{
 		Vector p1 = config.getVector(levelname+".p1", null);
 		Vector p2 = config.getVector(levelname+".p2", null);
-		this.tntp1 = p1;
-		this.tntp2 = p2;
+		this.p1 = p1;
+		this.p2 = p2;
 		this.gp1 = p1.clone().add(new Vector(0,1,0));
 		this.gp2 = p2.clone().add(new Vector(0,1,0));
 	}
