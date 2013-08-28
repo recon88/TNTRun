@@ -98,17 +98,9 @@ public class GameHandler {
 			{
 				try{
 					//check arena time limit
-					if (checkDraw())
+					if (arena.running && timelimit < 0)
 					{
-						for (String p : new HashSet<String>(plugin.pdata.getArenaPlayers(arena)))
-						{
-							//kick all players
-							arena.arenaph.leavePlayer(Bukkit.getPlayerExact(p), Messages.arenatimeout, "");
-						}
-						//not running
-						arena.running = false;
-						//regenerate arena
-						arena.regenGameLevels();
+						draw();
 					} else
 					{
 						//decrease timelimit
@@ -127,14 +119,17 @@ public class GameHandler {
 		}, 0, 2);
 	}
 	//check for time is out
-	private boolean checkDraw()
+	private void draw()
 	{
-		if (arena.running && timelimit < 0)
+		for (String p : new HashSet<String>(plugin.pdata.getArenaPlayers(arena)))
 		{
-			//it's a draw
-			return true;
+			//kick all players
+			arena.arenaph.leavePlayer(Bukkit.getPlayerExact(p), Messages.arenatimeout, "");
 		}
-		return false;
+		//not running
+		arena.running = false;
+		//regenerate arena
+		arena.regenGameLevels();
 	}
 	//player handlers
 	public void handlePlayer(final Player player)
