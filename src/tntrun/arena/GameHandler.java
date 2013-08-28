@@ -177,7 +177,7 @@ public class GameHandler {
 	}
 	private void broadcastWin(Player player)
 	{
-		Messages.broadsactMessage(player, arena.getArenaName(), Messages.playerwonbroadcast);
+		Messages.broadsactMessage(player.getName(), arena.getArenaName(), Messages.playerwonbroadcast);
 	}
 	private void rewardPlayer(Player player)
 	{

@@ -37,23 +37,27 @@ public class Messages {
 	
 	public static void sendMessage(Player player, String message) {
 		if (!message.equals("")) {
-			message = message.replace("{PLAYER}", player.getName());
+			player.sendMessage(FormattingCodesParser.parseFormattingCodes(message));
+		}
+	}
+	public static void sendMessage(Player player, String plname, String message) {
+		if (!message.equals("")) {
+			message = message.replace("{PLAYER}", plname);
 			player.sendMessage(FormattingCodesParser.parseFormattingCodes(message));
 		}
 	}
 	public static void sendMessage(Player player, String message, int c) {
 		if (!message.equals("")) {
-			message = message.replace("{PLAYER}", player.getName());
 			message = message.replace("{TIMELIMIT}", String.valueOf(c));
 			message = message.replace("{COUNTDOWN}", String.valueOf(c));
 			player.sendMessage(FormattingCodesParser.parseFormattingCodes(message));
 		}
 	}
 	
-	public static void broadsactMessage(Player player, String arena, String message)
+	public static void broadsactMessage(String plname, String arena, String message)
 	{
 		if (!message.equals("")) {
-			message = message.replace("{PLAYER}", player.getName());
+			message = message.replace("{PLAYER}", plname);
 			message = message.replace("{ARENA}", arena);
 			Bukkit.broadcastMessage(FormattingCodesParser.parseFormattingCodes(message));
 		}

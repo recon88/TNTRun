@@ -58,7 +58,7 @@ public class PlayerHandler {
 		//send message to other players
 		for (String p : plugin.pdata.getArenaPlayers(arena))
 		{
-			Messages.sendMessage(Bukkit.getPlayerExact(p),msgtoarenaplayers);
+			Messages.sendMessage(Bukkit.getPlayerExact(p), player.getName(), msgtoarenaplayers);
 		}
 		//set player on arena data
 		plugin.pdata.setPlayerArena(player.getName(), arena);
@@ -87,7 +87,7 @@ public class PlayerHandler {
 		//send message to other players
 		for (String p : plugin.pdata.getArenaPlayers(arena))
 		{
-			Messages.sendMessage(Bukkit.getPlayerExact(p), msgtoarenaplayers);
+			Messages.sendMessage(Bukkit.getPlayerExact(p), player.getName(), msgtoarenaplayers);
 		}
 		//remove vote
 		votes.remove(player.getName());
