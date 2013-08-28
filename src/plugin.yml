@@ -1,5 +1,6 @@
 name: TNTRun
 main: tntrun.TNTRun
+softdepend: [Multiverse-Core, MultiWorld]
 version: 1.0.devel
 author: _Shevchik_
 commands:
