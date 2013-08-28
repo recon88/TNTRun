@@ -32,7 +32,7 @@ public class Messages {
 	public static String arenatimeout = "&9Time is out.";
 	public static String playerwontoplayer = "&9You won the game";
 	public static String playerlosttoplayer = "&9You lost the game";
-	public static String playerlosttoothers = "&9Player {Player} lost the game";
+	public static String playerlosttoothers = "&9Player {PLAYER} lost the game";
 	public static String playerwonbroadcast = "&9[TNTRun] &a{PLAYER}&r won the game on arena &c{ARENA}";
 	
 	public static void sendMessage(Player player, String message) {
