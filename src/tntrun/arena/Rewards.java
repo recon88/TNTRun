@@ -34,7 +34,7 @@ public class Rewards {
 		this.rewards.clear();
 		for (ItemStack reward : rewards)
 		{
-			if (rewards != null)
+			if (reward != null)
 			{
 				this.rewards.add(reward);
 			}
