@@ -21,6 +21,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.util.Vector;
 
@@ -28,16 +30,16 @@ import tntrun.TNTRun;
 
 public class GameLevel {
 
-	private Vector sandp1 = null;
-	private Vector sandp2 = null;
+	private Vector gp1 = null;
+	private Vector gp2 = null;
 
-	private Vector tntp1 = null;
-	private Vector tntp2 = null;
+	private Vector p1 = null;
+	private Vector p2 = null;
 	
 	
 	protected boolean isSandLocation(Location loc)
 	{
-		if (loc.toVector().isInAABB(sandp1, sandp2))
+		if (loc.toVector().isInAABB(gp1, gp2))
 		{
 			return true;
 		}
@@ -88,10 +90,10 @@ public class GameLevel {
 	
 	protected void setGameLocation(Location p1, Location p2, World w)
 	{
-		this.tntp1 = p1.toVector();
-		this.tntp2 = p2.toVector();
-		this.sandp1 = p1.add(0, 1, 0).toVector();
-		this.sandp2 = p2.add(0, 1, 0).toVector();
+		this.p1 = p1.toVector();
+		this.p2 = p2.toVector();
+		this.gp1 = p1.add(0, 1, 0).toVector();
+		this.gp2 = p2.add(0, 1, 0).toVector();
 		fillArea(w);
 	}
 	protected void regen(World w)
@@ -100,20 +102,21 @@ public class GameLevel {
 	}
 	private void fillArea(World w)
 	{
-		int y = tntp1.getBlockY();
-		for (int x = tntp1.getBlockX()+1; x<tntp2.getBlockX(); x++)
+		int y = p1.getBlockY();
+		for (int x = p1.getBlockX()+1; x<p2.getBlockX(); x++)
 		{
-			for (int z = tntp1.getBlockZ()+1; z<tntp2.getBlockZ(); z++)
+			for (int z = p1.getBlockZ()+1; z<p2.getBlockZ(); z++)
 			{
-				w.getBlockAt(x, y, z).setType(Material.TNT);
-			}
-		}
-		y = sandp1.getBlockY();
-		for (int x = sandp1.getBlockX()+1; x<sandp2.getBlockX(); x++)
-		{
-			for (int z = sandp1.getBlockZ()+1; z<sandp2.getBlockZ(); z++)
-			{
-				w.getBlockAt(x, y, z).setType(Material.SAND);
+				Block b = w.getBlockAt(x, y, z);
+				if (b.getTypeId() != 46) 
+				{
+					b.setTypeIdAndData(46 , (byte) 0, true);
+				}
+				b = b.getRelative(BlockFace.UP);
+				if (b.getTypeId() != 12) 
+				{
+					b.setTypeIdAndData(12 , (byte) 0, true);
+				}
 			}
 		}
 	}
@@ -132,8 +135,8 @@ public class GameLevel {
 		Vector p2 = config.getVector(levelname+".p2", null);
 		this.tntp1 = p1;
 		this.tntp2 = p2;
-		this.sandp1 = p1.clone().add(new Vector(0,1,0));
-		this.sandp2 = p2.clone().add(new Vector(0,1,0));
+		this.gp1 = p1.clone().add(new Vector(0,1,0));
+		this.gp2 = p2.clone().add(new Vector(0,1,0));
 	}
 	
 }
