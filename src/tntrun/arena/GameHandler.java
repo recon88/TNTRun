@@ -118,7 +118,7 @@ public class GameHandler {
 			}
 		}, 0, 2);
 	}
-	//check for time is out
+	//time is out
 	private void draw()
 	{
 		for (String p : new HashSet<String>(plugin.pdata.getArenaPlayers(arena)))
