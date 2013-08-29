@@ -46,14 +46,17 @@ public class GameLevel {
 		return false;
 	};
 	
-	protected void destroyBlock(Location loc, int delay, TNTRun plugin)
+	protected void destroyBlock(Location loc, int delay, TNTRun plugin, final Arena arena)
 	{
 		final Location blockUnderFeetLocation = getPlayerStandOnBlockLocation(loc);
 		Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable()
 		{
 			public void run()
 			{
-				removeGLBlocks(blockUnderFeetLocation.getBlock());
+				if (arena.running)
+				{
+					removeGLBlocks(blockUnderFeetLocation.getBlock());
+				}
 			}
 		},delay);
 	}
