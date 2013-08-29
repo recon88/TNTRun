@@ -105,7 +105,7 @@ public class GameHandler {
 					Bukkit.getScheduler().cancelTask(arenahandler);
 				}
 			}
-		}, 0, 2);
+		}, 0, 1);
 	}
 	private void handleArenaTick()
 	{
@@ -122,7 +122,7 @@ public class GameHandler {
 			} else
 			{
 				//decrease timelimit
-				timelimit-=2;
+				timelimit--;
 				//handle players
 				for (String p : new HashSet<String>(plugin.pdata.getArenaPlayers(arena)))
 				{
