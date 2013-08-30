@@ -77,7 +77,7 @@ public class Arena {
 	{
 		return gamelevels.values();
 	}
-	private int gameleveldestroydelay = 1;
+	private int gameleveldestroydelay = 2;
 	protected int getGameLevelDestroyDelay()
 	{
 		return gameleveldestroydelay;
