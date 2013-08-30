@@ -39,7 +39,7 @@ public class GameLevel {
 	
 	protected boolean isSandLocation(Location loc)
 	{
-		if (loc.toVector().isInAABB(gp1, gp2))
+		if (loc.toVector().isInAABB(gp1, gp2.clone().add(new Vector(0,1,0))))
 		{
 			return true;
 		}
@@ -62,6 +62,7 @@ public class GameLevel {
 	}
 	private Location getPlayerStandOnBlockLocation(Location locationUnderPlayer)
 	{
+		locationUnderPlayer.setY(gp1.getY());
 		Location b11 = locationUnderPlayer.clone().add(0.3,0,-0.3);
 		if (b11.getBlock().getType() != Material.AIR)
 		{
