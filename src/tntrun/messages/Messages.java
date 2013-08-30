@@ -14,25 +14,25 @@ public class Messages {
 
 	public static String nopermission = "&4You don't have permission to do this";
 	
-	public static String availablearenas = "&9Available arenas:&r ";
-	public static String arenadisabled = "&9Arena is disabled";
-	public static String arenarunning = "&9Arena already running"; 
-	public static String arenadisabling = "&9Arena is disabling";
+	public static String availablearenas = "&6Available arenas:&r ";
+	public static String arenadisabled = "&6Arena is disabled";
+	public static String arenarunning = "&6Arena already running"; 
+	public static String arenadisabling = "&6Arena is disabling";
 	
-	public static String playerscount = "&9Current players count:&r ";
-	public static String limitreached = "&9Slot limit reached.";
-	public static String playerjoinedtoplayer = "&9You joined the arena";
-	public static String playerjoinedtoothers = "&9Player {PLAYER} joined the arena";
-	public static String playerlefttoplayer = "&9You left the arena";
-	public static String playerlefttoothers = "&9Player {PLAYER} left the game";
-	public static String playervotedforstart = "&9You voted for game start";
-	public static String playeralreadyvotedforstart = "&9You already voted";
-	public static String arenastarted = "&9Arena started. Time limit is {TIMELIMIT} seconds";
-	public static String arenacountdown = "&9Arena starts in {COUNTDOWN} seconds";
-	public static String arenatimeout = "&9Time is out.";
-	public static String playerwontoplayer = "&9You won the game";
-	public static String playerlosttoplayer = "&9You lost the game";
-	public static String playerlosttoothers = "&9Player {PLAYER} lost the game";
+	public static String playerscount = "&6Current players count:&r ";
+	public static String limitreached = "&6Slot limit reached.";
+	public static String playerjoinedtoplayer = "&6You joined the arena";
+	public static String playerjoinedtoothers = "&6Player {PLAYER} joined the arena";
+	public static String playerlefttoplayer = "&6You left the arena";
+	public static String playerlefttoothers = "&6Player {PLAYER} left the game";
+	public static String playervotedforstart = "&6You voted for game start";
+	public static String playeralreadyvotedforstart = "&6You already voted";
+	public static String arenastarted = "&6Arena started. Time limit is {TIMELIMIT} seconds";
+	public static String arenacountdown = "&6Arena starts in {COUNTDOWN} seconds";
+	public static String arenatimeout = "&6Time is out.";
+	public static String playerwontoplayer = "&6You won the game";
+	public static String playerlosttoplayer = "&6You lost the game";
+	public static String playerlosttoothers = "&6Player {PLAYER} lost the game";
 	public static String playerwonbroadcast = "&9[TNTRun] &a{PLAYER}&r won the game on arena &c{ARENA}";
 	
 	public static void sendMessage(Player player, String message) {
