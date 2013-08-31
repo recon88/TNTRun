@@ -186,6 +186,28 @@ public class Arena {
 	{
 		gameleveldestroydelay = delay;
 	}
+	public boolean setCustomGameLevel(String name)
+	{
+		if (gamelevels.containsKey(name))
+		{
+			gamelevels.get(name).setCustomGameLevel(world);
+			return true;
+		} else
+		{
+			return false;
+		}
+	}
+	public boolean unsetCustomGameLevel(String name)
+	{
+		if (gamelevels.containsKey(name))
+		{
+			gamelevels.get(name).unsetCustomGameLevel();
+			return true;
+		} else
+		{
+			return false;
+		}
+	}
 	public void regenGameLevels()
 	{
 		for (final GameLevel gl : gamelevels.values())

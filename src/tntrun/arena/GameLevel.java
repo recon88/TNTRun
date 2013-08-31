@@ -32,9 +32,12 @@ public class GameLevel {
 
 	private Vector gp1 = null;
 	private Vector gp2 = null;
-
+	
 	private Vector p1 = null;
 	private Vector p2 = null;
+
+	
+	private GameLevelBlockContainer customblockcontainer = new GameLevelBlockContainer();
 	
 	
 	protected boolean isSandLocation(Location loc)
@@ -115,11 +118,29 @@ public class GameLevel {
 		this.glb2 = gp2.clone().add(new Vector(-1,0,-1));
 		fillArea(w);
 	}
+	protected void setCustomGameLevel(World w)
+	{
+		customblockcontainer.setCustomGameLevel(w, p1, p2);
+	}
+	protected void unsetCustomGameLevel()
+	{
+		customblockcontainer.unsetCustomGameLevel();
+	}
 	protected void regen(World w)
 	{
 		fillArea(w);
 	}
 	private void fillArea(World w)
+	{
+		if (customblockcontainer.customGameLevelSet())
+		{
+			customblockcontainer.fillCustomArea(w, p1, p2);
+		} else
+		{
+			fillDefaultArea(w);
+		}
+	}
+	private void fillDefaultArea(World w)
 	{
 		int y = p1.getBlockY();
 		for (int x = p1.getBlockX()+1; x<p2.getBlockX(); x++)
@@ -140,12 +161,12 @@ public class GameLevel {
 		}
 	}
 	
-	
 
 	protected void saveToConfig(String levelname, FileConfiguration config)
 	{
 		config.set(levelname+".p1", p1);
 		config.set(levelname+".p2", p2);
+		customblockcontainer.saveToConfig(levelname, config);
 	}
 	
 	protected void loadFromConfig(String levelname, FileConfiguration config)
@@ -158,6 +179,7 @@ public class GameLevel {
 		this.gp2 = p2.clone().add(new Vector(0,1,0));
 		this.glb1 = gp1.clone().add(new Vector(1,0,1));
 		this.glb2 = gp2.clone().add(new Vector(-1,0,-1));
+		customblockcontainer.loadFromConfig(levelname, config);
 	}
 	
 }
