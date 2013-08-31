@@ -46,6 +46,7 @@ public class GameLevel {
 		return false;
 	};
 	
+	
 	protected void destroyBlock(Location loc, int delay, TNTRun plugin, final Arena arena)
 	{
 		final Location blockUnderFeetLocation = getPlayerStandOnBlockLocation(loc);
@@ -55,7 +56,10 @@ public class GameLevel {
 			{
 				if (arena.running)
 				{
-					removeGLBlocks(blockUnderFeetLocation.getBlock());
+					if (blockUnderFeetLocation != null)
+					{
+						removeGLBlocks(blockUnderFeetLocation.getBlock());
+					}
 				}
 			}
 		},delay);
@@ -64,33 +68,42 @@ public class GameLevel {
 	{
 		locationUnderPlayer.setY(gp1.getY());
 		Location b11 = locationUnderPlayer.clone().add(0.3,0,-0.3);
-		if (b11.getBlock().getType() != Material.AIR)
+		if (b11.getBlock().getType() != Material.AIR && isInsideGamelevel(b11))
 		{
 			return b11;
 		} 
 		Location b12 = locationUnderPlayer.clone().add(-0.3,0,-0.3);
-		if (b12.getBlock().getType() != Material.AIR)
+		if (b12.getBlock().getType() != Material.AIR && isInsideGamelevel(b12))
 		{
 			return b12;
 		}
 		Location b21 = locationUnderPlayer.clone().add(0.3,0,0.3);
-		if (b21.getBlock().getType() != Material.AIR)
+		if (b21.getBlock().getType() != Material.AIR && isInsideGamelevel(b21))
 		{
 			return b21;
 		}
 		Location b22 = locationUnderPlayer.clone().add(-0.3,0,+0.3);
-		if (b22.getBlock().getType() != Material.AIR)
+		if (b22.getBlock().getType() != Material.AIR && isInsideGamelevel(b22))
 		{
 			return b22;
 		}
-		return locationUnderPlayer;
+		return null;
 	}
 	private void removeGLBlocks(Block block)
 	{
 		block.setType(Material.AIR);
 		block.getRelative(BlockFace.DOWN).setType(Material.AIR);
 	}
-	
+	private Vector glb1 = null;
+	private Vector glb2 = null;
+	private boolean isInsideGamelevel(Location loc)
+	{
+		if (loc.getBlock().getLocation().toVector().isInAABB(glb1, glb2))
+		{
+			return true;
+		}
+		return false;
+	}
 	
 	protected void setGameLocation(Location p1, Location p2, World w)
 	{
@@ -98,6 +111,8 @@ public class GameLevel {
 		this.p2 = p2.toVector();
 		this.gp1 = p1.add(0, 1, 0).toVector();
 		this.gp2 = p2.add(0, 1, 0).toVector();
+		this.glb1 = gp1.clone().add(new Vector(1,0,1));
+		this.glb2 = gp2.clone().add(new Vector(-1,0,-1));
 		fillArea(w);
 	}
 	protected void regen(World w)
@@ -141,6 +156,8 @@ public class GameLevel {
 		this.p2 = p2;
 		this.gp1 = p1.clone().add(new Vector(0,1,0));
 		this.gp2 = p2.clone().add(new Vector(0,1,0));
+		this.glb1 = gp1.clone().add(new Vector(1,0,1));
+		this.glb2 = gp2.clone().add(new Vector(-1,0,-1));
 	}
 	
 }
