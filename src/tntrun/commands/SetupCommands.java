@@ -18,9 +18,6 @@
 package tntrun.commands;
 
 import java.io.File;
-import java.util.HashMap;
-
-import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -29,17 +26,18 @@ import org.bukkit.entity.Player;
 import tntrun.TNTRun;
 import tntrun.arena.Arena;
 import tntrun.messages.Messages;
+import tntrun.selectionget.PlayerCuboidSelection;
+import tntrun.selectionget.PlayerSelection;
 
 public class SetupCommands implements CommandExecutor {
 
 	private TNTRun plugin;
+	private PlayerSelection plselection = new PlayerSelection();
 	public SetupCommands(TNTRun plugin)
 	{
 		this.plugin = plugin;
 	}
 	
-	private HashMap<String, Location> loc1 = new HashMap<String, Location>();
-	private HashMap<String, Location> loc2 = new HashMap<String, Location>();
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label,
@@ -60,14 +58,20 @@ public class SetupCommands implements CommandExecutor {
 		//locations
 		if (args.length == 1 && args[0].equalsIgnoreCase("setp1"))
 		{
-			loc1.put(sender.getName(), player.getTargetBlock(null, 30).getLocation());
+			plselection.setSelectionPoint1(player);
 			sender.sendMessage("p1 saved");
 			return true;
 		}
 		else if (args.length == 1 && args[0].equalsIgnoreCase("setp2"))
 		{
-			loc2.put(sender.getName(), player.getTargetBlock(null, 30).getLocation());
+			plselection.setSelectionPoint2(player);
 			sender.sendMessage("p2 saved");
+			return true;
+		}
+		else if (args.length == 1 && args[0].equalsIgnoreCase("clearp"))
+		{
+			plselection.clearSelectionPoints(player);
+			sender.sendMessage("points cleared");
 			return true;
 		}
 		//create arena
@@ -108,13 +112,14 @@ public class SetupCommands implements CommandExecutor {
 			Arena arena = getArenaByName(args[0]);
 			if (arena != null)
 			{
-				try {
-					Location[] locs = sortLoc(player);
-					arena.setArenaPoints(locs[0],locs[1]);
+				PlayerCuboidSelection selection = plselection.getPlayerSelection(player, false);
+				if (selection != null)
+				{
+					arena.setArenaPoints(selection.getMinimumLocation(),selection.getMaximumLocation());
 					sender.sendMessage("Arena bounds set");
 					return true;
-				}
-				catch (Exception e) {
+				} else 
+				{
 					sender.sendMessage("Locations are wrong or not defined");
 					return true;
 				}
@@ -130,11 +135,10 @@ public class SetupCommands implements CommandExecutor {
 			Arena arena = getArenaByName(args[0]);
 			if (arena != null)
 			{
-				try {
-					Location[] locs = sortLoc(player);
-					if (isOneBlockHigh(locs))
-					{
-						if (arena.setGameLevel(args[2], locs[0], locs[1]))
+				PlayerCuboidSelection selection = plselection.getPlayerSelection(player, true);
+				if (selection != null)
+				{
+						if (arena.setGameLevel(args[2], selection.getMinimumLocation(), selection.getMaximumLocation()))
 						{
 							sender.sendMessage("GameLevel set");
 						} else
@@ -142,13 +146,8 @@ public class SetupCommands implements CommandExecutor {
 							sender.sendMessage("GameLevel should be in arena bounds");
 						}
 						return true;
-					} else 
-					{
-						sender.sendMessage("Bounds should be 1 block high");
-						return true;
-					}
-				}
-				catch (Exception e) {
+				} else 
+				{
 					sender.sendMessage("Locations are wrong or not defined");
 					return true;
 				}
@@ -219,25 +218,19 @@ public class SetupCommands implements CommandExecutor {
 			Arena arena = getArenaByName(args[0]);
 			if (arena != null)
 			{
-				try {
-					Location[] locs = sortLoc(player);
-					if (isOneBlockHigh(locs))
-					{
-						if (arena.setLooseLevel(locs[0], locs[1]))
+				PlayerCuboidSelection selection = plselection.getPlayerSelection(player, true);
+				if (selection != null)
+				{
+						if (arena.setLooseLevel(selection.getMinimumLocation(), selection.getMaximumLocation()))
 						{
-							sender.sendMessage("LoseLevel set");
+							sender.sendMessage("GameLevel set");
 						} else
 						{
-							sender.sendMessage("LoseLevel should be in arena bounds");
+							sender.sendMessage("GameLevel should be in arena bounds");
 						}
 						return true;
-					} else 
-					{
-						sender.sendMessage("Bounds should be 1 block high");
-						return true;
-					}
-				}
-				catch (Exception e) {
+				} else 
+				{
 					sender.sendMessage("Locations are wrong or not defined");
 					return true;
 				}
@@ -417,55 +410,7 @@ public class SetupCommands implements CommandExecutor {
 			return true;
 		}
 		return false;
-	}
-
-	
-	//0 is min, 1 is max
-	private Location[] sortLoc(Player player)
-	{
-		Double xmin = loc1.get(player.getName()).getX();
-		Double xmax = loc2.get(player.getName()).getX();
-		if (xmin > xmax) 
-		{
-			Double temp = xmax;
-			xmax = xmin;
-			xmin = temp;
-		}
-		Double ymin = loc1.get(player.getName()).getY();
-		Double ymax = loc2.get(player.getName()).getY();
-		if (ymin > ymax) 
-		{
-			Double temp = ymax;
-			ymax = ymin;
-			ymin = temp;
-		}
-		Double zmin = loc1.get(player.getName()).getZ();
-		Double zmax = loc2.get(player.getName()).getZ();
-		if (zmin > zmax) 
-		{
-			Double temp = zmax;
-			zmax = zmin;
-			zmin = temp;
-		}
-		
-		
-		Location[] locs = new Location[2];
-		locs[0] = new Location(loc1.get(player.getName()).getWorld(),xmin,ymin,zmin);
-		locs[1] = new Location(loc1.get(player.getName()).getWorld(),xmax,ymax,zmax);
-		locs[0].distanceSquared(locs[1]);
-		return locs;
-		
-	}
-	
-	
-	private boolean isOneBlockHigh(Location[] locs)
-	{
-		int y1 = locs[0].getBlockY();
-		int y2 = locs[1].getBlockY();
-		if (y1==y2) {return true;}
-		return false;
-	}
-	
+	}	
 	
 	private Arena getArenaByName(String name)
 	{
