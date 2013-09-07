@@ -20,31 +20,52 @@ package tntrun.arena;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.milkbowl.vault.economy.Economy;
+
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.RegisteredServiceProvider;
 
 public class Rewards {
 
-	private List<ItemStack> rewards = new ArrayList<ItemStack>();
-	
-	public void setRewards(ItemStack[] rewards)
+	private Object economy = null;
+	public Rewards()
 	{
-		this.rewards.clear();
+		if (Bukkit.getPluginManager().getPlugin("Vault") != null)
+		{
+	        RegisteredServiceProvider<Economy> economyProvider = Bukkit.getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
+	        if (economyProvider != null) {
+	            economy = economyProvider.getProvider();
+	        }
+		}
+	}
+	
+	private List<ItemStack> itemrewards = new ArrayList<ItemStack>();
+	private int moneyreward = 0;
+	
+	protected void setRewards(ItemStack[] rewards)
+	{
+		this.itemrewards.clear();
 		for (ItemStack reward : rewards)
 		{
 			if (reward != null)
 			{
-				this.rewards.add(reward);
+				this.itemrewards.add(reward);
 			}
 		}
+	}
+	protected void setRewards(int money)
+	{
+		this.moneyreward = money;
 	}
 	
 	
 	protected void rewardPlayer(Player player)
 	{
-		for (ItemStack reward : rewards)
+		for (ItemStack reward : itemrewards)
 		{
 			if (player.getInventory().firstEmpty() != -1)
 			{
@@ -55,28 +76,42 @@ public class Rewards {
 				player.getWorld().dropItemNaturally(player.getLocation(), reward);
 			}
 		}
+		if (moneyreward != 0)
+		{
+			rewardMoney(player.getName(), moneyreward);
+		}
+	}
+	private void rewardMoney(String playername, int money)
+	{
+		if (economy != null)
+		{
+			Economy econ = (Economy) economy;
+			econ.depositPlayer(playername, money);
+		}
 	}
 	
 	
 	protected void saveToConfig(FileConfiguration config)
 	{
+		config.set("rewards.money", moneyreward);
 		int rc = 1;
-		for (ItemStack reward : rewards)
+		for (ItemStack reward : itemrewards)
 		{
-			config.set("rewards."+rc, reward);
+			config.set("rewards.items."+rc, reward);
 			rc++;
 		}
 	}
 	
 	protected void loadFromConfig(FileConfiguration config)
 	{
-		rewards.clear();
-		ConfigurationSection cs = config.getConfigurationSection("rewards");
+		moneyreward = config.getInt("rewards.money", moneyreward);
+		itemrewards.clear();
+		ConfigurationSection cs = config.getConfigurationSection("rewards.items");
 		if (cs != null)
 		{
 			for (String key : cs.getKeys(false))
 			{
-				rewards.add(config.getItemStack("rewards."+key));
+				itemrewards.add(config.getItemStack("rewards.items."+key));
 			}
 		}
 	}

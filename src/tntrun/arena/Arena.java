@@ -255,6 +255,10 @@ public class Arena {
 	{
 		this.rewards.setRewards(rewards);
 	}
+	public void setRewards(int money)
+	{
+		this.rewards.setRewards(money);
+	}
 	
 	
 	//arena config handlers

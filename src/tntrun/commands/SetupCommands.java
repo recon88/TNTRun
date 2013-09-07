@@ -302,14 +302,28 @@ public class SetupCommands implements CommandExecutor {
 				return true;
 			}
 		}
-		//set rewards
-		else if (args.length == 2 && args[1].equalsIgnoreCase("setrewards"))
+		//set items rewards
+		else if (args.length == 2 && args[1].equalsIgnoreCase("setitemsrewards"))
 		{
 			Arena arena = getArenaByName(args[0]);
 			if (arena != null)
 			{
 				arena.setRewards(player.getInventory().getContents());
-				sender.sendMessage("Rewards set");
+				sender.sendMessage("Items Rewards set");
+			} else
+			{
+				sender.sendMessage("Arena does not exist");
+				return true;
+			}
+		}
+		//set money rewards
+		else if (args.length == 3 && args[1].equalsIgnoreCase("setmoneyrewards"))
+		{
+			Arena arena = getArenaByName(args[0]);
+			if (arena != null)
+			{
+				arena.setRewards(Integer.valueOf(args[2]));
+				sender.sendMessage("Money Rewards set");
 			} else
 			{
 				sender.sendMessage("Arena does not exist");
