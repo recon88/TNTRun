@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -140,7 +141,7 @@ public class Arena {
 		enabled = false;
 		running = false;
 		//drop players
-		for (String player : plugin.pdata.getArenaPlayers(this))
+		for (String player : new HashSet<String>(plugin.pdata.getArenaPlayers(this)))
 		{
 			arenaph.leavePlayer(Bukkit.getPlayerExact(player), Messages.arenadisabling,"");
 		}
