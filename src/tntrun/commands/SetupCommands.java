@@ -117,17 +117,15 @@ public class SetupCommands implements CommandExecutor {
 				{
 					arena.setArenaPoints(selection.getMinimumLocation(),selection.getMaximumLocation());
 					sender.sendMessage("Arena bounds set");
-					return true;
 				} else 
 				{
 					sender.sendMessage("Locations are wrong or not defined");
-					return true;
 				}
 			} else
 			{
 				sender.sendMessage("Arena does not exist");
-				return true;
 			}
+			return true;
 		}
 		//set game level
 		else if (args.length == 3 && args[1].equalsIgnoreCase("setgamelevel"))
@@ -145,17 +143,15 @@ public class SetupCommands implements CommandExecutor {
 						{
 							sender.sendMessage("GameLevel should be in arena bounds");
 						}
-						return true;
 				} else 
 				{
 					sender.sendMessage("Locations are wrong or not defined");
-					return true;
 				}
 			} else
 			{
 				sender.sendMessage("Arena does not exist");
-				return true;
 			}
+			return true;
 		}
 		//set gamelevel destroy delay
 		else if (args.length == 3 && args[1].equalsIgnoreCase("setgameleveldestroydelay"))
@@ -165,12 +161,11 @@ public class SetupCommands implements CommandExecutor {
 			{
 				arena.setGameLevelDestroyDelay(Integer.valueOf(args[2]));
 				sender.sendMessage("GameLevel blocks destroy delay set");
-				return true;
 			} else
 			{
 				sender.sendMessage("Arena does not exist");
-				return true;
 			}
+			return true;
 		}
 		//set custom gamelevel
 		else if (args.length == 3 && args[1].equalsIgnoreCase("setcustomgamelevel"))
@@ -185,12 +180,11 @@ public class SetupCommands implements CommandExecutor {
 				{
 					sender.sendMessage("GameLevel does not exist");
 				}
-				return true;
 			} else
 			{
 				sender.sendMessage("Arena does not exist");
-				return true;
 			}
+			return true;
 		}
 		//unset custom gamelevel
 		else if (args.length == 3 && args[1].equalsIgnoreCase("unsetcustomgamelevel"))
@@ -205,12 +199,11 @@ public class SetupCommands implements CommandExecutor {
 				{
 					sender.sendMessage("GameLevel does not exist");
 				}
-				return true;
 			} else
 			{
 				sender.sendMessage("Arena does not exist");
-				return true;
 			}
+			return true;
 		}
 		//set looselevel
 		else if (args.length == 2 && args[1].equalsIgnoreCase("setloselevel"))
@@ -228,17 +221,15 @@ public class SetupCommands implements CommandExecutor {
 						{
 							sender.sendMessage("GameLevel should be in arena bounds");
 						}
-						return true;
 				} else 
 				{
 					sender.sendMessage("Locations are wrong or not defined");
-					return true;
 				}
 			} else
 			{
 				sender.sendMessage("Arena does not exist");
-				return true;
 			}
+			return true;
 		}
 		//set spawnpoint
 		else if (args.length == 2 && args[1].equalsIgnoreCase("setspawn"))
@@ -253,12 +244,11 @@ public class SetupCommands implements CommandExecutor {
 				{
 					sender.sendMessage("Spawnpoint should be in arena bounds");
 				}
-				return true;
 			} else
 			{
 				sender.sendMessage("Arena does not exist");
-				return true;
 			}
+			return true;
 		}
 		//set maxPlayers
 		else if (args.length == 3 && args[1].equalsIgnoreCase("setmaxplayers"))
@@ -271,8 +261,8 @@ public class SetupCommands implements CommandExecutor {
 			} else
 			{
 				sender.sendMessage("Arena does not exist");
-				return true;
 			}
+			return true;
 		}
 		//set min players
 		else if (args.length == 3 && args[1].equalsIgnoreCase("setminplayers"))
@@ -285,8 +275,8 @@ public class SetupCommands implements CommandExecutor {
 			} else
 			{
 				sender.sendMessage("Arena does not exist");
-				return true;
 			}
+			return true;
 		}
 		//set vote percent
 		else if (args.length == 3 && args[1].equalsIgnoreCase("setvotepercent"))
@@ -299,8 +289,8 @@ public class SetupCommands implements CommandExecutor {
 			} else
 			{
 				sender.sendMessage("Arena does not exist");
-				return true;
 			}
+			return true;
 		}
 		//set items rewards
 		else if (args.length == 2 && args[1].equalsIgnoreCase("setitemsrewards"))
@@ -313,8 +303,8 @@ public class SetupCommands implements CommandExecutor {
 			} else
 			{
 				sender.sendMessage("Arena does not exist");
-				return true;
 			}
+			return true;
 		}
 		//set money rewards
 		else if (args.length == 3 && args[1].equalsIgnoreCase("setmoneyrewards"))
@@ -327,8 +317,8 @@ public class SetupCommands implements CommandExecutor {
 			} else
 			{
 				sender.sendMessage("Arena does not exist");
-				return true;
 			}
+			return true;
 		}
 		//set time limit
 		else if (args.length == 3 && args[1].equalsIgnoreCase("settimelimit"))
@@ -341,8 +331,8 @@ public class SetupCommands implements CommandExecutor {
 			} else
 			{
 				sender.sendMessage("Arena does not exist");
-				return true;
 			}
+			return true;
 		}
 		//finish arena creation
 		else if (args.length == 2 && args[1].equalsIgnoreCase("finish"))
@@ -358,11 +348,9 @@ public class SetupCommands implements CommandExecutor {
 						plugin.pdata.putArenaInHashMap(arena);
 						arena.enableArena();
 						sender.sendMessage("Arena saved and enabled");
-						return true;
 					} else 
 					{
 						sender.sendMessage("Arena is not configured. Reason: "+arena.isArenaConfigured());
-						return true;
 					}
 				} else
 				{
@@ -371,8 +359,8 @@ public class SetupCommands implements CommandExecutor {
 			} else
 			{
 				sender.sendMessage("Arena does not exist");
-				return true;
 			}
+			return true;
 		}
 		//disable arena
 		else if (args.length == 2 && args[1].equalsIgnoreCase("disable"))
@@ -382,12 +370,11 @@ public class SetupCommands implements CommandExecutor {
 			{
 				arena.disableArena();
 				sender.sendMessage("Arena disabled");
-				return true;
 			} else
 			{
 				sender.sendMessage("Arena does not exist");
-				return true;
 			}
+			return true;
 		}
 		//enable arena
 		else if (args.length == 2 && args[1].equalsIgnoreCase("enable"))
@@ -398,7 +385,6 @@ public class SetupCommands implements CommandExecutor {
 				if (arena.isArenaEnabled())
 				{
 					sender.sendMessage("Arena already enabled.");
-					return true;
 				} else
 				{
 					if (arena.enableArena())
@@ -408,13 +394,12 @@ public class SetupCommands implements CommandExecutor {
 					{
 						sender.sendMessage("Arena is not configured. Reason: "+arena.isArenaConfigured());
 					}
-					return true;
 				}
 			} else
 			{
 				sender.sendMessage("Arena does not exist");
-				return true;
 			}
+			return true;
 		}
 		//reload messages
 		else if (args.length == 1 && args[0].equalsIgnoreCase("reloadmsg"))
