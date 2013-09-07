@@ -6,6 +6,7 @@ author: _Shevchik_
 commands:
   trsetup:
     description: TNTRun arena setup commands
+    usage: Command is invalid.
   tr:
     description: TNTRun game commands
     usage: Use /tr help to show all commands available in plugin.
