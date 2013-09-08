@@ -28,7 +28,6 @@ import tntrun.commands.SetupCommands;
 import tntrun.datahandler.PlayerDataStore;
 import tntrun.eventhandler.PlayerLeaveArenaChecker;
 import tntrun.eventhandler.PlayerStatusHandler;
-import tntrun.eventhandler.QuitHandler;
 import tntrun.eventhandler.RestrictionHandler;
 import tntrun.messages.Messages;
 import tntrun.signs.SignHandler;
@@ -38,7 +37,6 @@ public class TNTRun extends JavaPlugin {
 	public PlayerDataStore pdata;
 	public SetupCommands scommands;
 	public GameCommands gcommands;
-	public QuitHandler ghandler;
 	public PlayerStatusHandler pshandler;
 	public RestrictionHandler rhandler;
 	public PlayerLeaveArenaChecker plachecker;
@@ -53,8 +51,6 @@ public class TNTRun extends JavaPlugin {
 		getCommand("trsetup").setExecutor(scommands);
 		gcommands = new GameCommands(this);
 		getCommand("tr").setExecutor(gcommands);
-		ghandler = new QuitHandler(this);
-		getServer().getPluginManager().registerEvents(ghandler, this);
 		pshandler = new PlayerStatusHandler(this);
 		getServer().getPluginManager().registerEvents(pshandler, this);
 		rhandler = new RestrictionHandler(this);
@@ -87,7 +83,6 @@ public class TNTRun extends JavaPlugin {
 		HandlerList.unregisterAll(this);
 		scommands = null;
 		gcommands = null;
-		ghandler = null;
 		pshandler = null;
 		rhandler = null;
 		plachecker = null;

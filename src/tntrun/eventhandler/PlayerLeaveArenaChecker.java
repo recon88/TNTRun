@@ -22,6 +22,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
 import tntrun.TNTRun;
@@ -36,6 +37,7 @@ public class PlayerLeaveArenaChecker implements Listener {
 		this.plugin = plugin;
 	}
 	
+	//remove player from arena if he walked to location outside the arena bounds
 	@EventHandler(priority=EventPriority.HIGHEST,ignoreCancelled = true)
 	public void onPlayerMoveEvent(PlayerMoveEvent e)
 	{
@@ -49,6 +51,7 @@ public class PlayerLeaveArenaChecker implements Listener {
 		}
 	}
 	
+	//remove player from arena if he teleported to location outside the arena bounds
 	@EventHandler(priority=EventPriority.HIGHEST,ignoreCancelled = true)
 	public void onPlayerTeleport(PlayerTeleportEvent e)
 	{
@@ -60,6 +63,17 @@ public class PlayerLeaveArenaChecker implements Listener {
 		{
 			arena.arenaph.leavePlayer(player, Messages.playerlefttoplayer, Messages.playerlefttoothers);
 		}
+	}
+	
+	//remove player from arena on quit
+	@EventHandler(priority=EventPriority.HIGHEST,ignoreCancelled = true)
+	public void onPlayerQuitEvent(PlayerQuitEvent e)
+	{
+		Player player = e.getPlayer();
+		Arena arena = plugin.pdata.getPlayerArena(player.getName());
+		//ignore if player is not in arena
+		if (arena == null) {return;}
+		arena.arenaph.leavePlayer(player, "", Messages.playerlefttoothers);
 	}
 	
 }
