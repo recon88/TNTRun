@@ -21,6 +21,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
@@ -70,6 +71,17 @@ public class PlayerLeaveArenaChecker implements Listener {
 	public void onPlayerQuitEvent(PlayerQuitEvent e)
 	{
 		Player player = e.getPlayer();
+		Arena arena = plugin.pdata.getPlayerArena(player.getName());
+		//ignore if player is not in arena
+		if (arena == null) {return;}
+		arena.arenaph.leavePlayer(player, "", Messages.playerlefttoothers);
+	}
+	
+	//remove player from arena if he died (/kill command sux)
+	@EventHandler(priority=EventPriority.HIGHEST,ignoreCancelled = true)
+	public void onPlayerDeathEvent(PlayerDeathEvent e)
+	{
+		Player player = e.getEntity();
 		Arena arena = plugin.pdata.getPlayerArena(player.getName());
 		//ignore if player is not in arena
 		if (arena == null) {return;}
