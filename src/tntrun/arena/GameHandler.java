@@ -133,8 +133,14 @@ public class GameHandler {
 		{
 			//game ended
 			Bukkit.getScheduler().cancelTask(arenahandler);
-			arena.running = false;
-			arena.regenGameLevels();
+			Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable()
+			{
+				public void run()
+				{
+					arena.running = false;
+					arena.regenGameLevels();
+				}
+			});
 		}
 	}
 	//player handlers
