@@ -39,7 +39,7 @@ public class PlayerLeaveArenaChecker implements Listener {
 	}
 	
 	//remove player from arena if he walked to location outside the arena bounds
-	@EventHandler(priority=EventPriority.HIGHEST,ignoreCancelled = true)
+	@EventHandler(priority=EventPriority.LOWEST,ignoreCancelled = true)
 	public void onPlayerMoveEvent(PlayerMoveEvent e)
 	{
 		Player player = e.getPlayer();
@@ -53,7 +53,7 @@ public class PlayerLeaveArenaChecker implements Listener {
 	}
 	
 	//remove player from arena if he teleported to location outside the arena bounds
-	@EventHandler(priority=EventPriority.HIGHEST,ignoreCancelled = true)
+	@EventHandler(priority=EventPriority.LOWEST,ignoreCancelled = true)
 	public void onPlayerTeleport(PlayerTeleportEvent e)
 	{
 		Player player = e.getPlayer();
@@ -78,7 +78,7 @@ public class PlayerLeaveArenaChecker implements Listener {
 	}
 	
 	//remove player from arena if he died (/kill command sux)
-	@EventHandler(priority=EventPriority.HIGHEST,ignoreCancelled = true)
+	@EventHandler(priority=EventPriority.LOWEST,ignoreCancelled = true)
 	public void onPlayerDeathEvent(PlayerDeathEvent e)
 	{
 		Player player = e.getEntity();
