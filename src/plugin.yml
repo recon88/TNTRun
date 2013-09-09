@@ -4,9 +4,11 @@ softdepend: [Multiverse-Core, MultiWorld, WorldEdit, Vault]
 version: 1.1
 author: _Shevchik_
 commands:
-  trsetup:
+  tntrunsetup:
     description: TNTRun arena setup commands
+    aliases: trsetup
     usage: Command is invalid.
-  tr:
+  tntrun:
     description: TNTRun game commands
+    aliases: tr
     usage: Use /tr help to show all commands available in plugin.
