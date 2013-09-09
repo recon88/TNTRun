@@ -67,7 +67,7 @@ public class PlayerLeaveArenaChecker implements Listener {
 	}
 	
 	//remove player from arena on quit
-	@EventHandler(priority=EventPriority.HIGHEST,ignoreCancelled = true)
+	@EventHandler(priority=EventPriority.LOWEST,ignoreCancelled = true)
 	public void onPlayerQuitEvent(PlayerQuitEvent e)
 	{
 		Player player = e.getPlayer();
