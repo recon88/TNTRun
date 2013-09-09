@@ -23,6 +23,7 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import tntrun.arena.Arena;
+import tntrun.commands.ConsoleCommands;
 import tntrun.commands.GameCommands;
 import tntrun.commands.SetupCommands;
 import tntrun.datahandler.PlayerDataStore;
@@ -37,6 +38,7 @@ public class TNTRun extends JavaPlugin {
 	public PlayerDataStore pdata;
 	public SetupCommands scommands;
 	public GameCommands gcommands;
+	public ConsoleCommands ccommands;
 	public PlayerStatusHandler pshandler;
 	public RestrictionHandler rhandler;
 	public PlayerLeaveArenaChecker plachecker;
@@ -48,9 +50,11 @@ public class TNTRun extends JavaPlugin {
 		Messages.loadMessages();
 		pdata = new PlayerDataStore();
 		scommands = new SetupCommands(this);
-		getCommand("trsetup").setExecutor(scommands);
+		getCommand("tntrunsetup").setExecutor(scommands);
 		gcommands = new GameCommands(this);
-		getCommand("tr").setExecutor(gcommands);
+		getCommand("tntrun").setExecutor(gcommands);
+		ccommands = new ConsoleCommands(this);
+		getCommand("tntrunconsole").setExecutor(ccommands);
 		pshandler = new PlayerStatusHandler(this);
 		getServer().getPluginManager().registerEvents(pshandler, this);
 		rhandler = new RestrictionHandler(this);

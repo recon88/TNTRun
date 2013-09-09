@@ -409,7 +409,7 @@ public class SetupCommands implements CommandExecutor {
 			return true;
 		}
 		return false;
-	}	
+	}
 	
 	private Arena getArenaByName(String name)
 	{

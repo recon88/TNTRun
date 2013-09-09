@@ -12,3 +12,7 @@ commands:
     description: TNTRun game commands
     aliases: tr
     usage: Use /tr help to show all commands available in plugin.
+  tntrunconsole:
+    description: TNTRun console commands
+    aliases: trconsole
+    usage: Command is invalid
