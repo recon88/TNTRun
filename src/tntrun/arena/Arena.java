@@ -50,7 +50,7 @@ public class Arena {
 	}
 	
 	private boolean enabled = false;
-	public boolean running = false;
+	private boolean running = false;
 	
 	private String arenaname;
 	public String getArenaName()
@@ -145,6 +145,14 @@ public class Arena {
 		{
 			arenaph.leavePlayer(Bukkit.getPlayerExact(player), Messages.arenadisabling,"");
 		}
+	}
+	public boolean isArenaRunning()
+	{
+		return running;
+	}
+	protected void setRunning(boolean running)
+	{
+		this.running = running;
 	}
 
 	//arena structure handler

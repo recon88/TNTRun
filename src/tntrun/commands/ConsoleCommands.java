@@ -82,7 +82,7 @@ public class ConsoleCommands implements CommandExecutor {
 			if (arena != null)
 			{
 				sender.sendMessage("Arena enabled: "+arena.isArenaEnabled());
-				sender.sendMessage("Arena running: "+arena.running);
+				sender.sendMessage("Arena running: "+arena.isArenaRunning());
 				sender.sendMessage("Players: "+Arrays.asList(plugin.pdata.getArenaPlayers(arena).toArray()));
 				return true;
 			} else

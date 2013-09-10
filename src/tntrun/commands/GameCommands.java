@@ -87,7 +87,7 @@ public class GameCommands implements CommandExecutor{
 			if (arena != null)
 			{
 				player.sendMessage("Arena enabled: "+arena.isArenaEnabled());
-				player.sendMessage("Arena running: "+arena.running);
+				player.sendMessage("Arena running: "+arena.isArenaRunning());
 				player.sendMessage("Players: "+Arrays.asList(plugin.pdata.getArenaPlayers(arena).toArray()));
 				return true;
 			} else
@@ -103,7 +103,7 @@ public class GameCommands implements CommandExecutor{
 			if (arena != null)
 			{
 				if (!arena.isArenaEnabled()) {Messages.sendMessage(player, Messages.arenadisabled); return true;}
-				if (arena.running) {Messages.sendMessage(player, Messages.arenarunning); return true;}
+				if (arena.isArenaRunning()) {Messages.sendMessage(player, Messages.arenarunning); return true;}
 				arena.arenaph.spawnPlayer(player, Messages.playerjoinedtoplayer, Messages.playerjoinedtoothers);
 				return true;
 			} else

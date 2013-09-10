@@ -57,7 +57,7 @@ public class GameLevel {
 		{
 			public void run()
 			{
-				if (arena.running)
+				if (arena.isArenaRunning())
 				{
 					if (blockUnderFeetLocation != null)
 					{

@@ -91,7 +91,7 @@ public class GameHandler {
 	private int arenahandler;
 	private void runArenaHandler()
 	{
-		arena.running = true;
+		arena.setRunning(true);
 		timelimit = arena.getTimeLimit()*20; //timelimit is in ticks
 		arenahandler = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable()
 		{
@@ -137,7 +137,7 @@ public class GameHandler {
 			{
 				public void run()
 				{
-					arena.running = false;
+					arena.setRunning(false);
 					arena.regenGameLevels();
 				}
 			});
