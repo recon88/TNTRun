@@ -20,7 +20,6 @@ package tntrun.arena;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.HashSet;
 
 import org.bukkit.Bukkit;
@@ -74,10 +73,10 @@ public class Arena {
 	{
 		return p2;
 	}
-	private HashMap<String, GameLevel> gamelevels = new HashMap<String, GameLevel>();
+	private HashSet<GameLevel> gamelevels = new HashSet<GameLevel>();
 	public Collection<GameLevel> getGameLevels()
 	{
-		return gamelevels.values();
+		return gamelevels;
 	}
 	private int gameleveldestroydelay = 2;
 	public int getGameLevelDestroyDelay()
@@ -181,11 +180,11 @@ public class Arena {
 	{
 		if (isInArenaBounds(loc1) && isInArenaBounds(loc2))
 		{
-			GameLevel gl = gamelevels.get(glname);
+			GameLevel gl = getGameLevelByName(glname);
 			if (gl == null)
 			{
-				gl = new GameLevel();
-				gamelevels.put(glname, gl);
+				gl = new GameLevel(glname);
+				gamelevels.add(gl);
 			}
 			gl.setGameLocation(loc1, loc2, world);
 			return true;
@@ -198,9 +197,10 @@ public class Arena {
 	}
 	public boolean setCustomGameLevel(String name)
 	{
-		if (gamelevels.containsKey(name))
+		GameLevel gl = getGameLevelByName(name);
+		if (gl != null && gamelevels.contains(gl))
 		{
-			gamelevels.get(name).setCustomGameLevel(world);
+			gl.setCustomGameLevel(world);
 			return true;
 		} else
 		{
@@ -209,18 +209,30 @@ public class Arena {
 	}
 	public boolean unsetCustomGameLevel(String name)
 	{
-		if (gamelevels.containsKey(name))
+		GameLevel gl = getGameLevelByName(name);
+		if (gl != null && gamelevels.contains(gl))
 		{
-			gamelevels.get(name).unsetCustomGameLevel();
+			gl.unsetCustomGameLevel();
 			return true;
 		} else
 		{
 			return false;
 		}
 	}
+	private GameLevel getGameLevelByName(String name)
+	{
+		for (GameLevel gl : gamelevels)
+		{
+			if (gl.getGameLevelName().equals(name)) 
+			{
+				return gl;
+			}
+		}
+		return null;
+	}
 	public void regenGameLevels()
 	{
-		for (final GameLevel gl : gamelevels.values())
+		for (final GameLevel gl : gamelevels)
 		{
 			gl.regen(world);
 		}
@@ -282,11 +294,10 @@ public class Arena {
 			config.set("p2", p2);
 		} catch (Exception e) {}
 		//save gamelevels
-		for (String glname : gamelevels.keySet())
+		for (GameLevel gl : gamelevels)
 		{
 			try {
-				GameLevel gl = gamelevels.get(glname);
-				gl.saveToConfig("gamelevels."+glname, config);
+				gl.saveToConfig(config);
 			} catch (Exception e) {}
 		}
 		//save gamelevel destroy delay
@@ -328,12 +339,12 @@ public class Arena {
 		ConfigurationSection cs = config.getConfigurationSection("gamelevels");
 		if (cs != null)
 		{
-			for (String key : cs.getKeys(false))
+			for (String glname : cs.getKeys(false))
 			{
 				try{
-					GameLevel gl = new GameLevel();
-					gl.loadFromConfig("gamelevels."+key, config);
-					gamelevels.put(key,gl);
+					GameLevel gl = new GameLevel(glname);
+					gl.loadFromConfig(config);
+					gamelevels.add(gl);
 				} catch (Exception e) {}
 			}
 		}
@@ -359,7 +370,7 @@ public class Arena {
 		//enable if fully configured
 		if (isArenaConfigured().equalsIgnoreCase("yes"))
 		{
-			for (GameLevel gl : gamelevels.values())
+			for (GameLevel gl : gamelevels)
 			{
 				gl.regen(world);
 			}

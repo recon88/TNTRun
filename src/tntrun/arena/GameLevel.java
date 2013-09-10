@@ -30,6 +30,17 @@ import tntrun.TNTRun;
 
 public class GameLevel {
 
+	private String name;
+	public GameLevel(String name)
+	{
+		this.name = name;
+	}
+	protected String getGameLevelName()
+	{
+		return name;
+	}
+
+	
 	private Vector gp1 = null;
 	private Vector gp2 = null;
 	
@@ -162,24 +173,24 @@ public class GameLevel {
 	}
 	
 
-	protected void saveToConfig(String levelname, FileConfiguration config)
+	protected void saveToConfig(FileConfiguration config)
 	{
-		config.set(levelname+".p1", p1);
-		config.set(levelname+".p2", p2);
-		customblockcontainer.saveToConfig(levelname, config);
+		config.set("gamelevels."+name+".p1", p1);
+		config.set("gamelevels."+name+".p2", p2);
+		customblockcontainer.saveToConfig("gamelevels."+name, config);
 	}
 	
-	protected void loadFromConfig(String levelname, FileConfiguration config)
+	protected void loadFromConfig(FileConfiguration config)
 	{
-		Vector p1 = config.getVector(levelname+".p1", null);
-		Vector p2 = config.getVector(levelname+".p2", null);
+		Vector p1 = config.getVector("gamelevels."+name+".p1", null);
+		Vector p2 = config.getVector("gamelevels."+name+".p2", null);
 		this.p1 = p1;
 		this.p2 = p2;
 		this.gp1 = p1.clone().add(new Vector(0,1,0));
 		this.gp2 = p2.clone().add(new Vector(0,1,0));
 		this.glb1 = gp1.clone().add(new Vector(1,0,1));
 		this.glb2 = gp2.clone().add(new Vector(-1,0,-1));
-		customblockcontainer.loadFromConfig(levelname, config);
+		customblockcontainer.loadFromConfig("gamelevels."+name, config);
 	}
 	
 }
