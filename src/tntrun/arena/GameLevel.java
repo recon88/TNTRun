@@ -35,7 +35,7 @@ public class GameLevel {
 	{
 		this.name = name;
 	}
-	protected String getGameLevelName()
+	public String getGameLevelName()
 	{
 		return name;
 	}
