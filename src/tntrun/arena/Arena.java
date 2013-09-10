@@ -47,6 +47,7 @@ public class Arena {
 		arenagh = new GameHandler(plugin,this);
 		arenaph = new PlayerHandler(plugin,this);
 		arenafile = new File("plugins/TNTRun/arenas/"+arenaname+".yml");
+		plugin.pdata.putArenaInHashMap(this);
 	}
 	
 	private boolean enabled = false;
@@ -59,63 +60,63 @@ public class Arena {
 	}
 	
 	private World world;
-	protected World getWorld()
+	public World getWorld()
 	{
 		return world;
 	}
 	private Vector p1 = null;
-	protected Vector getP1()
+	public Vector getP1()
 	{
 		return p1;
 	}
 	private Vector p2 = null;
-	protected Vector getP2()
+	public Vector getP2()
 	{
 		return p2;
 	}
 	private HashMap<String, GameLevel> gamelevels = new HashMap<String, GameLevel>();
-	protected Collection<GameLevel> getGameLevels()
+	public Collection<GameLevel> getGameLevels()
 	{
 		return gamelevels.values();
 	}
 	private int gameleveldestroydelay = 2;
-	protected int getGameLevelDestroyDelay()
+	public int getGameLevelDestroyDelay()
 	{
 		return gameleveldestroydelay;
 	}
 	private LoseLevel loselevel = new LoseLevel();
-	protected LoseLevel getLoseLevel()
+	public LoseLevel getLoseLevel()
 	{
 		return loselevel;
 	}
 	private Location spawnpoint = null;
-	protected Location getSpawnPoint()
+	public Location getSpawnPoint()
 	{
 		return spawnpoint;
 	}
 	
 	private int maxPlayers = 6;
-	protected int getMaxPlayers()
+	public int getMaxPlayers()
 	{
 		return maxPlayers;
 	}
 	private int minPlayers = 2;
-	protected int getMinPlayers()
+	public int getMinPlayers()
 	{
 		return minPlayers;
 	}
 	private double votesPercent = 0.75;
-	protected double getVotePercent()
+	public double getVotePercent()
 	{
 		return votesPercent;
 	}
 	private int timelimit = 180;
-	protected int getTimeLimit()
+	public int getTimeLimit()
 	{
 		return timelimit;
 	}	
 	private Rewards rewards = new Rewards();
-	protected Rewards getRewards()
+	public Rewards getRewards()
 	{
 		return rewards;
 	}
@@ -355,8 +356,6 @@ public class Arena {
 		timelimit = config.getInt("timelimit",timelimit);
 		//load rewards
 		rewards.loadFromConfig(config);
-		//register arena
-		plugin.pdata.putArenaInHashMap(this);
 		//enable if fully configured
 		if (isArenaConfigured().equalsIgnoreCase("yes"))
 		{

@@ -83,8 +83,7 @@ public class SetupCommands implements CommandExecutor {
 				sender.sendMessage("Arena already exists");
 				return true;
 			}
-			Arena arena = new Arena(args[0], plugin);
-			plugin.pdata.putArenaInHashMap(arena);
+			new Arena(args[0], plugin);
 			sender.sendMessage("Arena created");
 			return true;
 		}
