@@ -18,6 +18,7 @@
 package tntrun.arena;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
@@ -30,10 +31,26 @@ import org.bukkit.util.Vector;
 public class GameLevelBlockContainer {
 
 	private HashMap<Integer, Integer> topblocksid = new HashMap<Integer, Integer>();
+	public Collection<Integer> getTopBlocksID()
+	{
+		return topblocksid.values();
+	}
 	private HashMap<Integer, Byte> topblocksdata = new HashMap<Integer, Byte>();
+	public Collection<Byte> getTopBlocksData()
+	{
+		return topblocksdata.values();
+	}
 	
 	private HashMap<Integer, Integer> bottomblocksid = new HashMap<Integer, Integer>();
+	public Collection<Integer> getBottomBlocksID()
+	{
+		return topblocksid.values();
+	}
 	private HashMap<Integer, Byte> bottomblocksdata = new HashMap<Integer, Byte>();
+	public Collection<Byte> getBottomBlocksData()
+	{
+		return topblocksdata.values();
+	}
 	
 	
 	protected void setCustomGameLevel(World w, Vector p1, Vector p2)

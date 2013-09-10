@@ -26,7 +26,15 @@ import org.bukkit.util.Vector;
 public class LoseLevel {
 
 	private Vector p1 = null;
+	public Vector getP1()
+	{
+		return p1;
+	}
 	private Vector p2 = null;
+	public Vector getP2()
+	{
+		return p2;
+	}
 	
 	
 	protected boolean isConfigured()

@@ -44,7 +44,15 @@ public class Rewards {
 	}
 	
 	private List<ItemStack> itemrewards = new ArrayList<ItemStack>();
+	public List<ItemStack> getItemRewads()
+	{
+		return itemrewards;
+	}
 	private int moneyreward = 0;
+	public int getMoneyReward()
+	{
+		return moneyreward;
+	}
 	
 	protected void setRewards(ItemStack[] rewards)
 	{
