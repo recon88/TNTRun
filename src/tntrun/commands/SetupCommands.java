@@ -104,6 +104,7 @@ public class SetupCommands implements CommandExecutor {
 			plugin.pdata.removeArenaFromHashMap(arena);
 			new File("plugins/TNTRun/arenas/"+arena.getArenaName()+".yml").delete();
 			sender.sendMessage("Arena deleted");
+			return true;
 		}
 		//set arena bounds
 		else if (args.length == 2 && args[1].equalsIgnoreCase("setarena"))
