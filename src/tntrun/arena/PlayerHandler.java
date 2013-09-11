@@ -21,8 +21,6 @@ import java.util.HashSet;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.potion.PotionEffect;
-
 import tntrun.TNTRun;
 import tntrun.messages.Messages;
 
@@ -48,12 +46,9 @@ public class PlayerHandler {
 		plugin.pdata.storePlayerGameMode(player.getName());
 		player.setFlying(false);
 		player.setAllowFlight(false);
-		for (PotionEffect peffect : player.getActivePotionEffects())
-		{
-	        player.removePotionEffect(peffect.getType());
-		}
 		plugin.pdata.storePlayerInventory(player.getName());
 		plugin.pdata.storePlayerArmor(player.getName());
+		plugin.pdata.storePlayerPotionEffects(player.getName());
 		plugin.pdata.storePlayerHunger(player.getName());
 		//teleport player to arena
 		plugin.pdata.storePlayerLocation(player.getName());
@@ -85,6 +80,7 @@ public class PlayerHandler {
 		//restore player status
 		plugin.pdata.restorePlayerInventory(player.getName());
 		plugin.pdata.restorePlayerArmor(player.getName());
+		plugin.pdata.restorePlayerPotionEffects(player.getName());
 		plugin.pdata.restorePlayerHunger(player.getName());
 		plugin.pdata.restorePlayerGameMode(player.getName());
 		//send message to player

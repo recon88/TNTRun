@@ -17,6 +17,7 @@
 
 package tntrun.datahandler;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
@@ -26,6 +27,7 @@ import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.potion.PotionEffect;
 
 import tntrun.arena.Arena;
 
@@ -67,6 +69,7 @@ public class PlayerDataStore {
 	
 	private HashMap<String, ItemStack[]> plinv = new HashMap<String, ItemStack[]>();
 	private HashMap<String, ItemStack[]> plarmor = new HashMap<String, ItemStack[]>();
+	private HashMap<String, Collection<PotionEffect>> pleffects = new HashMap<String, Collection<PotionEffect>>();
 	private HashMap<String, Location> plloc = new HashMap<String, Location>();
 	private HashMap<String, Integer> plhunger = new HashMap<String, Integer>();
 	private HashMap<String, GameMode> plgamemode = new HashMap<String, GameMode>();
@@ -81,6 +84,15 @@ public class PlayerDataStore {
 		PlayerInventory pinv = Bukkit.getPlayerExact(player).getInventory();
 		plarmor.put(player, pinv.getArmorContents());
 		pinv.setArmorContents(null);
+	}
+	public void storePlayerPotionEffects(String player)
+	{
+		Collection<PotionEffect> peff = Bukkit.getPlayerExact(player).getActivePotionEffects();
+		pleffects.put(player, peff);
+		for (PotionEffect peffect : peff)
+		{
+			Bukkit.getPlayerExact(player).removePotionEffect(peffect.getType());
+		}
 	}
 	public void storePlayerLocation(String player)
 	{
@@ -105,6 +117,11 @@ public class PlayerDataStore {
 	{
 		Bukkit.getPlayerExact(player).getInventory().setArmorContents(plarmor.get(player));
 		plarmor.remove(player);
+	}
+	public void restorePlayerPotionEffects(String player)
+	{
+		Bukkit.getPlayerExact(player).addPotionEffects(pleffects.get(player));
+		pleffects.remove(player);
 	}
 	public void restorePlayerLocation(String player)
 	{
