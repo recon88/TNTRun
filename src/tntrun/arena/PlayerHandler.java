@@ -78,10 +78,10 @@ public class PlayerHandler {
 		//restore location
 		plugin.pdata.restorePlayerLocation(player.getName());
 		//restore player status
-		plugin.pdata.restorePlayerInventory(player.getName());
-		plugin.pdata.restorePlayerArmor(player.getName());
-		plugin.pdata.restorePlayerPotionEffects(player.getName());
 		plugin.pdata.restorePlayerHunger(player.getName());
+		plugin.pdata.restorePlayerPotionEffects(player.getName());
+		plugin.pdata.restorePlayerArmor(player.getName());
+		plugin.pdata.restorePlayerInventory(player.getName());
 		plugin.pdata.restorePlayerGameMode(player.getName());
 		//send message to player
 		Messages.sendMessage(player, msgtoplayer);
