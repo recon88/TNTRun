@@ -26,8 +26,6 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.util.Vector;
 
-import tntrun.TNTRun;
-
 public class GameLevel {
 
 	private String name;
@@ -73,10 +71,10 @@ public class GameLevel {
 	};
 	
 	
-	protected void destroyBlock(Location loc, int delay, TNTRun plugin, final Arena arena)
+	protected void destroyBlock(Location loc, int delay, final Arena arena)
 	{
 		final Location blockUnderFeetLocation = getPlayerStandOnBlockLocation(loc);
-		Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable()
+		Bukkit.getScheduler().scheduleSyncDelayedTask(arena.plugin, new Runnable()
 		{
 			public void run()
 			{

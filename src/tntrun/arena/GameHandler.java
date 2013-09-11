@@ -20,6 +20,7 @@ package tntrun.arena;
 import java.util.HashSet;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import tntrun.TNTRun;
@@ -146,12 +147,14 @@ public class GameHandler {
 	//player handlers
 	public void handlePlayer(final Player player)
 	{
+		Location plloc = player.getLocation();
 		//check for game location
 		for (final GameLevel gl : arena.getGameLevels())
 		{
-			if (gl.isSandLocation(player.getLocation().add(0,-1,0)))
+
+			if (gl.isSandLocation(plloc.add(0,-1,0)))
 			{
-				gl.destroyBlock(player.getLocation().add(0,-1,0), arena.getGameLevelDestroyDelay(), plugin, arena);
+				gl.destroyBlock(plloc.add(0,-1,0), arena.getGameLevelDestroyDelay(), arena);
 			}
 		}
 		//check for win
@@ -163,7 +166,7 @@ public class GameHandler {
 			return;
 		}
 		//check for lose
-		if (arena.getLoseLevel().isLooseLocation(player.getLocation()))
+		if (arena.getLoseLevel().isLooseLocation(plloc))
 		{
 			//player lost
 			arena.arenaph.leavePlayer(player, Messages.playerlosttoplayer, Messages.playerlosttoothers);

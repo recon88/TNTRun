@@ -36,7 +36,7 @@ import tntrun.messages.Messages;
 
 public class Arena {
 
-	private TNTRun plugin;
+	protected TNTRun plugin;
 	public GameHandler arenagh;
 	public PlayerHandler arenaph;
 	public Arena(String name, TNTRun plugin)
