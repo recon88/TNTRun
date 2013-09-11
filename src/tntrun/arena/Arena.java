@@ -130,8 +130,12 @@ public class Arena {
 	{
 		if (isArenaConfigured().equalsIgnoreCase("yes"))
 		{
+			for (GameLevel gl : gamelevels)
+			{
+				gl.regen(world);
+			}
+			loselevel.regen(world);
 			enabled = true;
-			regenGameLevels();
 			return true;
 		}
 		return false;
@@ -229,13 +233,6 @@ public class Arena {
 			}
 		}
 		return null;
-	}
-	public void regenGameLevels()
-	{
-		for (final GameLevel gl : gamelevels)
-		{
-			gl.regen(world);
-		}
 	}
 	public boolean setLooseLevel(Location loc1, Location loc2)
 	{
@@ -368,15 +365,7 @@ public class Arena {
 		//load rewards
 		rewards.loadFromConfig(config);
 		//enable if fully configured
-		if (isArenaConfigured().equalsIgnoreCase("yes"))
-		{
-			for (GameLevel gl : gamelevels)
-			{
-				gl.regen(world);
-			}
-			loselevel.regen(world);
-			enabled = true;
-		}
+		enableArena();
 	}
 	
 }
