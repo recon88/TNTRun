@@ -163,6 +163,7 @@ public class GameLevel {
 			fillDefaultArea(w);
 		}
 	}
+	@SuppressWarnings("deprecation")
 	private void fillDefaultArea(World w)
 	{
 		int y = p1.getBlockY();

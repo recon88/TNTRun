@@ -52,7 +52,7 @@ public class GameLevelBlockContainer {
 		return topblocksdata.values();
 	}
 	
-	
+	@SuppressWarnings("deprecation")
 	protected void setCustomGameLevel(World w, Vector p1, Vector p2)
 	{
 		unsetCustomGameLevel();
@@ -80,6 +80,7 @@ public class GameLevelBlockContainer {
 		bottomblocksdata.clear();
 	}
 	
+	@SuppressWarnings("deprecation")
 	protected void fillCustomArea(World w, Vector p1, Vector p2)
 	{
 		int bcounter = 1;
