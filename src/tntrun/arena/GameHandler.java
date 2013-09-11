@@ -173,13 +173,14 @@ public class GameHandler {
 	public void handlePlayer(final Player player)
 	{
 		Location plloc = player.getLocation();
+		Location plufloc = plloc.clone().add(0,-1,0);
 		//check for game location
 		for (final GameLevel gl : arena.getGameLevels())
 		{
 			//remove block under player feet
-			if (gl.isSandLocation(plloc.add(0,-1,0)))
+			if (gl.isSandLocation(plufloc))
 			{
-				gl.destroyBlock(plloc.add(0,-1,0), arena.getGameLevelDestroyDelay(), arena);
+				gl.destroyBlock(plufloc, arena.getGameLevelDestroyDelay(), arena);
 			}
 		}
 		//check for win
