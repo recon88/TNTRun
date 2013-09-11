@@ -18,6 +18,7 @@
 package tntrun.commands;
 
 import java.io.File;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -40,8 +41,7 @@ public class SetupCommands implements CommandExecutor {
 	
 	
 	@Override
-	public boolean onCommand(CommandSender sender, Command command, String label,
-			String[] args) {
+	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if (!(sender instanceof Player)) 
 		{
 			sender.sendMessage("Player is expected");
