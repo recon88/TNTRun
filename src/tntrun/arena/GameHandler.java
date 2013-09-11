@@ -151,7 +151,7 @@ public class GameHandler {
 		//check for game location
 		for (final GameLevel gl : arena.getGameLevels())
 		{
-
+			//remove block under player feet
 			if (gl.isSandLocation(plloc.add(0,-1,0)))
 			{
 				gl.destroyBlock(plloc.add(0,-1,0), arena.getGameLevelDestroyDelay(), arena);
