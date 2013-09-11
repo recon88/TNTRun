@@ -21,8 +21,7 @@ public class ConsoleCommands implements CommandExecutor {
 	}
 	
 	@Override
-	public boolean onCommand(CommandSender sender, Command command, String label,
-			String[] args) {
+	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if (!(sender instanceof ConsoleCommandSender || sender instanceof RemoteConsoleCommandSender)) 
 		{
 			sender.sendMessage("Console is expected");
