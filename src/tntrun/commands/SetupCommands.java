@@ -112,6 +112,11 @@ public class SetupCommands implements CommandExecutor {
 			Arena arena = getArenaByName(args[0]);
 			if (arena != null)
 			{
+				if (arena.isArenaEnabled())
+				{
+					sender.sendMessage("Disable arena first");
+					return true;
+				}
 				PlayerCuboidSelection selection = plselection.getPlayerSelection(player, false);
 				if (selection != null)
 				{
@@ -133,6 +138,11 @@ public class SetupCommands implements CommandExecutor {
 			Arena arena = getArenaByName(args[0]);
 			if (arena != null)
 			{
+				if (arena.isArenaEnabled())
+				{
+					sender.sendMessage("Disable arena first");
+					return true;
+				}
 				PlayerCuboidSelection selection = plselection.getPlayerSelection(player, true);
 				if (selection != null)
 				{
@@ -159,6 +169,11 @@ public class SetupCommands implements CommandExecutor {
 			Arena arena = getArenaByName(args[0]);
 			if (arena != null)
 			{
+				if (arena.isArenaEnabled())
+				{
+					sender.sendMessage("Disable arena first");
+					return true;
+				}
 				arena.setGameLevelDestroyDelay(Integer.valueOf(args[2]));
 				sender.sendMessage("GameLevel blocks destroy delay set");
 			} else
@@ -173,6 +188,11 @@ public class SetupCommands implements CommandExecutor {
 			Arena arena = getArenaByName(args[0]);
 			if (arena != null)
 			{
+				if (arena.isArenaEnabled())
+				{
+					sender.sendMessage("Disable arena first");
+					return true;
+				}
 				if (arena.setCustomGameLevel(args[2]))
 				{
 					sender.sendMessage("Custom GameLevel set");
@@ -192,6 +212,11 @@ public class SetupCommands implements CommandExecutor {
 			Arena arena = getArenaByName(args[0]);
 			if (arena != null)
 			{
+				if (arena.isArenaEnabled())
+				{
+					sender.sendMessage("Disable arena first");
+					return true;
+				}
 				if (arena.unsetCustomGameLevel(args[2]))
 				{
 					sender.sendMessage("Custom GameLevel unset");
@@ -211,6 +236,11 @@ public class SetupCommands implements CommandExecutor {
 			Arena arena = getArenaByName(args[0]);
 			if (arena != null)
 			{
+				if (arena.isArenaEnabled())
+				{
+					sender.sendMessage("Disable arena first");
+					return true;
+				}
 				PlayerCuboidSelection selection = plselection.getPlayerSelection(player, true);
 				if (selection != null)
 				{
@@ -237,6 +267,11 @@ public class SetupCommands implements CommandExecutor {
 			Arena arena = getArenaByName(args[0]);
 			if (arena != null)
 			{
+				if (arena.isArenaEnabled())
+				{
+					sender.sendMessage("Disable arena first");
+					return true;
+				}
 				if (arena.setSpawnPoint(player.getLocation()))
 				{
 					sender.sendMessage("Spawnpoint set");
@@ -256,6 +291,11 @@ public class SetupCommands implements CommandExecutor {
 			Arena arena = getArenaByName(args[0]);
 			if (arena != null)
 			{
+				if (arena.isArenaEnabled())
+				{
+					sender.sendMessage("Disable arena first");
+					return true;
+				}
 				arena.setMaxPlayers(Integer.valueOf(args[2]));
 				sender.sendMessage("Max Players set");
 			} else
@@ -270,6 +310,11 @@ public class SetupCommands implements CommandExecutor {
 			Arena arena = getArenaByName(args[0]);
 			if (arena != null)
 			{
+				if (arena.isArenaEnabled())
+				{
+					sender.sendMessage("Disable arena first");
+					return true;
+				}
 				arena.setMinPlayers(Integer.valueOf(args[2]));
 				sender.sendMessage("Min Players set");
 			} else
@@ -284,6 +329,11 @@ public class SetupCommands implements CommandExecutor {
 			Arena arena = getArenaByName(args[0]);
 			if (arena != null)
 			{
+				if (arena.isArenaEnabled())
+				{
+					sender.sendMessage("Disable arena first");
+					return true;
+				}
 				arena.setVotePercent(Double.valueOf(args[2]));
 				sender.sendMessage("Vote percent set");
 			} else
@@ -298,6 +348,11 @@ public class SetupCommands implements CommandExecutor {
 			Arena arena = getArenaByName(args[0]);
 			if (arena != null)
 			{
+				if (arena.isArenaEnabled())
+				{
+					sender.sendMessage("Disable arena first");
+					return true;
+				}
 				arena.setRewards(player.getInventory().getContents());
 				sender.sendMessage("Items Rewards set");
 			} else
@@ -312,6 +367,11 @@ public class SetupCommands implements CommandExecutor {
 			Arena arena = getArenaByName(args[0]);
 			if (arena != null)
 			{
+				if (arena.isArenaEnabled())
+				{
+					sender.sendMessage("Disable arena first");
+					return true;
+				}
 				arena.setRewards(Integer.valueOf(args[2]));
 				sender.sendMessage("Money Rewards set");
 			} else
@@ -326,6 +386,11 @@ public class SetupCommands implements CommandExecutor {
 			Arena arena = getArenaByName(args[0]);
 			if (arena != null)
 			{
+				if (arena.isArenaEnabled())
+				{
+					sender.sendMessage("Disable arena first");
+					return true;
+				}
 				arena.setTimeLimit(Integer.valueOf(args[2]));
 				sender.sendMessage("Time limit set");
 			} else
