@@ -134,14 +134,39 @@ public class GameHandler {
 		{
 			//game ended
 			Bukkit.getScheduler().cancelTask(arenahandler);
-			Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable()
+			Thread regen = new Thread()
 			{
 				public void run()
 				{
-					arena.setRunning(false);
-					arena.regenGameLevels();
+					try 
+					{
+						for (final GameLevel gl : arena.getGameLevels())
+						{
+							int regentask =Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable()
+							{
+								public void run()
+								{
+									gl.regen(arena.getWorld());
+								}
+							});
+							while (Bukkit.getScheduler().isCurrentlyRunning(regentask) || Bukkit.getScheduler().isQueued(regentask))
+							{
+								Thread.sleep(10);
+							}
+							Thread.sleep(100);
+						}
+						Thread.sleep(100);
+						Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable()
+						{
+							public void run()
+							{
+								arena.setRunning(false);
+							}
+						});
+					} catch (Exception e) {}
 				}
-			});
+			};
+			regen.start();
 		}
 	}
 	//player handlers
