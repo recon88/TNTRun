@@ -18,7 +18,6 @@
 package tntrun.signs;
 
 import org.bukkit.ChatColor;
-import org.bukkit.block.Sign;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
@@ -36,29 +35,20 @@ public class VoteSign {
 	
 	protected void handleCreation(SignChangeEvent e)
 	{
-		Arena arena = plugin.pdata.getArenaByName(e.getLine(2));
-		if (arena!=null)
-		{
-			e.setLine(0, ChatColor.BLUE+"[TNTRun]");
-			e.getPlayer().sendMessage("Sign succesfully created");
-		} else
-		{
-			e.getPlayer().sendMessage("Arena does not exist");
-			e.setCancelled(true);
-			e.getBlock().breakNaturally();
-		}
+		e.setLine(0, ChatColor.BLUE+"[TNTRun]");
+		e.getPlayer().sendMessage("Sign succesfully created");
 	}
 	
 	protected void handleClick(PlayerInteractEvent e)
 	{
-		Arena arena = plugin.pdata.getArenaByName(((Sign)e.getClickedBlock().getState()).getLine(2));
+		Arena arena = plugin.pdata.getPlayerArena(e.getPlayer().getName());
 		if (arena!=null)
 		{
 			arena.arenaph.vote(e.getPlayer());
 			e.setCancelled(true);
 		} else
 		{
-			e.getPlayer().sendMessage("Arena does not exist");
+			e.getPlayer().sendMessage("You are not in arena");
 		}
 	}
 	
