@@ -31,7 +31,7 @@ public class ConsoleCommands implements CommandExecutor {
 		//disable arena
 		else if (args.length == 2 && args[1].equalsIgnoreCase("disable"))
 		{
-			Arena arena = getArenaByName(args[0]);
+			Arena arena = plugin.pdata.getArenaByName(args[0]);
 			if (arena != null)
 			{
 				arena.disableArena();
@@ -45,7 +45,7 @@ public class ConsoleCommands implements CommandExecutor {
 		//enable arena
 		else if (args.length == 2 && args[1].equalsIgnoreCase("enable"))
 		{
-			Arena arena = getArenaByName(args[0]);
+			Arena arena = plugin.pdata.getArenaByName(args[0]);
 			if (arena != null)
 			{
 				if (arena.isArenaEnabled())
@@ -77,7 +77,7 @@ public class ConsoleCommands implements CommandExecutor {
 		//status
 		else if (args.length == 2 && args[1].equalsIgnoreCase("status"))
 		{
-			Arena arena = getArenaByName(args[0]);
+			Arena arena = plugin.pdata.getArenaByName(args[0]);
 			if (arena != null)
 			{
 				sender.sendMessage("Arena enabled: "+arena.isArenaEnabled());
@@ -91,19 +91,6 @@ public class ConsoleCommands implements CommandExecutor {
 			}
 		}
 		return false;
-	}
-	
-	
-	private Arena getArenaByName(String name)
-	{
-		for (Arena arena : plugin.pdata.getArenas())
-		{
-			if (arena.getArenaName().equals(name))
-			{
-				return arena;
-			}
-		}
-		return null;
 	}
 	
 }

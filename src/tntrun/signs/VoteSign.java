@@ -36,7 +36,7 @@ public class VoteSign {
 	
 	protected void handleCreation(SignChangeEvent e)
 	{
-		Arena arena = getArenaByName(e.getLine(2));
+		Arena arena = plugin.pdata.getArenaByName(e.getLine(2));
 		if (arena!=null)
 		{
 			e.setLine(0, ChatColor.BLUE+"[TNTRun]");
@@ -51,7 +51,7 @@ public class VoteSign {
 	
 	protected void handleClick(PlayerInteractEvent e)
 	{
-		Arena arena = getArenaByName(((Sign)e.getClickedBlock().getState()).getLine(2));
+		Arena arena = plugin.pdata.getArenaByName(((Sign)e.getClickedBlock().getState()).getLine(2));
 		if (arena!=null)
 		{
 			arena.arenaph.vote(e.getPlayer());
@@ -60,19 +60,6 @@ public class VoteSign {
 		{
 			e.getPlayer().sendMessage("Arena does not exist");
 		}
-	}
-	
-	
-	private Arena getArenaByName(String name)
-	{
-		for (Arena arena : plugin.pdata.getArenas())
-		{
-			if (arena.getArenaName().equals(name))
-			{
-				return arena;
-			}
-		}
-		return null;
 	}
 	
 }

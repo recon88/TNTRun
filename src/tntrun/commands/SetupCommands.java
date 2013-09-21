@@ -77,7 +77,7 @@ public class SetupCommands implements CommandExecutor {
 		//create arena
 		else if (args.length == 2 && args[1].equalsIgnoreCase("create"))
 		{
-			Arena arenac = getArenaByName(args[0]);
+			Arena arenac = plugin.pdata.getArenaByName(args[0]);
 			if (arenac != null)
 			{
 				sender.sendMessage("Arena already exists");
@@ -90,7 +90,7 @@ public class SetupCommands implements CommandExecutor {
 		//delete arena
 		else if (args.length == 2 && args[1].equalsIgnoreCase("delete"))
 		{
-			Arena arena = getArenaByName(args[0]);
+			Arena arena = plugin.pdata.getArenaByName(args[0]);
 			if (arena == null)
 			{
 				sender.sendMessage("Arena does not exist");
@@ -109,7 +109,7 @@ public class SetupCommands implements CommandExecutor {
 		//set arena bounds
 		else if (args.length == 2 && args[1].equalsIgnoreCase("setarena"))
 		{
-			Arena arena = getArenaByName(args[0]);
+			Arena arena = plugin.pdata.getArenaByName(args[0]);
 			if (arena != null)
 			{
 				if (arena.isArenaEnabled())
@@ -135,7 +135,7 @@ public class SetupCommands implements CommandExecutor {
 		//set game level
 		else if (args.length == 3 && args[1].equalsIgnoreCase("setgamelevel"))
 		{
-			Arena arena = getArenaByName(args[0]);
+			Arena arena = plugin.pdata.getArenaByName(args[0]);
 			if (arena != null)
 			{
 				if (arena.isArenaEnabled())
@@ -166,7 +166,7 @@ public class SetupCommands implements CommandExecutor {
 		//set gamelevel destroy delay
 		else if (args.length == 3 && args[1].equalsIgnoreCase("setgameleveldestroydelay"))
 		{
-			Arena arena = getArenaByName(args[0]);
+			Arena arena = plugin.pdata.getArenaByName(args[0]);
 			if (arena != null)
 			{
 				if (arena.isArenaEnabled())
@@ -185,7 +185,7 @@ public class SetupCommands implements CommandExecutor {
 		//set custom gamelevel
 		else if (args.length == 3 && args[1].equalsIgnoreCase("setcustomgamelevel"))
 		{
-			Arena arena = getArenaByName(args[0]);
+			Arena arena = plugin.pdata.getArenaByName(args[0]);
 			if (arena != null)
 			{
 				if (arena.isArenaEnabled())
@@ -209,7 +209,7 @@ public class SetupCommands implements CommandExecutor {
 		//unset custom gamelevel
 		else if (args.length == 3 && args[1].equalsIgnoreCase("unsetcustomgamelevel"))
 		{
-			Arena arena = getArenaByName(args[0]);
+			Arena arena = plugin.pdata.getArenaByName(args[0]);
 			if (arena != null)
 			{
 				if (arena.isArenaEnabled())
@@ -233,7 +233,7 @@ public class SetupCommands implements CommandExecutor {
 		//set looselevel
 		else if (args.length == 2 && args[1].equalsIgnoreCase("setloselevel"))
 		{
-			Arena arena = getArenaByName(args[0]);
+			Arena arena = plugin.pdata.getArenaByName(args[0]);
 			if (arena != null)
 			{
 				if (arena.isArenaEnabled())
@@ -264,7 +264,7 @@ public class SetupCommands implements CommandExecutor {
 		//set spawnpoint
 		else if (args.length == 2 && args[1].equalsIgnoreCase("setspawn"))
 		{
-			Arena arena = getArenaByName(args[0]);
+			Arena arena = plugin.pdata.getArenaByName(args[0]);
 			if (arena != null)
 			{
 				if (arena.isArenaEnabled())
@@ -288,7 +288,7 @@ public class SetupCommands implements CommandExecutor {
 		//set maxPlayers
 		else if (args.length == 3 && args[1].equalsIgnoreCase("setmaxplayers"))
 		{
-			Arena arena = getArenaByName(args[0]);
+			Arena arena = plugin.pdata.getArenaByName(args[0]);
 			if (arena != null)
 			{
 				if (arena.isArenaEnabled())
@@ -307,7 +307,7 @@ public class SetupCommands implements CommandExecutor {
 		//set min players
 		else if (args.length == 3 && args[1].equalsIgnoreCase("setminplayers"))
 		{
-			Arena arena = getArenaByName(args[0]);
+			Arena arena = plugin.pdata.getArenaByName(args[0]);
 			if (arena != null)
 			{
 				if (arena.isArenaEnabled())
@@ -326,7 +326,7 @@ public class SetupCommands implements CommandExecutor {
 		//set vote percent
 		else if (args.length == 3 && args[1].equalsIgnoreCase("setvotepercent"))
 		{
-			Arena arena = getArenaByName(args[0]);
+			Arena arena = plugin.pdata.getArenaByName(args[0]);
 			if (arena != null)
 			{
 				if (arena.isArenaEnabled())
@@ -345,7 +345,7 @@ public class SetupCommands implements CommandExecutor {
 		//set items rewards
 		else if (args.length == 2 && args[1].equalsIgnoreCase("setitemsrewards"))
 		{
-			Arena arena = getArenaByName(args[0]);
+			Arena arena = plugin.pdata.getArenaByName(args[0]);
 			if (arena != null)
 			{
 				if (arena.isArenaEnabled())
@@ -364,7 +364,7 @@ public class SetupCommands implements CommandExecutor {
 		//set money rewards
 		else if (args.length == 3 && args[1].equalsIgnoreCase("setmoneyrewards"))
 		{
-			Arena arena = getArenaByName(args[0]);
+			Arena arena = plugin.pdata.getArenaByName(args[0]);
 			if (arena != null)
 			{
 				if (arena.isArenaEnabled())
@@ -383,7 +383,7 @@ public class SetupCommands implements CommandExecutor {
 		//set time limit
 		else if (args.length == 3 && args[1].equalsIgnoreCase("settimelimit"))
 		{
-			Arena arena = getArenaByName(args[0]);
+			Arena arena = plugin.pdata.getArenaByName(args[0]);
 			if (arena != null)
 			{
 				if (arena.isArenaEnabled())
@@ -402,7 +402,7 @@ public class SetupCommands implements CommandExecutor {
 		//finish arena creation
 		else if (args.length == 2 && args[1].equalsIgnoreCase("finish"))
 		{
-			Arena arena = getArenaByName(args[0]);
+			Arena arena = plugin.pdata.getArenaByName(args[0]);
 			if (arena != null)
 			{
 				if (!arena.isArenaEnabled())
@@ -430,7 +430,7 @@ public class SetupCommands implements CommandExecutor {
 		//disable arena
 		else if (args.length == 2 && args[1].equalsIgnoreCase("disable"))
 		{
-			Arena arena = getArenaByName(args[0]);
+			Arena arena = plugin.pdata.getArenaByName(args[0]);
 			if (arena != null)
 			{
 				arena.disableArena();
@@ -444,7 +444,7 @@ public class SetupCommands implements CommandExecutor {
 		//enable arena
 		else if (args.length == 2 && args[1].equalsIgnoreCase("enable"))
 		{
-			Arena arena = getArenaByName(args[0]);
+			Arena arena = plugin.pdata.getArenaByName(args[0]);
 			if (arena != null)
 			{
 				if (arena.isArenaEnabled())
@@ -474,18 +474,6 @@ public class SetupCommands implements CommandExecutor {
 			return true;
 		}
 		return false;
-	}
-	
-	private Arena getArenaByName(String name)
-	{
-		for (Arena arena : plugin.pdata.getArenas())
-		{
-			if (arena.getArenaName().equals(name))
-			{
-				return arena;
-			}
-		}
-		return null;
 	}
 	
 }

@@ -34,6 +34,7 @@ import tntrun.arena.Arena;
 public class PlayerDataStore {
 
 	private HashMap<String, Arena> plingame = new HashMap<String, Arena>();
+	private HashMap<String, Arena> arenanames = new HashMap<String, Arena>();
 	private HashMap<Arena, HashSet<String>> arenaplayers = new HashMap<Arena, HashSet<String>>();
 	public Arena getPlayerArena(String player)
 	{
@@ -56,15 +57,25 @@ public class PlayerDataStore {
 	}
 	public void putArenaInHashMap(Arena arena)
 	{
+		arenanames.put(arena.getArenaName(), arena);
 		arenaplayers.put(arena, new HashSet<String>());
 	}
 	public void removeArenaFromHashMap(Arena arena)
 	{
+		arenanames.remove(arena.getArenaName());
 		arenaplayers.remove(arena);
 	}
 	public Set<Arena> getArenas()
 	{
 		return arenaplayers.keySet();
+	}
+	public Set<String> getArenasNames()
+	{
+		return arenanames.keySet();
+	}
+	public Arena getArenaByName(String name)
+	{
+		return arenanames.get(name);
 	}
 	
 	private HashMap<String, ItemStack[]> plinv = new HashMap<String, ItemStack[]>();

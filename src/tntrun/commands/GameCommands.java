@@ -82,7 +82,7 @@ public class GameCommands implements CommandExecutor{
 		//status
 		else if (args.length == 2 && args[0].equalsIgnoreCase("status"))
 		{
-			Arena arena = getArenaByName(args[1]);
+			Arena arena = plugin.pdata.getArenaByName(args[1]);
 			if (arena != null)
 			{
 				player.sendMessage("Arena enabled: "+arena.isArenaEnabled());
@@ -98,7 +98,7 @@ public class GameCommands implements CommandExecutor{
 		//join arena
 		else if (args.length == 2 && args[0].equalsIgnoreCase("join"))
 		{
-			Arena arena = getArenaByName(args[1]);
+			Arena arena = plugin.pdata.getArenaByName(args[1]);
 			if (arena != null)
 			{
 				if (!arena.isArenaEnabled()) {Messages.sendMessage(player, Messages.arenadisabled); return true;}
@@ -146,19 +146,6 @@ public class GameCommands implements CommandExecutor{
 			}
 		}
 		return false;
-	}
-	
-	
-	private Arena getArenaByName(String name)
-	{
-		for (Arena arena : plugin.pdata.getArenas())
-		{
-			if (arena.getArenaName().equals(name))
-			{
-				return arena;
-			}
-		}
-		return null;
 	}
 
 }
