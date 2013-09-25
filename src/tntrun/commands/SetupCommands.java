@@ -246,10 +246,10 @@ public class SetupCommands implements CommandExecutor {
 				{
 						if (arena.setLooseLevel(selection.getMinimumLocation(), selection.getMaximumLocation()))
 						{
-							sender.sendMessage("GameLevel set");
+							sender.sendMessage("LoseLevel set");
 						} else
 						{
-							sender.sendMessage("GameLevel should be in arena bounds");
+							sender.sendMessage("LoseLevel should be in arena bounds");
 						}
 				} else 
 				{
