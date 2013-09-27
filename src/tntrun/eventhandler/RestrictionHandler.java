@@ -44,6 +44,9 @@ public class RestrictionHandler implements Listener {
 		Arena arena = plugin.pdata.getPlayerArena(player.getName());
 		//ignore if player is not in arena
 		if (arena == null) {return;}
+		//allow use any command if player has permission
+		if (player.hasPermission("tntrun.cmdblockbypass")) {return;}
+		//now check command
 		if (!(e.getMessage().equalsIgnoreCase("/tr leave") || e.getMessage().equalsIgnoreCase("/tr vote")))
 		{
 			e.setCancelled(true);
