@@ -19,7 +19,6 @@ package tntrun.arena;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Collection;
 import java.util.HashSet;
 
 import org.bukkit.Bukkit;
@@ -74,7 +73,7 @@ public class Arena {
 		return p2;
 	}
 	private HashSet<GameLevel> gamelevels = new HashSet<GameLevel>();
-	public Collection<GameLevel> getGameLevels()
+	public HashSet<GameLevel> getGameLevels()
 	{
 		return gamelevels;
 	}
