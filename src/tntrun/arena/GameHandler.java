@@ -98,77 +98,39 @@ public class GameHandler {
 		{
 			public void run()
 			{
-				if (arena.isArenaEnabled())
+				if (plugin.pdata.getArenaPlayers(arena).size() > 0)
 				{
 					handleArenaTick();
 				} else
 				{
 					Bukkit.getScheduler().cancelTask(arenahandler);
+					startArenaRegen();
 				}
 			}
 		}, 0, 1);
 	}
 	private void handleArenaTick()
 	{
-		if (plugin.pdata.getArenaPlayers(arena).size() != 0)
+		//check arena time limit
+		if (timelimit < 0)
 		{
-			//check arena time limit
-			if (timelimit < 0)
+			for (String p : new HashSet<String>(plugin.pdata.getArenaPlayers(arena)))
 			{
-				for (String p : new HashSet<String>(plugin.pdata.getArenaPlayers(arena)))
-				{
-					//kick all players
-					arena.arenaph.leavePlayer(Bukkit.getPlayerExact(p), Messages.arenatimeout, "");
-				}
-			} else
-			{
-				//decrease timelimit
-				timelimit--;
-				//handle players
-				for (String p : new HashSet<String>(plugin.pdata.getArenaPlayers(arena)))
-				{
-					handlePlayer(Bukkit.getPlayerExact(p));
-				}
+				//kick all players
+				arena.arenaph.leavePlayer(Bukkit.getPlayerExact(p), Messages.arenatimeout, "");
 			}
 		} else
 		{
-			//game ended
-			Bukkit.getScheduler().cancelTask(arenahandler);
-			Thread regen = new Thread()
+			//decrease timelimit
+			timelimit--;
+			//handle players
+			for (String p : new HashSet<String>(plugin.pdata.getArenaPlayers(arena)))
 			{
-				public void run()
-				{
-					try 
-					{
-						for (final GameLevel gl : arena.getGameLevels())
-						{
-							int regentask =Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable()
-							{
-								public void run()
-								{
-									gl.regen(arena.getWorld());
-								}
-							});
-							while (Bukkit.getScheduler().isCurrentlyRunning(regentask) || Bukkit.getScheduler().isQueued(regentask))
-							{
-								Thread.sleep(10);
-							}
-							Thread.sleep(100);
-						}
-						Thread.sleep(100);
-						Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable()
-						{
-							public void run()
-							{
-								arena.setRunning(false);
-							}
-						});
-					} catch (Exception e) {}
-				}
-			};
-			regen.start();
+				handlePlayer(Bukkit.getPlayerExact(p));
+			}
 		}
 	}
+
 	//player handlers
 	public void handlePlayer(final Player player)
 	{
@@ -202,6 +164,45 @@ public class GameHandler {
 	private void broadcastWin(Player player)
 	{
 		Messages.broadsactMessage(player.getName(), arena.getArenaName(), Messages.playerwonbroadcast);
+	}
+	
+	
+	private void startArenaRegen()
+	{
+		//start arena regen
+		Thread regen = new Thread()
+		{
+			public void run()
+			{
+				try 
+				{
+					for (final GameLevel gl : arena.getGameLevels())
+					{
+						int regentask =Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable()
+						{
+							public void run()
+							{
+								gl.regen(arena.getWorld());
+							}
+						});
+						while (Bukkit.getScheduler().isCurrentlyRunning(regentask) || Bukkit.getScheduler().isQueued(regentask))
+						{
+							Thread.sleep(10);
+						}
+						Thread.sleep(100);
+					}
+					Thread.sleep(100);
+					Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable()
+					{
+						public void run()
+						{
+							arena.setRunning(false);
+						}
+					});
+				} catch (Exception e) {}
+			}
+		};
+		regen.start();
 	}
 	
 }
