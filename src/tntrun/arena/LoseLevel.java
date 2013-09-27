@@ -39,21 +39,13 @@ public class LoseLevel {
 	
 	protected boolean isConfigured()
 	{
-		if (p1 != null && p2 != null)
-		{
-			return true;
-		}
-		return false;
+		return (p1 != null && p2 != null);
 	}
 	
 	
 	protected boolean isLooseLocation(Location loc)
 	{
-		if (loc.toVector().isInAABB(p1, p2))
-		{
-			return true;
-		}
-		return false;
+		return loc.toVector().isInAABB(p1, p2);
 	};
 	
 	protected void setLooseLocation(Location p1, Location p2, World w)

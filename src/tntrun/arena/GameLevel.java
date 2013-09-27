@@ -63,11 +63,7 @@ public class GameLevel {
 	
 	protected boolean isSandLocation(Location loc)
 	{
-		if (loc.toVector().isInAABB(gp1, gp2.clone().add(new Vector(0,1,0))))
-		{
-			return true;
-		}
-		return false;
+		return loc.toVector().isInAABB(gp1, gp2.clone().add(new Vector(0,1,0)));
 	};
 	
 	
@@ -131,6 +127,7 @@ public class GameLevel {
 	
 	protected void setGameLocation(Location p1, Location p2, World w)
 	{
+		unsetCustomGameLevel();
 		this.p1 = p1.toVector();
 		this.p2 = p2.toVector();
 		this.gp1 = p1.add(0, 1, 0).toVector();
