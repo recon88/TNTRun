@@ -85,23 +85,12 @@ public class PlayerHandler {
 			arena.arenagh.runArena();
 		}
 	}
+
 	//remove player from arena
 	public void leavePlayer(Player player, String msgtoplayer, String msgtoarenaplayers)
 	{
-		//remove leave handler
-		int taskid = leavehandler.get(player.getName());
-		Bukkit.getScheduler().cancelTask(taskid);
-		leavehandler.remove(player.getName());
-		//remove player on arena data
-		plugin.pdata.removePlayerFromArena(player.getName());
-		//restore location
-		plugin.pdata.restorePlayerLocation(player.getName());
-		//restore player status
-		plugin.pdata.restorePlayerHunger(player.getName());
-		plugin.pdata.restorePlayerPotionEffects(player.getName());
-		plugin.pdata.restorePlayerArmor(player.getName());
-		plugin.pdata.restorePlayerInventory(player.getName());
-		plugin.pdata.restorePlayerGameMode(player.getName());
+		//remove player from arena and restore his state
+		removePlayerFromArenaAndRestoreState(player, false);
 		//send message to player
 		Messages.sendMessage(player, msgtoplayer);
 		//send message to other players
@@ -109,10 +98,15 @@ public class PlayerHandler {
 		{
 			Messages.sendMessage(Bukkit.getPlayerExact(p), player.getName(), msgtoarenaplayers);
 		}
-		//remove vote
-		votes.remove(player.getName());
 	}
 	protected void leaveWinner(Player player, String msgtoplayer)
+	{
+		//remove player from arena and restore his state
+		removePlayerFromArenaAndRestoreState(player, true);
+		//send message to player
+		Messages.sendMessage(player, msgtoplayer);
+	}
+	private void removePlayerFromArenaAndRestoreState(Player player, boolean winner)
 	{
 		//remove leave handler
 		int taskid = leavehandler.get(player.getName());
@@ -127,12 +121,12 @@ public class PlayerHandler {
 		plugin.pdata.restorePlayerPotionEffects(player.getName());
 		plugin.pdata.restorePlayerArmor(player.getName());
 		plugin.pdata.restorePlayerInventory(player.getName());
-		//reward player before restoring gamemode
-		arena.getRewards().rewardPlayer(player);
-		//now restore gamemode
+		//reward player before restoring gamemode if player is winner
+		if (winner)
+		{
+			arena.getRewards().rewardPlayer(player);
+		}
 		plugin.pdata.restorePlayerGameMode(player.getName());
-		//send message to player
-		Messages.sendMessage(player, msgtoplayer);
 		//remove vote
 		votes.remove(player.getName());
 	}
