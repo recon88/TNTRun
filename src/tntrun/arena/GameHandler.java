@@ -34,12 +34,13 @@ public class GameHandler {
 	{
 		this.plugin = plugin;
 		this.arena = arena;
+		count = arena.getCountdown();
 	}
 	
 	
 	//arena start handler (running status updater)
 	Integer runtaskid = null;
-	int count = arena.getCountdown();
+	int count;
 	protected void runArena()
 	{
 		Runnable run = new Runnable()
