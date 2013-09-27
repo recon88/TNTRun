@@ -22,10 +22,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.event.player.PlayerTeleportEvent;
-
 import tntrun.TNTRun;
 import tntrun.arena.Arena;
 import tntrun.messages.Messages;
@@ -37,35 +34,8 @@ public class PlayerLeaveArenaChecker implements Listener {
 	{
 		this.plugin = plugin;
 	}
-	
-	//remove player from arena if he walked to location outside the arena bounds
-	@EventHandler(priority=EventPriority.LOWEST,ignoreCancelled = true)
-	public void onPlayerMoveEvent(PlayerMoveEvent e)
-	{
-		Player player = e.getPlayer();
-		Arena arena = plugin.pdata.getPlayerArena(player.getName());
-		//ignore player not in arena
-		if (arena == null) {return;}
-		if (!arena.isInArenaBounds(player.getLocation()))
-		{
-			arena.arenaph.leavePlayer(player, Messages.playerlefttoplayer, Messages.playerlefttoothers);
-		}
-	}
-	
-	//remove player from arena if he teleported to location outside the arena bounds
-	@EventHandler(priority=EventPriority.LOWEST,ignoreCancelled = true)
-	public void onPlayerTeleport(PlayerTeleportEvent e)
-	{
-		Player player = e.getPlayer();
-		Arena arena = plugin.pdata.getPlayerArena(player.getName());
-		//ignore player not in arena
-		if (arena == null) {return;}
-		if (!arena.isInArenaBounds(player.getLocation()))
-		{
-			arena.arenaph.leavePlayer(player, Messages.playerlefttoplayer, Messages.playerlefttoothers);
-		}
-	}
-	
+
+
 	//remove player from arena on quit
 	@EventHandler(priority=EventPriority.LOWEST,ignoreCancelled = true)
 	public void onPlayerQuitEvent(PlayerQuitEvent e)
