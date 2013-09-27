@@ -113,6 +113,11 @@ public class Arena {
 	{
 		return timelimit;
 	}	
+	private int countdown = 10;
+	public int getCountdown()
+	{
+		return countdown;
+	}
 	private Rewards rewards = new Rewards();
 	public Rewards getRewards()
 	{
@@ -314,6 +319,8 @@ public class Arena {
 		config.set("votePercent", votesPercent);
 		//save timelimit
 		config.set("timelimit", timelimit);
+		//save countdown
+		config.set("countdown", countdown);
 		//save rewards
 		rewards.saveToConfig(config);
 		try {
@@ -361,6 +368,8 @@ public class Arena {
 		votesPercent = config.getDouble("votePercent", votesPercent);
 		//load timelimit
 		timelimit = config.getInt("timelimit",timelimit);
+		//load countdown
+		countdown = config.getInt("countdown", countdown);
 		//load rewards
 		rewards.loadFromConfig(config);
 		//enable if fully configured

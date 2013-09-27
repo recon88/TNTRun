@@ -39,7 +39,7 @@ public class GameHandler {
 	
 	//arena start handler (running status updater)
 	Integer runtaskid = null;
-	int count = 10;
+	int count = arena.getCountdown();
 	protected void runArena()
 	{
 		Runnable run = new Runnable()
@@ -84,7 +84,7 @@ public class GameHandler {
 	}
 	private void clearRunArenaTask()
 	{
-		count = 10;
+		count = arena.getCountdown();
 		Bukkit.getScheduler().cancelTask(runtaskid);
 		runtaskid = null;
 	}
