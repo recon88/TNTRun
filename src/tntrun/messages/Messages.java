@@ -9,9 +9,10 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 import tntrun.FormattingCodesParser;
+import tntrun.TNTRun;
 
 public class Messages {
-
+	
 	public static String nopermission = "&4You don't have permission to do this";
 	
 	public static String availablearenas = "&6Available arenas:&r ";
@@ -63,9 +64,9 @@ public class Messages {
 		}
 	}
 
-	private static File messageconfig = new File("plugins/TNTRun/configmsg.yml");
-	public static void loadMessages()
+	public static void loadMessages(TNTRun plugin)
 	{
+		File messageconfig = new File(plugin.getDataFolder(),"configmsg.yml");
 		FileConfiguration config = YamlConfiguration.loadConfiguration(messageconfig);
 		nopermission = config.getString("nopermission",nopermission);
 		availablearenas = config.getString("availablearenas",availablearenas);
@@ -87,9 +88,9 @@ public class Messages {
 		playerlosttoplayer = config.getString("playerlosttoplayer",playerlosttoplayer);
 		playerlosttoothers = config.getString("playerlosttoothers",playerlosttoothers);
 		playerwonbroadcast = config.getString("playerwonbroadcast",playerwonbroadcast);
-		saveMessages();
+		saveMessages(messageconfig);
 	}
-	private static void saveMessages()
+	private static void saveMessages(File messageconfig)
 	{
 		FileConfiguration config = new YamlConfiguration();
 		config.set("nopermission",nopermission);

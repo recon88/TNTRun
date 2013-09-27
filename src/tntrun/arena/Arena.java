@@ -44,7 +44,7 @@ public class Arena {
 		this.plugin = plugin;
 		arenagh = new GameHandler(plugin,this);
 		arenaph = new PlayerHandler(plugin,this);
-		arenafile = new File("plugins/TNTRun/arenas/"+arenaname+".yml");
+		arenafile = new File(plugin.getDataFolder()+File.separator+"arenas"+File.separator+arenaname+".yml");
 		plugin.pdata.putArenaInHashMap(this);
 	}
 	

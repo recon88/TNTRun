@@ -48,7 +48,7 @@ public class TNTRun extends JavaPlugin {
 	public void onEnable()
 	{
 		setNaggable(false);
-		Messages.loadMessages();
+		Messages.loadMessages(this);
 		pdata = new PlayerDataStore();
 		scommands = new SetupCommands(this);
 		getCommand("tntrunsetup").setExecutor(scommands);

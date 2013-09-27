@@ -70,7 +70,7 @@ public class ConsoleCommands implements CommandExecutor {
 		//reload messages
 		else if (args.length == 1 && args[0].equalsIgnoreCase("reloadmsg"))
 		{
-			Messages.loadMessages();
+			Messages.loadMessages(plugin);
 			sender.sendMessage("Messages reloaded");
 			return true;
 		}
