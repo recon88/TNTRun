@@ -53,17 +53,13 @@ public class GameHandler {
 					{
 						Bukkit.getPlayerExact(p).sendMessage("Too much players left the arena, wating for some more");
 					}
-					Bukkit.getScheduler().cancelTask(runtaskid);
-					runtaskid = null;
-					count = 10;
+					clearRunArenaTask();
 					return;
 				}
 				//now arena start sequence
 				if (count == 0)
 				{
-					count = 10;
-					Bukkit.getScheduler().cancelTask(runtaskid);
-					runtaskid = null;
+					clearRunArenaTask();
 					for (String p : plugin.pdata.getArenaPlayers(arena))
 					{
 						Messages.sendMessage(Bukkit.getPlayerExact(p), Messages.arenastarted, arena.getTimeLimit());
@@ -85,6 +81,12 @@ public class GameHandler {
 		{
 			runtaskid = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, run, 0, 20);
 		}
+	}
+	private void clearRunArenaTask()
+	{
+		count = 10;
+		Bukkit.getScheduler().cancelTask(runtaskid);
+		runtaskid = null;
 	}
 	
 	//main arena handler
