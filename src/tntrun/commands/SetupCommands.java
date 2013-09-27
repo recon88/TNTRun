@@ -399,6 +399,25 @@ public class SetupCommands implements CommandExecutor {
 			}
 			return true;
 		}
+		//set countdown
+		else if (args.length == 3 && args[1].equalsIgnoreCase("setcountdown"))
+		{
+			Arena arena = plugin.pdata.getArenaByName(args[0]);
+			if (arena != null)
+			{
+				if (arena.isArenaEnabled())
+				{
+					sender.sendMessage("Disable arena first");
+					return true;
+				}
+				arena.setCountdown(Integer.valueOf(args[2]));
+				sender.sendMessage("Countdown set");
+			} else
+			{
+				sender.sendMessage("Arena does not exist");
+			}
+			return true;
+		}
 		//finish arena creation
 		else if (args.length == 2 && args[1].equalsIgnoreCase("finish"))
 		{

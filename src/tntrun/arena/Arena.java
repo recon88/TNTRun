@@ -273,6 +273,10 @@ public class Arena {
 	{
 		this.timelimit = timelimit;
 	}
+	public void setCountdown(int countdown)
+	{
+		this.countdown = countdown;
+	}
 	public void setRewards(ItemStack[] rewards)
 	{
 		this.rewards.setRewards(rewards);
