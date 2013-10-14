@@ -57,10 +57,10 @@ public class Arena {
 		return arenaname;
 	}
 	
-	private World world;
+	private String world;
 	public World getWorld()
 	{
-		return world;
+		return Bukkit.getWorld(world);
 	}
 	private Vector p1 = null;
 	public Vector getP1()
@@ -136,9 +136,9 @@ public class Arena {
 		{
 			for (GameLevel gl : gamelevels)
 			{
-				gl.regen(world);
+				gl.regen(Bukkit.getWorld(world));
 			}
-			loselevel.regen(world);
+			loselevel.regen(Bukkit.getWorld(world));
 			enabled = true;
 			return true;
 		}
@@ -180,7 +180,7 @@ public class Arena {
 	}
 	public void setArenaPoints(Location loc1, Location loc2)
 	{
-		this.world = loc1.getWorld();
+		this.world = loc1.getWorld().getName();
 		this.p1 = loc1.toVector();
 		this.p2 = loc2.toVector();
 	}
@@ -194,7 +194,7 @@ public class Arena {
 				gl = new GameLevel(glname);
 				gamelevels.add(gl);
 			}
-			gl.setGameLocation(loc1, loc2, world);
+			gl.setGameLocation(loc1, loc2, Bukkit.getWorld(world));
 			return true;
 		}
 		return false;
@@ -208,7 +208,7 @@ public class Arena {
 		GameLevel gl = getGameLevelByName(name);
 		if (gl != null && gamelevels.contains(gl))
 		{
-			gl.setCustomGameLevel(world);
+			gl.setCustomGameLevel(Bukkit.getWorld(world));
 			return true;
 		} else
 		{
@@ -242,7 +242,7 @@ public class Arena {
 	{
 		if (isInArenaBounds(loc1) && isInArenaBounds(loc2))
 		{
-			loselevel.setLooseLocation(loc1, loc2, world);			
+			loselevel.setLooseLocation(loc1, loc2, Bukkit.getWorld(world));			
 			return true;
 		} 
 		return false;
@@ -294,7 +294,7 @@ public class Arena {
 		FileConfiguration config = new YamlConfiguration();
 		//save arena bounds
 		try {
-			config.set("world", world.getName());
+			config.set("world", world);
 			config.set("p1", p1);
 			config.set("p2", p2);
 		} catch (Exception e) {}
@@ -338,7 +338,7 @@ public class Arena {
 		FileConfiguration config = YamlConfiguration.loadConfiguration(arenafile);
 		//load arena bounds
 		try {
-			world = Bukkit.getWorld(config.getString("world", null));
+			world = config.getString("world", null);
 			p1 = config.getVector("p1", null);
 			p2 = config.getVector("p2", null);
 		} catch (Exception e) {}
@@ -362,7 +362,7 @@ public class Arena {
 		//load spawnpoint
 		try {
 			Vector v = config.getVector("spawnpoint", null);
-			spawnpoint = new Location(world, v.getX(), v.getY(), v.getZ());
+			spawnpoint = new Location(Bukkit.getWorld(world), v.getX(), v.getY(), v.getZ());
 		} catch (Exception e) {}
 		//load maxplayers
 		maxPlayers = config.getInt("maxPlayers",maxPlayers);
