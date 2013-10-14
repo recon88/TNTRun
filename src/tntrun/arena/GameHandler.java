@@ -145,7 +145,7 @@ public class GameHandler {
 			//remove block under player feet
 			if (gl.isSandLocation(plufloc))
 			{
-				gl.destroyBlock(plufloc, arena.getGameLevelDestroyDelay(), arena);
+				gl.destroyBlock(plufloc, arena);
 			}
 		}
 		//check for win
