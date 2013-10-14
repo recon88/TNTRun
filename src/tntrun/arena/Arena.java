@@ -50,6 +50,7 @@ public class Arena {
 	
 	private boolean enabled = false;
 	private boolean running = false;
+	private boolean regenerating = false;
 	
 	private String arenaname;
 	public String getArenaName()
@@ -161,6 +162,14 @@ public class Arena {
 	protected void setRunning(boolean running)
 	{
 		this.running = running;
+	}
+	public boolean isArenaRegenerating()
+	{
+		return regenerating;
+	}
+	protected void setRegenerating(boolean regenerating)
+	{
+		this.regenerating = regenerating;
 	}
 
 	//arena structure handler

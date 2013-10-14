@@ -74,12 +74,9 @@ public class GameLevel {
 		{
 			public void run()
 			{
-				if (arena.isArenaRunning())
+				if (arena.isArenaRunning() && !arena.isArenaRegenerating() && blockUnderFeetLocation != null)
 				{
-					if (blockUnderFeetLocation != null)
-					{
-						removeGLBlocks(blockUnderFeetLocation.getBlock());
-					}
+					removeGLBlocks(blockUnderFeetLocation.getBlock());
 				}
 			}
 		},delay);

@@ -172,6 +172,8 @@ public class GameHandler {
 	
 	private void startArenaRegen()
 	{
+		//set arena is regenerating status
+		arena.setRegenerating(true);
 		//start arena regen
 		Thread regen = new Thread()
 		{
@@ -179,6 +181,7 @@ public class GameHandler {
 			{
 				try 
 				{
+					//regen
 					for (final GameLevel gl : arena.getGameLevels())
 					{
 						int regentask =Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable()
@@ -195,10 +198,12 @@ public class GameHandler {
 						Thread.sleep(100);
 					}
 					Thread.sleep(100);
+					//update arena status
 					Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable()
 					{
 						public void run()
 						{
+							arena.setRegenerating(false);
 							arena.setRunning(false);
 						}
 					});
