@@ -20,7 +20,6 @@ package tntrun.arena;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -345,12 +344,16 @@ public class Arena {
 	public void loadFromConfig()
 	{
 		FileConfiguration config = YamlConfiguration.loadConfiguration(arenafile);
+		//load arena world location
+		world = config.getString("world", null);
+		//stop arena loading if world is not loaded
+		if (Bukkit.getWorld(world) == null)
+		{
+			plugin.logSevere("World "+world+" is not loaded. Stopping arena "+arenaname+" loading");
+		}
 		//load arena bounds
-		try {
-			world = config.getString("world", null);
-			p1 = config.getVector("p1", null);
-			p2 = config.getVector("p2", null);
-		} catch (Exception e) {}
+		p1 = config.getVector("p1", null);
+		p2 = config.getVector("p2", null);
 		//load gamelevels
 		ConfigurationSection cs = config.getConfigurationSection("gamelevels");
 		if (cs != null)

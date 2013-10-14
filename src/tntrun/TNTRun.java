@@ -18,6 +18,7 @@
 package tntrun;
 
 import java.io.File;
+import java.util.logging.Logger;
 
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -35,6 +36,9 @@ import tntrun.signs.SignHandler;
 
 public class TNTRun extends JavaPlugin {
 
+	
+	private Logger log;
+	
 	public PlayerDataStore pdata;
 	public SetupCommands scommands;
 	public GameCommands gcommands;
@@ -47,7 +51,7 @@ public class TNTRun extends JavaPlugin {
 	@Override
 	public void onEnable()
 	{
-		setNaggable(false);
+		log = getLogger();
 		Messages.loadMessages(this);
 		pdata = new PlayerDataStore();
 		scommands = new SetupCommands(this);
@@ -93,6 +97,12 @@ public class TNTRun extends JavaPlugin {
 		plachecker = null;
 		signs = null;
 		pdata = null;
+		log = null;
+	}
+	
+	public void logSevere(String message)
+	{
+		log.severe(message);
 	}
 	
 }
