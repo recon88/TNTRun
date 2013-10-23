@@ -141,7 +141,7 @@ public class Arena {
 			}
 			loselevel.regen(Bukkit.getWorld(world));
 			enabled = true;
-			plugin.signEditor.modifySigns(getArenaName(), plugin.pdata.getArenaPlayers(this).size(), getMaxPlayers());
+			plugin.signEditor.modifySigns(getArenaName(), SignMode.ENABLED, plugin.pdata.getArenaPlayers(this).size(), getMaxPlayers());
 			return true;
 		}
 		return false;

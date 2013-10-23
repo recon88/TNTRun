@@ -26,77 +26,38 @@ public class SignEditor {
 	public SignEditor(TNTRun plugin) {
 		this.plugin = plugin;
 		configfile = new File(plugin.getDataFolder().getAbsolutePath() + File.separator+ "signs.yml");
-	}	
-
-	
-	public void onEnable() {
-		FileConfiguration file = YamlConfiguration.loadConfiguration(configfile);
-
-		for(String arena : file.getKeys(false)) {
-			ConfigurationSection section = file.getConfigurationSection(arena);
-			for(String block : section.getKeys(false)) {
-				ConfigurationSection blockSection = section.getConfigurationSection(block);
-				Location l = new Location(Bukkit.getWorld(blockSection.getString("world")), (double)blockSection.getInt("x"), (double)blockSection.getInt("y"), (double)blockSection.getInt("z"));
-				Block sign = l.getBlock();
-				addSign(sign, arena);
-			}
-			modifySigns(arena, SignMode.ENABLED, 0, plugin.pdata.getArenaByName(arena).getMaxPlayers());
-		}
 	}
-	
-	public void onDisable() {
-		FileConfiguration file = new YamlConfiguration();
-		
-		for(String arena : signs.keySet()) {
-			ConfigurationSection section = file.createSection(arena);
-			int i = 0;
-			for(Block b : signs.get(arena)) {
-				ConfigurationSection blockSection = section.createSection(Integer.toString(i++));
-				blockSection.set("x", b.getX());
-				blockSection.set("y", b.getY());
-				blockSection.set("z", b.getZ());
-				blockSection.set("world", b.getWorld().getName());
-			}
-		}
-		
-		try {
-			file.save(configfile);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public SignEditor addArena(String arena) {
-		if(!signs.containsKey(arena)) {
+
+	public SignEditor addArena(String arena) 
+	{
+		if(!signs.containsKey(arena)) 
+		{
 			signs.put(arena, new HashSet<Block>());
 		}
 		return this;
 	}
-	
-	public SignEditor addSign(Block sign, String arena) {
+	public SignEditor addSign(Block sign, String arena) 
+	{
 		addArena(arena).signs.get(arena).add(sign);
 		return this;
 	}
-	
-	public SignEditor removeSign(Block sign, String arena) {
+	public SignEditor removeSign(Block sign, String arena) 
+	{
 		addArena(arena).signs.get(arena).remove(sign);
 		return this;
 	}
-	
-	protected HashSet<Block> getSigns(String arena) {
+	protected HashSet<Block> getSigns(String arena) 
+	{
 		return addArena(arena).signs.get(arena);
 	}
-	
-	public SignEditor modifySigns(String arena, int players, int maxPlayers) {
-		return modifySigns(arena, SignMode.ENABLED, players, maxPlayers);
+
+	public void modifySigns(String arena, SignMode mode) 
+	{
+		modifySigns(arena, mode, 0, 1);
 	}
-	
-	public SignEditor modifySigns(String arena, SignMode mode) {
-		return modifySigns(arena, mode, 0, 100);
-	}
-	
-	public SignEditor modifySigns(String arena, SignMode mode, int players, int maxPlayers) {
-		String text;
+	public void modifySigns(String arena, SignMode mode, int players, int maxPlayers) 
+	{
+		String text = null;
 		if(mode == SignMode.GAME_IN_PROGRESS) {
 			text = ChatColor.RED.toString() + ChatColor.BOLD.toString() + "Game in progress";
 		} else if(mode == SignMode.DISABLED) {
@@ -107,7 +68,8 @@ public class SignEditor {
 			text = ChatColor.GREEN.toString() + ChatColor.BOLD.toString() + Integer.toString(players) + "/" + Integer.toString(maxPlayers);
 		}
 		
-		for(Block b : getSigns(arena)) {
+		for(Block b : getSigns(arena)) 
+		{
 			Sign sign = (Sign) b.getState();
 			sign.setLine(3, text);
 			sign.update();
@@ -120,6 +82,45 @@ public class SignEditor {
 				lamp.setType(Material.STONE);
 			}
 		}
-		return this;
 	}
+
+	public void loadConfiguration() 
+	{
+		FileConfiguration file = YamlConfiguration.loadConfiguration(configfile);
+
+		for(String arena : file.getKeys(false))
+		{
+			ConfigurationSection section = file.getConfigurationSection(arena);
+			for(String block : section.getKeys(false)) 
+			{
+				ConfigurationSection blockSection = section.getConfigurationSection(block);
+				Location l = new Location(Bukkit.getWorld(blockSection.getString("world")), (double)blockSection.getInt("x"), (double)blockSection.getInt("y"), (double)blockSection.getInt("z"));
+				Block sign = l.getBlock();
+				addSign(sign, arena);
+			}
+			modifySigns(arena, SignMode.ENABLED, 0, plugin.pdata.getArenaByName(arena).getMaxPlayers());
+		}
+	}
+
+	public void saveConfiguration() 
+	{
+		FileConfiguration file = new YamlConfiguration();
+		
+		for(String arena : signs.keySet()) 
+		{
+			ConfigurationSection section = file.createSection(arena);
+			int i = 0;
+			for(Block b : signs.get(arena)) 
+			{
+				ConfigurationSection blockSection = section.createSection(Integer.toString(i++));
+				blockSection.set("x", b.getX());
+				blockSection.set("y", b.getY());
+				blockSection.set("z", b.getZ());
+				blockSection.set("world", b.getWorld().getName());
+			}
+		}
+		
+		try {file.save(configfile);} catch (IOException e) {}
+	}
+
 }

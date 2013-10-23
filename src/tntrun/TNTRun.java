@@ -82,7 +82,7 @@ public class TNTRun extends JavaPlugin {
 				arena.loadFromConfig();
 			} catch (Exception e) {}
 		}
-		signEditor.onEnable();
+		signEditor.loadConfiguration();
 	}
 	
 	@Override
@@ -103,7 +103,7 @@ public class TNTRun extends JavaPlugin {
 		signs = null;
 		pdata = null;
 		log = null;
-		signEditor.onDisable();
+		signEditor.saveConfiguration();
 		signEditor = null;
 	}
 	
