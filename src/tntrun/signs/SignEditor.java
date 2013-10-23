@@ -12,6 +12,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import tntrun.TNTRun;
@@ -19,15 +20,17 @@ import tntrun.TNTRun;
 public class SignEditor {
 	
 	protected TNTRun plugin;
-	protected YamlConfiguration file;
 	protected Hashtable<String, HashSet<Block>> signs = new Hashtable<String, HashSet<Block>>();
-	
+
+	private File configfile;
 	public SignEditor(TNTRun plugin) {
 		this.plugin = plugin;
-	}
+		configfile = new File(plugin.getDataFolder().getAbsolutePath() + File.separator+ "signs.yml");
+	}	
+
 	
 	public void onEnable() {
-		file = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder().getAbsolutePath() + "/signs.yml"));
+		FileConfiguration file = YamlConfiguration.loadConfiguration(configfile);
 
 		for(String arena : file.getKeys(false)) {
 			ConfigurationSection section = file.getConfigurationSection(arena);
@@ -42,6 +45,8 @@ public class SignEditor {
 	}
 	
 	public void onDisable() {
+		FileConfiguration file = new YamlConfiguration();
+		
 		for(String arena : signs.keySet()) {
 			ConfigurationSection section = file.createSection(arena);
 			int i = 0;
@@ -55,7 +60,7 @@ public class SignEditor {
 		}
 		
 		try {
-			file.save(new File(plugin.getDataFolder().getAbsolutePath() + "/signs.yml"));
+			file.save(configfile);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
