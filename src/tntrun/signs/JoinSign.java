@@ -18,6 +18,7 @@
 package tntrun.signs;
 
 import org.bukkit.ChatColor;
+import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -42,6 +43,16 @@ public class JoinSign {
 		{
 			e.setLine(0, ChatColor.BLUE+"[TNTRun]");
 			e.getPlayer().sendMessage("Sign succesfully created");
+			plugin.signEditor.addSign(e.getBlock(), arena.getArenaName());
+			SignMode mode;
+			if(!arena.isArenaEnabled()) {
+				mode = SignMode.DISABLED;
+			} else if(arena.isArenaRunning()) {
+				mode = SignMode.GAME_IN_PROGRESS;
+			} else {
+				mode = SignMode.ENABLED;
+			}
+			plugin.signEditor.modifySigns(arena.getArenaName(), mode, plugin.pdata.getArenaPlayers(arena).size(), arena.getMaxPlayers());
 		} else
 		{
 			e.getPlayer().sendMessage("Arena does not exist");
@@ -63,6 +74,10 @@ public class JoinSign {
 		{
 			e.getPlayer().sendMessage("Arena does not exist");
 		}
+	}
+	
+	protected void handleDestroy(Block b) {
+		plugin.signEditor.removeSign(b, ((Sign)b.getState()).getLine(2));
 	}
 	
 }

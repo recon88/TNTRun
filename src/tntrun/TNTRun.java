@@ -32,6 +32,7 @@ import tntrun.eventhandler.PlayerLeaveArenaChecker;
 import tntrun.eventhandler.PlayerStatusHandler;
 import tntrun.eventhandler.RestrictionHandler;
 import tntrun.messages.Messages;
+import tntrun.signs.SignEditor;
 import tntrun.signs.SignHandler;
 
 public class TNTRun extends JavaPlugin {
@@ -48,10 +49,13 @@ public class TNTRun extends JavaPlugin {
 	public PlayerLeaveArenaChecker plachecker;
 	public SignHandler signs;
 	
+	public SignEditor signEditor;
+	
 	@Override
 	public void onEnable()
 	{
 		log = getLogger();
+		signEditor = new SignEditor(this);
 		Messages.loadMessages(this);
 		pdata = new PlayerDataStore();
 		scommands = new SetupCommands(this);
@@ -78,6 +82,7 @@ public class TNTRun extends JavaPlugin {
 				arena.loadFromConfig();
 			} catch (Exception e) {}
 		}
+		signEditor.onEnable();
 	}
 	
 	@Override
@@ -98,6 +103,8 @@ public class TNTRun extends JavaPlugin {
 		signs = null;
 		pdata = null;
 		log = null;
+		signEditor.onDisable();
+		signEditor = null;
 	}
 	
 	public void logSevere(String message)
