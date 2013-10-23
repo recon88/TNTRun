@@ -2,7 +2,6 @@ package tntrun.signs;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Hashtable;
 
@@ -13,7 +12,6 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import tntrun.TNTRun;
@@ -29,23 +27,8 @@ public class SignEditor {
 	}
 	
 	public void onEnable() {
-		file = new YamlConfiguration();
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		file.addDefaults(map);
-		
-		
-		try {
-			File f = new File(plugin.getDataFolder().getAbsolutePath() + "/signs.yml");
-			file.load(f);
-		} catch (IOException | InvalidConfigurationException e) {
-			try {
-				File f = new File(plugin.getDataFolder().getAbsolutePath() + "/signs.yml");
-				f.createNewFile();
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-		}
-		
+		file = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder().getAbsolutePath() + "/signs.yml"));
+
 		for(String arena : file.getKeys(false)) {
 			ConfigurationSection section = file.getConfigurationSection(arena);
 			for(String block : section.getKeys(false)) {
