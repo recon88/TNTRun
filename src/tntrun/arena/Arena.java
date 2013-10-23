@@ -31,6 +31,7 @@ import org.bukkit.util.Vector;
 
 import tntrun.TNTRun;
 import tntrun.messages.Messages;
+import tntrun.signs.SignMode;
 
 public class Arena {
 
@@ -140,6 +141,7 @@ public class Arena {
 			}
 			loselevel.regen(Bukkit.getWorld(world));
 			enabled = true;
+			plugin.signEditor.modifySigns(getArenaName(), plugin.pdata.getArenaPlayers(this).size(), getMaxPlayers());
 			return true;
 		}
 		return false;
@@ -153,6 +155,7 @@ public class Arena {
 		{
 			arenaph.leavePlayer(Bukkit.getPlayerExact(player), Messages.arenadisabling,"");
 		}
+		plugin.signEditor.modifySigns(getArenaName(), SignMode.DISABLED);
 	}
 	public boolean isArenaRunning()
 	{

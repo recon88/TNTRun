@@ -25,6 +25,7 @@ import org.bukkit.entity.Player;
 
 import tntrun.TNTRun;
 import tntrun.messages.Messages;
+import tntrun.signs.SignMode;
 
 public class GameHandler {
 
@@ -96,6 +97,8 @@ public class GameHandler {
 	private void runArenaHandler()
 	{
 		arena.setRunning(true);
+
+		plugin.signEditor.modifySigns(arena.getArenaName(), SignMode.GAME_IN_PROGRESS);
 		timelimit = arena.getTimeLimit()*20; //timelimit is in ticks
 		arenahandler = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable()
 		{

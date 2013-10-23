@@ -24,6 +24,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
@@ -105,6 +106,13 @@ public class SignHandler implements Listener {
 		}
 	}
 	
-	
-	
+	@EventHandler(priority=EventPriority.HIGHEST,ignoreCancelled=true)
+	public void onSignDestroy(BlockBreakEvent e) {
+		if (!(e.getBlock().getState() instanceof Sign)) {return;}
+		Sign sign = (Sign) e.getBlock().getState();
+		if (sign.getLine(0).equalsIgnoreCase(ChatColor.BLUE+"[TNTRun]") && sign.getLine(1).equalsIgnoreCase("[join]") && sign.getLine(2) != null)
+		{
+			joinsign.handleDestroy(e.getBlock());
+		}
+	}
 }

@@ -25,6 +25,7 @@ import org.bukkit.entity.Player;
 
 import tntrun.TNTRun;
 import tntrun.messages.Messages;
+import tntrun.signs.SignMode;
 
 public class PlayerHandler {
 
@@ -79,6 +80,7 @@ public class PlayerHandler {
 			}
 		}, 0, 20);
 		leavehandler.put(player.getName(), taskid);
+		plugin.signEditor.modifySigns(arena.getArenaName(), SignMode.ENABLED, plugin.pdata.getArenaPlayers(arena).size(), arena.getMaxPlayers());
 		//check for game start
 		if (plugin.pdata.getArenaPlayers(arena).size() == arena.getMaxPlayers() || plugin.pdata.getArenaPlayers(arena).size() == arena.getMinPlayers())
 		{
@@ -129,6 +131,15 @@ public class PlayerHandler {
 		plugin.pdata.restorePlayerGameMode(player.getName());
 		//remove vote
 		votes.remove(player.getName());
+		
+		SignMode mode;
+		if(winner || plugin.pdata.getArenaPlayers(arena).size() == 0) {
+			mode = SignMode.ENABLED;
+		} else {
+			mode = SignMode.GAME_IN_PROGRESS;
+		}
+
+		plugin.signEditor.modifySigns(arena.getArenaName(), mode, plugin.pdata.getArenaPlayers(arena).size(), arena.getMaxPlayers());
 	}
 	
 
