@@ -182,54 +182,6 @@ public class SetupCommands implements CommandExecutor {
 			}
 			return true;
 		}
-		//set custom gamelevel
-		else if (args.length == 3 && args[1].equalsIgnoreCase("setcustomgamelevel"))
-		{
-			Arena arena = plugin.pdata.getArenaByName(args[0]);
-			if (arena != null)
-			{
-				if (arena.isArenaEnabled())
-				{
-					sender.sendMessage("Disable arena first");
-					return true;
-				}
-				if (arena.setCustomGameLevel(args[2]))
-				{
-					sender.sendMessage("Custom GameLevel set");
-				} else
-				{
-					sender.sendMessage("GameLevel does not exist");
-				}
-			} else
-			{
-				sender.sendMessage("Arena does not exist");
-			}
-			return true;
-		}
-		//unset custom gamelevel
-		else if (args.length == 3 && args[1].equalsIgnoreCase("unsetcustomgamelevel"))
-		{
-			Arena arena = plugin.pdata.getArenaByName(args[0]);
-			if (arena != null)
-			{
-				if (arena.isArenaEnabled())
-				{
-					sender.sendMessage("Disable arena first");
-					return true;
-				}
-				if (arena.unsetCustomGameLevel(args[2]))
-				{
-					sender.sendMessage("Custom GameLevel unset");
-				} else
-				{
-					sender.sendMessage("GameLevel does not exist");
-				}
-			} else
-			{
-				sender.sendMessage("Arena does not exist");
-			}
-			return true;
-		}
 		//set looselevel
 		else if (args.length == 2 && args[1].equalsIgnoreCase("setloselevel"))
 		{

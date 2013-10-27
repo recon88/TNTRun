@@ -135,13 +135,8 @@ public class Arena {
 	{
 		if (isArenaConfigured().equalsIgnoreCase("yes"))
 		{
-			for (GameLevel gl : gamelevels)
-			{
-				gl.regen(Bukkit.getWorld(world));
-			}
-			loselevel.regen(Bukkit.getWorld(world));
-			enabled = true;
 			plugin.signEditor.modifySigns(getArenaName(), SignMode.ENABLED, plugin.pdata.getArenaPlayers(this).size(), getMaxPlayers());
+			enabled = true;
 			return true;
 		}
 		return false;
@@ -154,6 +149,11 @@ public class Arena {
 		for (String player : new HashSet<String>(plugin.pdata.getArenaPlayers(this)))
 		{
 			arenaph.leavePlayer(Bukkit.getPlayerExact(player), Messages.arenadisabling,"");
+		}
+		//regen gamelevels
+		for (GameLevel gl : this.gamelevels)
+		{
+			gl.regen(getWorld());
 		}
 		plugin.signEditor.modifySigns(getArenaName(), SignMode.DISABLED);
 	}
@@ -210,34 +210,6 @@ public class Arena {
 		}
 		return false;
 	}
-	public void setGameLevelDestroyDelay(int delay)
-	{
-		gameleveldestroydelay = delay;
-	}
-	public boolean setCustomGameLevel(String name)
-	{
-		GameLevel gl = getGameLevelByName(name);
-		if (gl != null && gamelevels.contains(gl))
-		{
-			gl.setCustomGameLevel(Bukkit.getWorld(world));
-			return true;
-		} else
-		{
-			return false;
-		}
-	}
-	public boolean unsetCustomGameLevel(String name)
-	{
-		GameLevel gl = getGameLevelByName(name);
-		if (gl != null && gamelevels.contains(gl))
-		{
-			gl.unsetCustomGameLevel();
-			return true;
-		} else
-		{
-			return false;
-		}
-	}
 	private GameLevel getGameLevelByName(String name)
 	{
 		for (GameLevel gl : gamelevels)
@@ -248,6 +220,10 @@ public class Arena {
 			}
 		}
 		return null;
+	}
+	public void setGameLevelDestroyDelay(int delay)
+	{
+		gameleveldestroydelay = delay;
 	}
 	public boolean setLooseLevel(Location loc1, Location loc2)
 	{

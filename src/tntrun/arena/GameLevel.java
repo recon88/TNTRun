@@ -17,6 +17,8 @@
 
 package tntrun.arena;
 
+import java.util.HashMap;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -53,20 +55,22 @@ public class GameLevel {
 		return p2;
 	}
 
-	
-	private GameLevelBlockContainer customblockcontainer = new GameLevelBlockContainer();
-	public GameLevelBlockContainer getCustomBlocks()
+	private Vector glb1 = null;
+	private Vector glb2 = null;
+	private boolean isInsideGamelevel(Location loc)
 	{
-		return customblockcontainer; 
+		if (loc.getBlock().getLocation().toVector().isInAABB(glb1, glb2))
+		{
+			return true;
+		}
+		return false;
 	}
-	
-	
 	protected boolean isSandLocation(Location loc)
 	{
 		return loc.toVector().isInAABB(gp1, gp2.clone().add(new Vector(0,1,0)));
 	};
-	
-	
+
+	private HashMap<String,String> blockmaterial = new HashMap<String,String>(800);
 	protected void destroyBlock(Location loc, final Arena arena)
 	{
 		final Location blockUnderFeetLocation = getPlayerStandOnBlockLocation(loc);
@@ -108,23 +112,27 @@ public class GameLevel {
 	}
 	private void removeGLBlocks(Block block)
 	{
+		String locationstring = new StringBuilder().append(block.getX()).append("|").append(block.getY()).append("|").append(block.getZ()).toString();
+		String blocksmaterial = new StringBuilder().append(block.getType().toString()).append("|").append(block.getRelative(BlockFace.DOWN).getType().toString()).toString();
+		blockmaterial.put(locationstring, blocksmaterial);
 		block.setType(Material.AIR);
 		block.getRelative(BlockFace.DOWN).setType(Material.AIR);
 	}
-	private Vector glb1 = null;
-	private Vector glb2 = null;
-	private boolean isInsideGamelevel(Location loc)
+	protected void regen(World w)
 	{
-		if (loc.getBlock().getLocation().toVector().isInAABB(glb1, glb2))
+		for (String locationstring : blockmaterial.keySet())
 		{
-			return true;
+			String[] coords = locationstring.split("[|]");
+			String [] materials = blockmaterial.get(locationstring).split("[|]");
+			Location location = new Location(w,Double.valueOf(coords[0]),Double.valueOf(coords[1]),Double.valueOf(coords[2]));
+			location.getBlock().setType(Material.getMaterial(materials[0]));
+			location.add(0,-1,0).getBlock().setType(Material.getMaterial(materials[1]));
 		}
-		return false;
+		blockmaterial.clear();
 	}
 	
 	protected void setGameLocation(Location p1, Location p2, World w)
 	{
-		unsetCustomGameLevel();
 		this.p1 = p1.toVector();
 		this.p2 = p2.toVector();
 		this.gp1 = p1.add(0, 1, 0).toVector();
@@ -133,30 +141,7 @@ public class GameLevel {
 		this.glb2 = gp2.clone().add(new Vector(-1,0,-1));
 		fillArea(w);
 	}
-	protected void setCustomGameLevel(World w)
-	{
-		customblockcontainer.setCustomGameLevel(w, p1, p2);
-	}
-	protected void unsetCustomGameLevel()
-	{
-		customblockcontainer.unsetCustomGameLevel();
-	}
-	protected void regen(World w)
-	{
-		fillArea(w);
-	}
 	private void fillArea(World w)
-	{
-		if (customblockcontainer.customGameLevelSet())
-		{
-			customblockcontainer.fillCustomArea(w, p1, p2);
-		} else
-		{
-			fillDefaultArea(w);
-		}
-	}
-	@SuppressWarnings("deprecation")
-	private void fillDefaultArea(World w)
 	{
 		int y = p1.getBlockY();
 		for (int x = p1.getBlockX()+1; x<p2.getBlockX(); x++)
@@ -164,25 +149,23 @@ public class GameLevel {
 			for (int z = p1.getBlockZ()+1; z<p2.getBlockZ(); z++)
 			{
 				Block b = w.getBlockAt(x, y, z);
-				if (b.getTypeId() != 46) 
+				if (b.getType() != Material.SAND) 
 				{
-					b.setTypeIdAndData(46 , (byte) 0, true);
+					b.setType(Material.SAND);
 				}
 				b = b.getRelative(BlockFace.UP);
-				if (b.getTypeId() != 12) 
+				if (b.getType() != Material.TNT) 
 				{
-					b.setTypeIdAndData(12 , (byte) 0, true);
+					b.setType(Material.TNT);
 				}
 			}
 		}
 	}
-	
 
 	protected void saveToConfig(FileConfiguration config)
 	{
 		config.set("gamelevels."+name+".p1", p1);
 		config.set("gamelevels."+name+".p2", p2);
-		customblockcontainer.saveToConfig("gamelevels."+name, config);
 	}
 	
 	protected void loadFromConfig(FileConfiguration config)
@@ -195,7 +178,6 @@ public class GameLevel {
 		this.gp2 = p2.clone().add(new Vector(0,1,0));
 		this.glb1 = gp1.clone().add(new Vector(1,0,1));
 		this.glb2 = gp2.clone().add(new Vector(-1,0,-1));
-		customblockcontainer.loadFromConfig("gamelevels."+name, config);
 	}
 	
 }

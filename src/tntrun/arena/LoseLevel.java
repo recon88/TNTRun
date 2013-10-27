@@ -18,7 +18,6 @@
 package tntrun.arena;
 
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.util.Vector;
@@ -52,24 +51,7 @@ public class LoseLevel {
 	{
 		this.p1 = p1.toVector();
 		this.p2 = p2.toVector();
-		fillArea(w);
 	}	
-	public void regen(World w)
-	{
-		fillArea(w);
-	}
-	private void fillArea(World w)
-	{
-		int y = p1.getBlockY();
-		for (int x = p1.getBlockX()+1; x<p2.getBlockX(); x++)
-		{
-			for (int z = p1.getBlockZ()+1; z<p2.getBlockZ(); z++)
-			{
-				w.getBlockAt(x, y, z).setType(Material.WATER);
-			}
-		}
-	}
-	
 	
 	protected void saveToConfig(FileConfiguration config)
 	{

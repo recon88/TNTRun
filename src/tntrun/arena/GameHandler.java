@@ -110,7 +110,10 @@ public class GameHandler {
 				} else
 				{
 					Bukkit.getScheduler().cancelTask(arenahandler);
-					startArenaRegen();
+					if (arena.isArenaEnabled())
+					{
+						startArenaRegen();
+					}
 				}
 			}
 		}, 0, 1);
