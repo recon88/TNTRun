@@ -151,7 +151,7 @@ public class Arena {
 			arenaph.leavePlayer(Bukkit.getPlayerExact(player), Messages.arenadisabling,"");
 		}
 		//regen gamelevels
-		for (GameLevel gl : this.gamelevels)
+		for (GameLevel gl : gamelevels)
 		{
 			gl.regen(getWorld());
 		}
