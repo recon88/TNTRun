@@ -51,7 +51,7 @@ public class SignHandler implements Listener {
 		Player player = e.getPlayer();
 		if (e.getLine(0).equalsIgnoreCase("[TNTRun]"))
 		{
-			if (!player.hasPermission("tntrun.setupsigns")) 
+			if (!player.hasPermission("tntrun.setup")) 
 			{
 				Messages.sendMessage(player, Messages.nopermission);
 				e.setCancelled(true);
@@ -84,7 +84,7 @@ public class SignHandler implements Listener {
 		Player player = e.getPlayer();
 		if (sign.getLine(0).equalsIgnoreCase(ChatColor.BLUE+"[TNTRun]"))
 		{
-			if (!player.hasPermission("tntrun.gamesigns")) 
+			if (!player.hasPermission("tntrun.game")) 
 			{
 				player.sendMessage("You don't have permission to do this");
 				e.setCancelled(true);
