@@ -113,10 +113,13 @@ public class GameLevel {
 	private void removeGLBlocks(Block block)
 	{
 		String locationstring = new StringBuilder().append(block.getX()).append("|").append(block.getY()).append("|").append(block.getZ()).toString();
-		String blocksmaterial = new StringBuilder().append(block.getType().toString()).append("|").append(block.getRelative(BlockFace.DOWN).getType().toString()).toString();
-		blockmaterial.put(locationstring, blocksmaterial);
-		block.setType(Material.AIR);
-		block.getRelative(BlockFace.DOWN).setType(Material.AIR);
+		if (!blockmaterial.containsKey(locationstring))
+		{
+			String blocksmaterial = new StringBuilder().append(block.getType().toString()).append("|").append(block.getRelative(BlockFace.DOWN).getType().toString()).toString();
+			blockmaterial.put(locationstring, blocksmaterial);
+			block.setType(Material.AIR);
+			block.getRelative(BlockFace.DOWN).setType(Material.AIR);
+		}
 	}
 	protected void regen(World w)
 	{
