@@ -70,7 +70,6 @@ public class GameLevel {
 		return loc.toVector().isInAABB(gp1, gp2.clone().add(new Vector(0,1,0)));
 	};
 
-	private HashMap<String,String> blockmaterial = new HashMap<String,String>(800);
 	protected void destroyBlock(Location loc, final Arena arena)
 	{
 		final Location blockUnderFeetLocation = getPlayerStandOnBlockLocation(loc);
@@ -78,7 +77,7 @@ public class GameLevel {
 		{
 			public void run()
 			{
-				if (arena.isArenaRunning() && !arena.isArenaRegenerating() && blockUnderFeetLocation != null)
+				if (arena.isArenaRunning() && !arena.isArenaRegenerating() && blockUnderFeetLocation != null && blockUnderFeetLocation.getBlock().getType() != Material.AIR)
 				{
 					removeGLBlocks(blockUnderFeetLocation.getBlock());
 				}
@@ -110,16 +109,14 @@ public class GameLevel {
 		}
 		return null;
 	}
+	private HashMap<String,String> blockmaterial = new HashMap<String,String>(800);
 	private void removeGLBlocks(Block block)
 	{
 		String locationstring = new StringBuilder().append(block.getX()).append("|").append(block.getY()).append("|").append(block.getZ()).toString();
-		if (!blockmaterial.containsKey(locationstring))
-		{
-			String blocksmaterial = new StringBuilder().append(block.getType().toString()).append("|").append(block.getRelative(BlockFace.DOWN).getType().toString()).toString();
-			blockmaterial.put(locationstring, blocksmaterial);
-			block.setType(Material.AIR);
-			block.getRelative(BlockFace.DOWN).setType(Material.AIR);
-		}
+		String blocksmaterial = new StringBuilder().append(block.getType().toString()).append("|").append(block.getRelative(BlockFace.DOWN).getType().toString()).toString();
+		blockmaterial.put(locationstring, blocksmaterial);
+		block.setType(Material.AIR);
+		block.getRelative(BlockFace.DOWN).setType(Material.AIR);
 	}
 	protected void regen(World w)
 	{
