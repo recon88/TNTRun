@@ -18,6 +18,7 @@
 package tntrun.arena;
 
 import java.util.HashMap;
+import java.util.HashSet;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -70,19 +71,38 @@ public class GameLevel {
 		return loc.toVector().isInAABB(gp1, gp2.clone().add(new Vector(0,1,0)));
 	};
 
+	private HashSet<Block> blockstodestroy = new HashSet<Block>();
 	protected void destroyBlock(Location loc, final Arena arena)
 	{
 		final Location blockUnderFeetLocation = getPlayerStandOnBlockLocation(loc);
-		Bukkit.getScheduler().scheduleSyncDelayedTask(arena.plugin, new Runnable()
+		if (blockUnderFeetLocation != null)
 		{
-			public void run()
+			final Block block = blockUnderFeetLocation.getBlock();
+			if (!blockstodestroy.contains(block))
 			{
-				if (arena.isArenaRunning() && !arena.isArenaRegenerating() && blockUnderFeetLocation != null && blockUnderFeetLocation.getBlock().getType() != Material.AIR)
+				Bukkit.getScheduler().scheduleSyncDelayedTask(arena.plugin, new Runnable()
 				{
-					removeGLBlocks(blockUnderFeetLocation.getBlock());
-				}
+					public void run()
+					{
+						blockstodestroy.remove(block);
+						if (arena.isArenaRunning() && !arena.isArenaRegenerating() && block.getType() != Material.AIR)
+						{
+							removeGLBlocks(block);
+						}
+					}
+				},arena.getGameLevelDestroyDelay());
+				blockstodestroy.add(blockUnderFeetLocation.getBlock());
 			}
-		},arena.getGameLevelDestroyDelay());
+		}
+	}
+	private HashMap<String,String> blockmaterial = new HashMap<String,String>(800);
+	private void removeGLBlocks(Block block)
+	{
+		String locationstring = new StringBuilder().append(block.getX()).append("|").append(block.getY()).append("|").append(block.getZ()).toString();
+		String blocksmaterial = new StringBuilder().append(block.getType().toString()).append("|").append(block.getRelative(BlockFace.DOWN).getType().toString()).toString();
+		blockmaterial.put(locationstring, blocksmaterial);
+		block.setType(Material.AIR);
+		block.getRelative(BlockFace.DOWN).setType(Material.AIR);
 	}
 	private Location getPlayerStandOnBlockLocation(Location locationUnderPlayer)
 	{
@@ -108,15 +128,6 @@ public class GameLevel {
 			return b22;
 		}
 		return null;
-	}
-	private HashMap<String,String> blockmaterial = new HashMap<String,String>(800);
-	private void removeGLBlocks(Block block)
-	{
-		String locationstring = new StringBuilder().append(block.getX()).append("|").append(block.getY()).append("|").append(block.getZ()).toString();
-		String blocksmaterial = new StringBuilder().append(block.getType().toString()).append("|").append(block.getRelative(BlockFace.DOWN).getType().toString()).toString();
-		blockmaterial.put(locationstring, blocksmaterial);
-		block.setType(Material.AIR);
-		block.getRelative(BlockFace.DOWN).setType(Material.AIR);
 	}
 	protected void regen(World w)
 	{
