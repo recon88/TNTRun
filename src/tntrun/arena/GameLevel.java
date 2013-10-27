@@ -80,6 +80,7 @@ public class GameLevel {
 			final Block block = blockUnderFeetLocation.getBlock();
 			if (!blockstodestroy.contains(block))
 			{
+				blockstodestroy.add(block);
 				Bukkit.getScheduler().scheduleSyncDelayedTask(arena.plugin, new Runnable()
 				{
 					public void run()
@@ -91,7 +92,6 @@ public class GameLevel {
 						}
 					}
 				},arena.getGameLevelDestroyDelay());
-				blockstodestroy.add(blockUnderFeetLocation.getBlock());
 			}
 		}
 	}
