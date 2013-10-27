@@ -73,14 +73,6 @@ public class SignEditor {
 			Sign sign = (Sign) b.getState();
 			sign.setLine(3, text);
 			sign.update();
-			
-			org.bukkit.material.Sign s = (org.bukkit.material.Sign) sign.getData();
-			Block lamp = b.getRelative(s.getAttachedFace()).getRelative(s.getAttachedFace()).getLocation().add(0, 1, 0).getBlock();
-			if(mode == SignMode.DISABLED || mode == SignMode.GAME_IN_PROGRESS || players == maxPlayers) {
-				lamp.setType(Material.REDSTONE_BLOCK);
-			} else {
-				lamp.setType(Material.STONE);
-			}
 		}
 	}
 
