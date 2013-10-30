@@ -69,9 +69,16 @@ public class SignEditor {
 		
 		for(Block b : getSigns(arena)) 
 		{
-			Sign sign = (Sign) b.getState();
-			sign.setLine(3, text);
-			sign.update();
+			//check if we have sign here
+			if (b.getState() instanceof Sign)
+			{
+				Sign sign = (Sign) b.getState();
+				sign.setLine(3, text);
+				sign.update();
+			} else
+			{
+				removeSign(b,arena);
+			}
 		}
 	}
 
