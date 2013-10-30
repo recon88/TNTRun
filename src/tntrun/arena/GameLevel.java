@@ -160,14 +160,14 @@ public class GameLevel {
 			for (int z = p1.getBlockZ()+1; z<p2.getBlockZ(); z++)
 			{
 				Block b = w.getBlockAt(x, y, z);
-				if (b.getType() != Material.SAND) 
-				{
-					b.setType(Material.SAND);
-				}
-				b = b.getRelative(BlockFace.UP);
 				if (b.getType() != Material.TNT) 
 				{
 					b.setType(Material.TNT);
+				}
+				b = b.getRelative(BlockFace.UP);
+				if (b.getType() != Material.SAND) 
+				{
+					b.setType(Material.SAND);
 				}
 			}
 		}
