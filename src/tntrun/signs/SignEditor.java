@@ -67,17 +67,16 @@ public class SignEditor {
 			text = ChatColor.GREEN.toString() + ChatColor.BOLD.toString() + Integer.toString(players) + "/" + Integer.toString(maxPlayers);
 		}
 		
-		for(Block b : getSigns(arena)) 
+		for(Block block : getSigns(arena)) 
 		{
-			//check if we have sign here
-			if (b.getState() instanceof Sign)
+			if (block instanceof Sign)
 			{
-				Sign sign = (Sign) b.getState();
+				Sign sign = (Sign) block;
 				sign.setLine(3, text);
 				sign.update();
 			} else
 			{
-				removeSign(b,arena);
+				removeSign(block, arena);
 			}
 		}
 	}
