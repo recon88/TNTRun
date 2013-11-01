@@ -169,6 +169,12 @@ public class GameHandler {
 			arena.arenaph.leavePlayer(player, Messages.playerlosttoplayer, Messages.playerlosttoothers);
 			return;
 		}
+		//check if player is in arena bounds
+		if (!arena.isInArenaBounds(plloc))
+		{
+			arena.arenaph.leavePlayer(player, Messages.playerlefttoplayer, Messages.playerlefttoothers);
+			return;
+		}
 	}
 	private void broadcastWin(Player player)
 	{

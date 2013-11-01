@@ -17,7 +17,6 @@
 
 package tntrun.arena;
 
-import java.util.HashMap;
 import java.util.HashSet;
 
 import org.bukkit.Bukkit;
@@ -36,9 +35,7 @@ public class PlayerHandler {
 		this.plugin = plugin;
 		this.arena = arena;
 	}
-	
-	private HashMap<String,Integer> leavehandler = new HashMap<String,Integer>();
-	
+
 	//spawn player on arena
 	public void spawnPlayer(final Player player, String msgtoplayer, String msgtoarenaplayers)
 	{
@@ -69,17 +66,6 @@ public class PlayerHandler {
 		plugin.pdata.setPlayerArena(player.getName(), arena);
 		//send message about arena player count
 		Messages.sendMessage(player, Messages.playerscount+plugin.pdata.getArenaPlayers(arena).size());
-		//setup leave handler for player
-		int taskid = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable(){
-			public void run()
-			{
-				if (!arena.isInArenaBounds(player.getLocation()))
-				{
-					arena.arenaph.leavePlayer(player, Messages.playerlefttoplayer, Messages.playerlefttoothers);
-				}
-			}
-		}, 0, 20);
-		leavehandler.put(player.getName(), taskid);
 		plugin.signEditor.modifySigns(arena.getArenaName(), SignMode.ENABLED, plugin.pdata.getArenaPlayers(arena).size(), arena.getMaxPlayers());
 		//check for game start
 		if (plugin.pdata.getArenaPlayers(arena).size() == arena.getMaxPlayers() || plugin.pdata.getArenaPlayers(arena).size() == arena.getMinPlayers())
@@ -110,10 +96,6 @@ public class PlayerHandler {
 	}
 	private void removePlayerFromArenaAndRestoreState(Player player, boolean winner)
 	{
-		//remove leave handler
-		int taskid = leavehandler.get(player.getName());
-		Bukkit.getScheduler().cancelTask(taskid);
-		leavehandler.remove(player.getName());
 		//remove player on arena data
 		plugin.pdata.removePlayerFromArena(player.getName());
 		//restore location
