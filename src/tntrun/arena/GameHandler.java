@@ -24,6 +24,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import tntrun.TNTRun;
+import tntrun.bars.Bars;
 import tntrun.messages.Messages;
 import tntrun.signs.SignMode;
 
@@ -58,37 +59,36 @@ public class GameHandler {
 					clearRunArenaTask();
 					return;
 				}
-				//now arena start sequence
+				//start arena if countdown is 0
 				if (count == 0)
 				{
-					clearRunArenaTask();
 					for (String p : plugin.pdata.getArenaPlayers(arena))
 					{
 						Messages.sendMessage(Bukkit.getPlayerExact(p), Messages.arenastarted, arena.getTimeLimit());
 					}
+					clearRunArenaTask();
 					runArenaHandler();
-				} else
-				//countdown
-				{
-					for (String p : plugin.pdata.getArenaPlayers(arena))
-					{
-						Messages.sendMessage(Bukkit.getPlayerExact(p), Messages.arenacountdown, count);
-					}
-					count--;
+					return;
 				}
+				//countdown
+				for (String pname : plugin.pdata.getArenaPlayers(arena))
+				{
+					Player p = Bukkit.getPlayerExact(pname);
+					Messages.sendMessage(p, Messages.arenacountdown, count);
+					Bars.setBar(p, Bars.starting, 0, count, count/arena.getCountdown());
+				}
+				count--;
 			}
 		};
-		//schedule arena run task only if this task is not running
-		if (runtaskid == null)
-		{
-			runtaskid = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, run, 0, 20);
-		}
+		runtaskid = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, run, 0, 20);
+		arena.setStarting(true);
 	}
 	private void clearRunArenaTask()
 	{
 		count = arena.getCountdown();
 		Bukkit.getScheduler().cancelTask(runtaskid);
 		runtaskid = null;
+		arena.setStarting(false);
 	}
 	
 	//main arena handler
@@ -133,9 +133,13 @@ public class GameHandler {
 			//decrease timelimit
 			timelimit--;
 			//handle players
-			for (String p : new HashSet<String>(plugin.pdata.getArenaPlayers(arena)))
+			for (String pname : new HashSet<String>(plugin.pdata.getArenaPlayers(arena)))
 			{
-				handlePlayer(Bukkit.getPlayerExact(p));
+				Player p = Bukkit.getPlayerExact(pname);
+				//update bar
+				Bars.setBar(p, Bars.playing, plugin.pdata.getArenaPlayers(arena).size(), timelimit/20, timelimit*5/arena.getTimeLimit());
+				//handle player
+				handlePlayer(p);
 			}
 		}
 	}

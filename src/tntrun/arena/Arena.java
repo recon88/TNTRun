@@ -49,6 +49,7 @@ public class Arena {
 	}
 	
 	private boolean enabled = false;
+	private boolean starting = false;
 	private boolean running = false;
 	private boolean regenerating = false;
 	
@@ -156,6 +157,14 @@ public class Arena {
 			gl.regen(getWorld());
 		}
 		plugin.signEditor.modifySigns(getArenaName(), SignMode.DISABLED);
+	}
+	public boolean isArenaStarting()
+	{
+		return starting;
+	}
+	protected void setStarting(boolean starting)
+	{
+		this.starting = starting;
 	}
 	public boolean isArenaRunning()
 	{

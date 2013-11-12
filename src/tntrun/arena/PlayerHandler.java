@@ -24,6 +24,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import tntrun.TNTRun;
+import tntrun.bars.Bars;
 import tntrun.messages.Messages;
 import tntrun.signs.SignMode;
 
@@ -61,10 +62,10 @@ public class PlayerHandler {
 		player.teleport(arena.getSpawnPoint());
 		//send message to player
 		Messages.sendMessage(player, msgtoplayer);
-		//send message to other players
-		for (String p : plugin.pdata.getArenaPlayers(arena))
+		//send message to other players and update bar
+		for (String pname : plugin.pdata.getArenaPlayers(arena))
 		{
-			Messages.sendMessage(Bukkit.getPlayerExact(p), player.getName(), msgtoarenaplayers);
+			Messages.sendMessage(Bukkit.getPlayerExact(pname), player.getName(), msgtoarenaplayers);
 		}
 		//set player on arena data
 		plugin.pdata.setPlayerArena(player.getName(), arena);
@@ -83,8 +84,17 @@ public class PlayerHandler {
 		leavechecker.put(player.getName(), taskid);
 		//modify signs
 		plugin.signEditor.modifySigns(arena.getArenaName(), SignMode.ENABLED, plugin.pdata.getArenaPlayers(arena).size(), arena.getMaxPlayers());
+		//modify bars
+		if (!arena.isArenaStarting())
+		{
+			HashSet<String> arenaplayers = plugin.pdata.getArenaPlayers(arena);
+			for (String pname : arenaplayers)
+			{
+				Bars.setBar(Bukkit.getPlayerExact(pname), Bars.waiting, arenaplayers.size(), 0, arenaplayers.size()*100/arena.getMinPlayers());
+			}
+		}
 		//check for game start
-		if (plugin.pdata.getArenaPlayers(arena).size() == arena.getMaxPlayers() || plugin.pdata.getArenaPlayers(arena).size() == arena.getMinPlayers())
+		if (!arena.isArenaStarting() && plugin.pdata.getArenaPlayers(arena).size() == arena.getMaxPlayers() || plugin.pdata.getArenaPlayers(arena).size() == arena.getMinPlayers())
 		{
 			arena.arenagh.runArena();
 		}
@@ -111,7 +121,7 @@ public class PlayerHandler {
 		Messages.sendMessage(player, msgtoplayer);
 	}
 	private void removePlayerFromArenaAndRestoreState(Player player, boolean winner)
-	{	
+	{
 		//remove leave handler
 		int taskid = leavechecker.get(player.getName());
 		Bukkit.getScheduler().cancelTask(taskid);
@@ -133,15 +143,16 @@ public class PlayerHandler {
 		plugin.pdata.restorePlayerGameMode(player.getName());
 		//remove vote
 		votes.remove(player.getName());
-		
+		//update signs
 		SignMode mode;
 		if(winner || plugin.pdata.getArenaPlayers(arena).size() == 0) {
 			mode = SignMode.ENABLED;
 		} else {
 			mode = SignMode.GAME_IN_PROGRESS;
 		}
-
 		plugin.signEditor.modifySigns(arena.getArenaName(), mode, plugin.pdata.getArenaPlayers(arena).size(), arena.getMaxPlayers());
+		//remove bar
+		Bars.removeBar(player);
 	}
 	
 
