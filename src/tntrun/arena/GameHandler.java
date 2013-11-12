@@ -41,54 +41,40 @@ public class GameHandler {
 	
 	
 	//arena start handler (running status updater)
-	Integer runtaskid = null;
+	int runtaskid;
 	int count;
 	protected void runArena()
 	{
+		arena.setStarting(true);
 		Runnable run = new Runnable()
 		{
 			public void run()
 			{
-				//cancel countdown if not enough players
-				if (plugin.pdata.getArenaPlayers(arena).size() < 2) 
-				{
-					for (String p : plugin.pdata.getArenaPlayers(arena))
-					{
-						Bukkit.getPlayerExact(p).sendMessage("Too much players left the arena, wating for some more");
-					}
-					clearRunArenaTask();
-					return;
-				}
 				//start arena if countdown is 0
 				if (count == 0)
 				{
+					arena.setStarting(false);
 					for (String p : plugin.pdata.getArenaPlayers(arena))
 					{
 						Messages.sendMessage(Bukkit.getPlayerExact(p), Messages.arenastarted, arena.getTimeLimit());
 					}
-					clearRunArenaTask();
+					count = arena.getCountdown();
+					Bukkit.getScheduler().cancelTask(runtaskid);
 					runArenaHandler();
-					return;
-				}
+				} else
 				//countdown
-				for (String pname : plugin.pdata.getArenaPlayers(arena))
 				{
-					Player p = Bukkit.getPlayerExact(pname);
-					Messages.sendMessage(p, Messages.arenacountdown, count);
-					Bars.setBar(p, Bars.starting, 0, count, count*100/arena.getCountdown());
+					for (String pname : plugin.pdata.getArenaPlayers(arena))
+					{
+						Player p = Bukkit.getPlayerExact(pname);
+						Messages.sendMessage(p, Messages.arenacountdown, count);
+						Bars.setBar(p, Bars.starting, 0, count, count*100/arena.getCountdown());
+					}
+					count--;
 				}
-				count--;
 			}
 		};
 		runtaskid = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, run, 0, 20);
-		arena.setStarting(true);
-	}
-	private void clearRunArenaTask()
-	{
-		count = arena.getCountdown();
-		Bukkit.getScheduler().cancelTask(runtaskid);
-		runtaskid = null;
-		arena.setStarting(false);
 	}
 	
 	//main arena handler
