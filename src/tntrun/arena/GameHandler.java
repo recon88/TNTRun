@@ -75,7 +75,7 @@ public class GameHandler {
 				{
 					Player p = Bukkit.getPlayerExact(pname);
 					Messages.sendMessage(p, Messages.arenacountdown, count);
-					Bars.setBar(p, Bars.starting, 0, count, count/arena.getCountdown());
+					Bars.setBar(p, Bars.starting, 0, count, count*100/arena.getCountdown());
 				}
 				count--;
 			}
