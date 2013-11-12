@@ -107,10 +107,16 @@ public class PlayerHandler {
 		removePlayerFromArenaAndRestoreState(player, false);
 		//send message to player
 		Messages.sendMessage(player, msgtoplayer);
-		//send message to other players
-		for (String p : plugin.pdata.getArenaPlayers(arena))
+		//send message to other players and update bars
+		HashSet<String> arenaplayers = plugin.pdata.getArenaPlayers(arena);
+		for (String pname : arenaplayers)
 		{
-			Messages.sendMessage(Bukkit.getPlayerExact(p), player.getName(), msgtoarenaplayers);
+			Player p = Bukkit.getPlayerExact(pname);
+			Messages.sendMessage(p, player.getName(), msgtoarenaplayers);
+			if (!arena.isArenaStarting() && !arena.isArenaRunning())
+			{
+				Bars.setBar(p, Bars.starting, arenaplayers.size(), 0, arenaplayers.size()*100/arena.getMinPlayers());
+			}
 		}
 	}
 	protected void leaveWinner(Player player, String msgtoplayer)
