@@ -46,7 +46,7 @@ public class GameHandler {
 	protected void runArena()
 	{
 		arena.setStarting(true);
-		Runnable run = new Runnable()
+		runtaskid = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() 
 		{
 			public void run()
 			{
@@ -73,8 +73,7 @@ public class GameHandler {
 					count--;
 				}
 			}
-		};
-		runtaskid = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, run, 0, 20);
+		}, 0, 20);
 	}
 	
 	//main arena handler
@@ -83,7 +82,6 @@ public class GameHandler {
 	private void runArenaHandler()
 	{
 		arena.setRunning(true);
-
 		plugin.signEditor.modifySigns(arena.getArenaName(), SignMode.GAME_IN_PROGRESS);
 		timelimit = arena.getTimeLimit()*20; //timelimit is in ticks
 		arenahandler = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable()
