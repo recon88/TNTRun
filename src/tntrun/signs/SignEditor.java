@@ -71,7 +71,7 @@ public class SignEditor {
 		{
 			if (block instanceof Sign)
 			{
-				Sign sign = (Sign) block;
+				Sign sign = (Sign) block.getState();
 				sign.setLine(3, text);
 				sign.update();
 			} else
