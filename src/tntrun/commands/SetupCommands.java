@@ -26,6 +26,7 @@ import org.bukkit.entity.Player;
 
 import tntrun.TNTRun;
 import tntrun.arena.Arena;
+import tntrun.bars.Bars;
 import tntrun.messages.Messages;
 import tntrun.selectionget.PlayerCuboidSelection;
 import tntrun.selectionget.PlayerSelection;
@@ -442,6 +443,13 @@ public class SetupCommands implements CommandExecutor {
 		{
 			Messages.loadMessages(plugin);
 			sender.sendMessage("Messages reloaded");
+			return true;
+		}
+		//reload bars
+		else if (args.length == 1 && args[0].equalsIgnoreCase("reloadbars"))
+		{
+			Bars.loadBars(plugin);
+			sender.sendMessage("Bars reloaded");
 			return true;
 		}
 		return false;

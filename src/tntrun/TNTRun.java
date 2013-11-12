@@ -24,6 +24,7 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import tntrun.arena.Arena;
+import tntrun.bars.Bars;
 import tntrun.commands.ConsoleCommands;
 import tntrun.commands.GameCommands;
 import tntrun.commands.SetupCommands;
@@ -57,6 +58,7 @@ public class TNTRun extends JavaPlugin {
 		log = getLogger();
 		signEditor = new SignEditor(this);
 		Messages.loadMessages(this);
+		Bars.loadBars(this);
 		pdata = new PlayerDataStore();
 		scommands = new SetupCommands(this);
 		getCommand("tntrunsetup").setExecutor(scommands);

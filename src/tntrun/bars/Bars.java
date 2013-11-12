@@ -17,18 +17,24 @@
 
 package tntrun.bars;
 
+import java.io.File;
+import java.io.IOException;
+
 import me.confuser.barapi.BarAPI;
 
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 import tntrun.FormattingCodesParser;
+import tntrun.TNTRun;
 
 public class Bars {
 
 	public static String waiting = "&6Waiting for more players, current players count:&r {COUNT}";
 	public static String starting = "&6Arena starts in:&r {SECONDS} seconds";
-	public static String playing = "&6Time left:&r {SECONDS}, &6players in game count:&r {COUNT}";
+	public static String playing = "&6Time left:&r {SECONDS} &6Players in game count:&r {COUNT}";
 	
 	public static void setBar(Player player, String message, int count, int seconds, float percent)
 	{
@@ -46,6 +52,28 @@ public class Bars {
 		if (Bukkit.getPluginManager().getPlugin("BarAPI") != null)
 		{
 			BarAPI.removeBar(player);
+		}
+	}
+	
+	public static void loadBars(TNTRun plugin)
+	{
+		File messageconfig = new File(plugin.getDataFolder(),"configmsg.yml");
+		FileConfiguration config = YamlConfiguration.loadConfiguration(messageconfig);
+		waiting = config.getString("waiting",waiting);
+		starting = config.getString("starting",starting);
+		playing = config.getString("playing",playing);
+		saveBars(messageconfig);
+	}
+	private static void saveBars(File messageconfig)
+	{
+		FileConfiguration config = new YamlConfiguration();
+		config.set("waiting",waiting);
+		config.set("starting",starting);
+		config.set("playing",playing);
+		try {
+			config.save(messageconfig);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 	
