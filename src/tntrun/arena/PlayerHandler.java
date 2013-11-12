@@ -115,7 +115,7 @@ public class PlayerHandler {
 			Messages.sendMessage(p, player.getName(), msgtoarenaplayers);
 			if (!arena.isArenaStarting() && !arena.isArenaRunning())
 			{
-				Bars.setBar(p, Bars.starting, arenaplayers.size(), 0, arenaplayers.size()*100/arena.getMinPlayers());
+				Bars.setBar(p, Bars.waiting, arenaplayers.size(), 0, arenaplayers.size()*100/arena.getMinPlayers());
 			}
 		}
 	}
