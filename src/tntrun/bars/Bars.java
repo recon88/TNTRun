@@ -57,7 +57,7 @@ public class Bars {
 	
 	public static void loadBars(TNTRun plugin)
 	{
-		File messageconfig = new File(plugin.getDataFolder(),"configmsg.yml");
+		File messageconfig = new File(plugin.getDataFolder(),"configbars.yml");
 		FileConfiguration config = YamlConfiguration.loadConfiguration(messageconfig);
 		waiting = config.getString("waiting",waiting);
 		starting = config.getString("starting",starting);
