@@ -169,7 +169,7 @@ public class PlayerHandler {
 		if (!votes.contains(player.getName()))
 		{
 			votes.add(player.getName());
-			if (plugin.pdata.getArenaPlayers(arena).size() > 1	&& (votes.size() >= plugin.pdata.getArenaPlayers(arena).size()*arena.getVotePercent()))
+			if (!arena.isArenaStarting() && plugin.pdata.getArenaPlayers(arena).size() > 1 && (votes.size() >= plugin.pdata.getArenaPlayers(arena).size()*arena.getVotePercent()))
 			{
 				arena.arenagh.runArena();
 			}	
