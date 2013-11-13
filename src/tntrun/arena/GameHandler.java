@@ -39,32 +39,67 @@ public class GameHandler {
 		count = arena.getCountdown();
 	}
 	
+	//arena leave handler
+	private int leavetaskid;
+	public void startArenaAntiLeaveHandler()
+	{
+		leavetaskid = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable()
+		{
+			public void run()
+			{
+				if (arena.isArenaEnabled())
+				{
+					for (String pName : plugin.pdata.getArenaPlayers(arena))
+					{
+						Player player = Bukkit.getPlayerExact(pName);
+						if (!arena.isInArenaBounds(player.getLocation()))
+						{
+							arena.arenaph.leavePlayer(player, Messages.playerlefttoplayer, Messages.playerlefttoothers);
+						}
+					}
+				} else
+				{
+					Bukkit.getScheduler().cancelTask(leavetaskid);
+				}
+			}
+		},0,1);
+	}
+	
 	
 	//arena start handler (running status updater)
 	int runtaskid;
 	int count;
-	protected void runArena()
+	protected void runArenaCountdown()
 	{
 		arena.setStarting(true);
 		runtaskid = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() 
 		{
 			public void run()
 			{
+				//check if countdown should be stopped for some various reasons
+				HashSet<String> arenaplayers = plugin.pdata.getArenaPlayers(arena);
+				if (!arena.isArenaEnabled())
+				{
+					stopArenaCountdown();
+				} else
+				if (arenaplayers.size() < arena.getMinPlayers())
+				{
+					for (String p : arenaplayers)
+					{
+						Bars.setBar(Bukkit.getPlayerExact(p), Bars.waiting, arenaplayers.size(), 0, arenaplayers.size()*100/arena.getMinPlayers());
+						plugin.signEditor.modifySigns(arena.getArenaName(), SignMode.ENABLED, arenaplayers.size(), arena.getMaxPlayers());
+					}
+					stopArenaCountdown();
+				} else
 				//start arena if countdown is 0
 				if (count == 0)
 				{
-					arena.setStarting(false);
-					for (String p : plugin.pdata.getArenaPlayers(arena))
-					{
-						Messages.sendMessage(Bukkit.getPlayerExact(p), Messages.arenastarted, arena.getTimeLimit());
-					}
-					count = arena.getCountdown();
-					Bukkit.getScheduler().cancelTask(runtaskid);
-					runArenaHandler();
+					stopArenaCountdown();
+					startArena();
 				} else
 				//countdown
 				{
-					for (String pname : plugin.pdata.getArenaPlayers(arena))
+					for (String pname : arenaplayers)
 					{
 						Player p = Bukkit.getPlayerExact(pname);
 						Messages.sendMessage(p, Messages.arenacountdown, count);
@@ -75,13 +110,23 @@ public class GameHandler {
 			}
 		}, 0, 20);
 	}
+	private void stopArenaCountdown()
+	{
+		arena.setStarting(false);
+		count = arena.getCountdown();
+		Bukkit.getScheduler().cancelTask(runtaskid);
+	}
 	
 	//main arena handler
 	private int timelimit;
 	private int arenahandler;
-	private void runArenaHandler()
+	private void startArena()
 	{
 		arena.setRunning(true);
+		for (String pName : plugin.pdata.getArenaPlayers(arena))
+		{
+			Messages.sendMessage(Bukkit.getPlayerExact(pName), Messages.arenastarted, arena.getTimeLimit());
+		}
 		plugin.signEditor.modifySigns(arena.getArenaName(), SignMode.GAME_IN_PROGRESS);
 		timelimit = arena.getTimeLimit()*20; //timelimit is in ticks
 		arenahandler = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable()

@@ -137,6 +137,7 @@ public class Arena {
 		if (isArenaConfigured().equalsIgnoreCase("yes"))
 		{
 			plugin.signEditor.modifySigns(getArenaName(), SignMode.ENABLED, plugin.pdata.getArenaPlayers(this).size(), getMaxPlayers());
+			arenagh.startArenaAntiLeaveHandler();
 			enabled = true;
 			return true;
 		}

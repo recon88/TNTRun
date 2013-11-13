@@ -17,7 +17,6 @@
 
 package tntrun.arena;
 
-import java.util.HashMap;
 import java.util.HashSet;
 
 import org.bukkit.Bukkit;
@@ -38,9 +37,6 @@ public class PlayerHandler {
 		this.arena = arena;
 	}
 
-	private HashMap<String,Integer> leavechecker = new HashMap<String,Integer>();
-	
-	
 	//spawn player on arena
 	public void spawnPlayer(final Player player, String msgtoplayer, String msgtoarenaplayers)
 	{
@@ -71,17 +67,6 @@ public class PlayerHandler {
 		plugin.pdata.setPlayerArena(player.getName(), arena);
 		//send message about arena player count
 		Messages.sendMessage(player, Messages.playerscount+plugin.pdata.getArenaPlayers(arena).size());
-		//start leave checker
-		int taskid = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable(){
-			public void run()
-			{
-				if (!arena.isInArenaBounds(player.getLocation()))
-				{
-					arena.arenaph.leavePlayer(player, Messages.playerlefttoplayer, Messages.playerlefttoothers);
-				}
-			}
-		}, 0, 1);
-		leavechecker.put(player.getName(), taskid);
 		//modify signs
 		plugin.signEditor.modifySigns(arena.getArenaName(), SignMode.ENABLED, plugin.pdata.getArenaPlayers(arena).size(), arena.getMaxPlayers());
 		//modify bars
@@ -96,7 +81,7 @@ public class PlayerHandler {
 		//check for game start
 		if (!arena.isArenaStarting() && plugin.pdata.getArenaPlayers(arena).size() == arena.getMaxPlayers() || plugin.pdata.getArenaPlayers(arena).size() == arena.getMinPlayers())
 		{
-			arena.arenagh.runArena();
+			arena.arenagh.runArenaCountdown();
 		}
 	}
 
@@ -128,10 +113,6 @@ public class PlayerHandler {
 	}
 	private void removePlayerFromArenaAndRestoreState(Player player, boolean winner)
 	{
-		//remove leave handler
-		int taskid = leavechecker.get(player.getName());
-		Bukkit.getScheduler().cancelTask(taskid);
-		leavechecker.remove(player.getName());
 		//remove player on arena data
 		plugin.pdata.removePlayerFromArena(player.getName());
 		//restore location
@@ -171,7 +152,7 @@ public class PlayerHandler {
 			votes.add(player.getName());
 			if (!arena.isArenaStarting() && plugin.pdata.getArenaPlayers(arena).size() > 1 && (votes.size() >= plugin.pdata.getArenaPlayers(arena).size()*arena.getVotePercent()))
 			{
-				arena.arenagh.runArena();
+				arena.arenagh.runArenaCountdown();
 			}	
 			return true;
 		}
