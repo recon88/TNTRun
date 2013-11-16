@@ -36,21 +36,19 @@ public class Bars {
 	public static String starting = "&6Arena starts in:&r {SECONDS} seconds";
 	public static String playing = "&6Time left:&r {SECONDS} &6Players in game count:&r {COUNT}";
 	
-	public static void setBar(Player player, String message, int count, int seconds, float percent)
-	{
+	public static void setBar(Player player, String message, int count, int seconds, float percent) {
 		message = message.replace("{COUNT}", String.valueOf(count));
 		message = message.replace("{SECONDS}", String.valueOf(seconds));
 		message = FormattingCodesParser.parseFormattingCodes(message);
-		if (Bukkit.getPluginManager().getPlugin("BarAPI") != null)
-		{
-			BarAPI.setMessage(player, message, percent);
+		if (Bukkit.getPluginManager().getPlugin("BarAPI") != null) {
+			if (!message.equals("")) {
+				BarAPI.setMessage(player, message, percent);
+			}
 		}
 	}
 	
-	public static void removeBar(Player player)
-	{
-		if (Bukkit.getPluginManager().getPlugin("BarAPI") != null)
-		{
+	public static void removeBar(Player player) {
+		if (Bukkit.getPluginManager().getPlugin("BarAPI") != null) {
 			BarAPI.removeBar(player);
 		}
 	}
