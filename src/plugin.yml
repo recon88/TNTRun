@@ -1,6 +1,6 @@
 name: TNTRun
 main: tntrun.TNTRun
-softdepend: [Multiverse-Core, MultiWorld, My Worlds, WorldEdit, Vault]
+softdepend: [WorldEdit, Vault]
 version: 2.3.dev
 author: _Shevchik_
 commands:
