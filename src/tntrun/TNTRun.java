@@ -75,16 +75,21 @@ public class TNTRun extends JavaPlugin {
 		signs = new SignHandler(this);
 		getServer().getPluginManager().registerEvents(signs, this);
 		//load arenas
-		File arenasfolder = new File(this.getDataFolder()+File.separator+"arenas");
-		arenasfolder.mkdirs(); 
-		for (String file : arenasfolder.list())
+		final File arenasfolder = new File(this.getDataFolder()+File.separator+"arenas");
+		arenasfolder.mkdirs();
+		final TNTRun instance = this;
+		this.getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable()
 		{
-			Arena arena = new Arena(file.split("[.]")[0], this);
-			try {
-				arena.loadFromConfig();
-			} catch (Exception e) {}
-		}
-		signEditor.loadConfiguration();
+			public void run()
+			{
+				for (String file : arenasfolder.list())
+				{
+					Arena arena = new Arena(file.split("[.]")[0], instance);
+					arena.loadFromConfig();
+				}
+				signEditor.loadConfiguration();
+			}
+		},20);
 	}
 	
 	@Override
