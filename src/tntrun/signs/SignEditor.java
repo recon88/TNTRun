@@ -69,7 +69,7 @@ public class SignEditor {
 		
 		for(Block block : getSigns(arena)) 
 		{
-			if (block instanceof Sign)
+			if (block.getState() instanceof Sign)
 			{
 				Sign sign = (Sign) block.getState();
 				sign.setLine(3, text);
