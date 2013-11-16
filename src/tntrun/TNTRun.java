@@ -75,7 +75,7 @@ public class TNTRun extends JavaPlugin {
 		signs = new SignHandler(this);
 		getServer().getPluginManager().registerEvents(signs, this);
 		//load arenas
-		File arenasfolder = new File("plugins/TNTRun/arenas/");
+		File arenasfolder = new File(this.getDataFolder()+File.separator+"arenas");
 		arenasfolder.mkdirs(); 
 		for (String file : arenasfolder.list())
 		{
