@@ -45,6 +45,11 @@ public class PlayerHandler {
 			Messages.sendMessage(player, Messages.limitreached);
 			return;
 		}
+		//eject player from vehicle if needed
+		if (player.isInsideVehicle())
+		{
+			player.eject();
+		}
 		//change player status
 		plugin.pdata.storePlayerGameMode(player.getName());
 		player.setFlying(false);
