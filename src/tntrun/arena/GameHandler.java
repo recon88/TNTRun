@@ -104,11 +104,13 @@ public class GameHandler {
 				} else
 				//countdown
 				{
-					for (String pname : arenaplayers)
+					for (Player player : Bukkit.getOnlinePlayers())
 					{
-						Player p = Bukkit.getPlayerExact(pname);
-						Messages.sendMessage(p, Messages.arenacountdown, count);
-						Bars.setBar(p, Bars.starting, 0, count, count*100/arena.getCountdown());
+						if (arenaplayers.contains(player.getName()))
+						{
+							Messages.sendMessage(player, Messages.arenacountdown, count);
+							Bars.setBar(player, Bars.starting, 0, count, count*100/arena.getCountdown());
+						}
 					}
 					count--;
 				}
