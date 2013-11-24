@@ -49,7 +49,7 @@ public class GameHandler {
 			{
 				if (arena.isArenaEnabled())
 				{
-					for (String pName : plugin.pdata.getArenaPlayers(arena))
+					for (String pName : new HashSet<String>(plugin.pdata.getArenaPlayers(arena)))
 					{
 						Player player = Bukkit.getPlayerExact(pName);
 						if (!arena.isInArenaBounds(player.getLocation()))
