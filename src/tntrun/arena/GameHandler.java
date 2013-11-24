@@ -86,10 +86,13 @@ public class GameHandler {
 				} else
 				if (arenaplayers.size() < arena.getMinPlayers())
 				{
-					for (String p : arenaplayers)
+					for (Player player : Bukkit.getOnlinePlayers())
 					{
-						Bars.setBar(Bukkit.getPlayerExact(p), Bars.waiting, arenaplayers.size(), 0, arenaplayers.size()*100/arena.getMinPlayers());
-						plugin.signEditor.modifySigns(arena.getArenaName(), SignMode.ENABLED, arenaplayers.size(), arena.getMaxPlayers());
+						if (arenaplayers.contains(player.getName()))
+						{
+							Bars.setBar(player, Bars.waiting, arenaplayers.size(), 0, arenaplayers.size()*100/arena.getMinPlayers());
+							plugin.signEditor.modifySigns(arena.getArenaName(), SignMode.ENABLED, arenaplayers.size(), arena.getMaxPlayers());
+						}
 					}
 					stopArenaCountdown();
 				} else
