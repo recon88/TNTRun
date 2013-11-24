@@ -130,9 +130,12 @@ public class GameHandler {
 	private void startArena()
 	{
 		arena.setRunning(true);
-		for (String pName : plugin.pdata.getArenaPlayers(arena))
+		for (Player player : Bukkit.getOnlinePlayers())
 		{
-			Messages.sendMessage(Bukkit.getPlayerExact(pName), Messages.arenastarted, arena.getTimeLimit());
+			if (plugin.pdata.getArenaPlayers(arena).contains(player.getName()))
+			{
+				Messages.sendMessage(player, Messages.arenastarted, arena.getTimeLimit());
+			}
 		}
 		plugin.signEditor.modifySigns(arena.getArenaName(), SignMode.GAME_IN_PROGRESS);
 		timelimit = arena.getTimeLimit()*20; //timelimit is in ticks
@@ -156,28 +159,26 @@ public class GameHandler {
 	}
 	private void handleArenaTick()
 	{
-		//check arena time limit
-		if (timelimit < 0)
+		for (Player player : Bukkit.getOnlinePlayers())
 		{
-			for (String p : new HashSet<String>(plugin.pdata.getArenaPlayers(arena)))
+			if (plugin.pdata.getArenaPlayers(arena).contains(player.getName()))
 			{
-				//kick all players
-				arena.arenaph.leavePlayer(Bukkit.getPlayerExact(p), Messages.arenatimeout, "");
-			}
-		} else
-		{
-			//decrease timelimit
-			timelimit--;
-			//handle players
-			for (String pname : new HashSet<String>(plugin.pdata.getArenaPlayers(arena)))
-			{
-				Player p = Bukkit.getPlayerExact(pname);
-				//update bar
-				Bars.setBar(p, Bars.playing, plugin.pdata.getArenaPlayers(arena).size(), timelimit/20, timelimit*5/arena.getTimeLimit());
-				//handle player
-				handlePlayer(p);
+				if (timelimit < 0)
+				{
+					//kick player
+					arena.arenaph.leavePlayer(player, Messages.arenatimeout, "");
+				} else
+				{
+					//handle players
+					//update bar
+					Bars.setBar(player, Bars.playing, plugin.pdata.getArenaPlayers(arena).size(), timelimit/20, timelimit*5/arena.getTimeLimit());
+					//handle player
+					handlePlayer(player);
+				}
 			}
 		}
+		//decrease timelimit
+		timelimit--;
 	}
 
 	//player handlers
