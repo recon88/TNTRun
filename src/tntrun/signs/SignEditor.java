@@ -2,8 +2,8 @@ package tntrun.signs;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Hashtable;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -18,8 +18,8 @@ import tntrun.TNTRun;
 
 public class SignEditor {
 	
-	protected TNTRun plugin;
-	protected Hashtable<String, HashSet<Block>> signs = new Hashtable<String, HashSet<Block>>();
+	private TNTRun plugin;
+	private HashMap<String, HashSet<Block>> signs = new HashMap<String, HashSet<Block>>();
 
 	private File configfile;
 	public SignEditor(TNTRun plugin) {
