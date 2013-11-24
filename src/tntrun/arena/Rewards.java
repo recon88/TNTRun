@@ -108,7 +108,11 @@ public class Rewards {
 	protected void loadFromConfig(FileConfiguration config)
 	{
 		moneyreward = config.getInt("reward.money", moneyreward);
-		itemrewards = (List<ItemStack>) config.get("reward.items");
+		Object obj = config.get("reward.items");
+		if (obj != null)
+		{
+			itemrewards = (List<ItemStack>) obj;
+		}
 	}
 	
 }
