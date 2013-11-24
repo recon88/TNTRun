@@ -169,7 +169,6 @@ public class GameHandler {
 					arena.arenaph.leavePlayer(player, Messages.arenatimeout, "");
 				} else
 				{
-					//handle players
 					//update bar
 					Bars.setBar(player, Bars.playing, plugin.pdata.getArenaPlayers(arena).size(), timelimit/20, timelimit*5/arena.getTimeLimit());
 					//handle player
