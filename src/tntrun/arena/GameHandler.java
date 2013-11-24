@@ -49,12 +49,14 @@ public class GameHandler {
 			{
 				if (arena.isArenaEnabled())
 				{
-					for (String pName : new HashSet<String>(plugin.pdata.getArenaPlayers(arena)))
+					for (Player player : Bukkit.getOnlinePlayers())
 					{
-						Player player = Bukkit.getPlayerExact(pName);
-						if (!arena.isInArenaBounds(player.getLocation()))
+						if (plugin.pdata.getArenaPlayers(arena).contains(player.getName()))
 						{
-							arena.arenaph.leavePlayer(player, Messages.playerlefttoplayer, Messages.playerlefttoothers);
+							if (!arena.isInArenaBounds(player.getLocation()))
+							{
+								arena.arenaph.leavePlayer(player, Messages.playerlefttoplayer, Messages.playerlefttoothers);
+							}
 						}
 					}
 				} else
