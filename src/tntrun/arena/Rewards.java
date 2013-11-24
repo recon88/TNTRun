@@ -23,7 +23,6 @@ import java.util.List;
 import net.milkbowl.vault.economy.Economy;
 
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -101,27 +100,15 @@ public class Rewards {
 	
 	protected void saveToConfig(FileConfiguration config)
 	{
-		config.set("rewards.money", moneyreward);
-		int rc = 1;
-		for (ItemStack reward : itemrewards)
-		{
-			config.set("rewards.items."+rc, reward);
-			rc++;
-		}
+		config.set("reward.money", moneyreward);
+		config.set("reward.items", itemrewards);
 	}
 	
+	@SuppressWarnings("unchecked")
 	protected void loadFromConfig(FileConfiguration config)
 	{
-		moneyreward = config.getInt("rewards.money", moneyreward);
-		itemrewards.clear();
-		ConfigurationSection cs = config.getConfigurationSection("rewards.items");
-		if (cs != null)
-		{
-			for (String key : cs.getKeys(false))
-			{
-				itemrewards.add(config.getItemStack("rewards.items."+key));
-			}
-		}
+		moneyreward = config.getInt("reward.money", moneyreward);
+		itemrewards = (List<ItemStack>) config.get("reward.items");
 	}
 	
 }
