@@ -1,7 +1,7 @@
 name: TNTRun
 main: tntrun.TNTRun
 softdepend: [WorldEdit, Vault]
-version: 2.3
+version: 2.4.dev
 author: _Shevchik_
 commands:
   tntrunsetup:

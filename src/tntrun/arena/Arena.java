@@ -20,12 +20,14 @@ package tntrun.arena;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
@@ -148,10 +150,15 @@ public class Arena {
 		enabled = false;
 		running = false;
 		//drop players
-		for (String player : new HashSet<String>(plugin.pdata.getArenaPlayers(this)))
+		for (Player player : Bukkit.getOnlinePlayers())
 		{
-			arenaph.leavePlayer(Bukkit.getPlayerExact(player), Messages.arenadisabling,"");
+			if (plugin.pdata.getArenaPlayers(this).contains(player.getName()))
+			{
+				arenaph.leavePlayer(player, Messages.arenadisabling,"");
+			}
 		}
+		//stop arena
+		arenagh.stopArena();
 		//regen gamelevels
 		for (GameLevel gl : gamelevels)
 		{

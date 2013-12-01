@@ -127,7 +127,7 @@ public class GameHandler {
 	//main arena handler
 	private int timelimit;
 	private int arenahandler;
-	private void startArena()
+	public void startArena()
 	{
 		arena.setRunning(true);
 		for (Player player : Bukkit.getOnlinePlayers())
@@ -148,26 +148,38 @@ public class GameHandler {
 					handleArenaTick();
 				} else
 				{
-					Bukkit.getScheduler().cancelTask(arenahandler);
-					if (arena.isArenaEnabled())
-					{
-						startArenaRegen();
-					}
+					stopArena();
 				}
 			}
 		}, 0, 1);
 	}
+	public void stopArena()
+	{
+		Bukkit.getScheduler().cancelTask(arenahandler);
+		if (arena.isArenaEnabled())
+		{
+			startArenaRegen();
+		}
+	}
 	private void handleArenaTick()
 	{
-		for (Player player : Bukkit.getOnlinePlayers())
+		if (timelimit < 0)
 		{
-			if (plugin.pdata.getArenaPlayers(arena).contains(player.getName()))
+			for (Player player : Bukkit.getOnlinePlayers())
 			{
-				if (timelimit < 0)
+				if (plugin.pdata.getArenaPlayers(arena).contains(player.getName()))
 				{
 					//kick player
 					arena.arenaph.leavePlayer(player, Messages.arenatimeout, "");
-				} else
+				}
+			}
+			//stop arena
+			stopArena();
+		} else
+		{
+			for (Player player : Bukkit.getOnlinePlayers())
+			{
+				if (plugin.pdata.getArenaPlayers(arena).contains(player.getName()))
 				{
 					//update bar
 					Bars.setBar(player, Bars.playing, plugin.pdata.getArenaPlayers(arena).size(), timelimit/20, timelimit*5/arena.getTimeLimit());
@@ -175,9 +187,9 @@ public class GameHandler {
 					handlePlayer(player);
 				}
 			}
+			//decrease timelimit
+			timelimit--;
 		}
-		//decrease timelimit
-		timelimit--;
 	}
 
 	//player handlers
@@ -200,6 +212,7 @@ public class GameHandler {
 			//last player won
 			arena.arenaph.leaveWinner(player, Messages.playerwontoplayer);
 			broadcastWin(player);
+			stopArena();
 			return;
 		}
 		//check for lose
