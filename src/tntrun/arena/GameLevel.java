@@ -17,7 +17,6 @@
 
 package tntrun.arena;
 
-import java.util.HashMap;
 import java.util.HashSet;
 
 import org.bukkit.Bukkit;
@@ -26,6 +25,7 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.BlockState;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.util.Vector;
 
@@ -95,15 +95,6 @@ public class GameLevel {
 			}
 		}
 	}
-	private HashMap<String,String> blockmaterial = new HashMap<String,String>(800);
-	private void removeGLBlocks(Block block)
-	{
-		String locationstring = new StringBuilder().append(block.getX()).append("|").append(block.getY()).append("|").append(block.getZ()).toString();
-		String blocksmaterial = new StringBuilder().append(block.getType().toString()).append("|").append(block.getRelative(BlockFace.DOWN).getType().toString()).toString();
-		blockmaterial.put(locationstring, blocksmaterial);
-		block.setType(Material.AIR);
-		block.getRelative(BlockFace.DOWN).setType(Material.AIR);
-	}
 	private Location getPlayerStandOnBlockLocation(Location locationUnderPlayer)
 	{
 		locationUnderPlayer.setY(gp1.getY());
@@ -129,17 +120,22 @@ public class GameLevel {
 		}
 		return null;
 	}
+	private HashSet<BlockState> blocks = new HashSet<BlockState>(800);
+	private void removeGLBlocks(Block block)
+	{
+		blocks.add(block.getState());
+		block.setType(Material.AIR);
+		block = block.getRelative(BlockFace.DOWN);
+		blocks.add(block.getState());
+		block.setType(Material.AIR);
+	}
 	protected void regen(World w)
 	{
-		for (String locationstring : blockmaterial.keySet())
+		for (BlockState bs : blocks)
 		{
-			String[] coords = locationstring.split("[|]");
-			String [] materials = blockmaterial.get(locationstring).split("[|]");
-			Location location = new Location(w,Double.valueOf(coords[0]),Double.valueOf(coords[1]),Double.valueOf(coords[2]));
-			location.getBlock().setType(Material.getMaterial(materials[0]));
-			location.add(0,-1,0).getBlock().setType(Material.getMaterial(materials[1]));
+			bs.update(true);
 		}
-		blockmaterial.clear();
+		blocks.clear();
 	}
 	
 	protected void setGameLocation(Location p1, Location p2, World w)
