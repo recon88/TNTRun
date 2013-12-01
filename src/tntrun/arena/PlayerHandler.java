@@ -135,14 +135,6 @@ public class PlayerHandler {
 		plugin.pdata.restorePlayerGameMode(player.getName());
 		//remove vote
 		votes.remove(player.getName());
-		//update signs
-		SignMode mode;
-		if(winner || plugin.pdata.getArenaPlayers(arena).size() == 0) {
-			mode = SignMode.ENABLED;
-		} else {
-			mode = SignMode.GAME_IN_PROGRESS;
-		}
-		plugin.signEditor.modifySigns(arena.getArenaName(), mode, plugin.pdata.getArenaPlayers(arena).size(), arena.getMaxPlayers());
 		//remove bar
 		Bars.removeBar(player);
 	}

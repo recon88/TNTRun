@@ -143,52 +143,44 @@ public class GameHandler {
 		{
 			public void run()
 			{
-				if (plugin.pdata.getArenaPlayers(arena).size() > 0)
+				if (timelimit < 0)
 				{
-					handleArenaTick();
+					for (Player player : Bukkit.getOnlinePlayers())
+					{
+						if (plugin.pdata.getArenaPlayers(arena).contains(player.getName()))
+						{
+							//kick player
+							arena.arenaph.leavePlayer(player, Messages.arenatimeout, "");
+						}
+					}
+					//stop arena
+					stopArena();
 				} else
 				{
-					stopArena();
+					for (Player player : Bukkit.getOnlinePlayers())
+					{
+						if (plugin.pdata.getArenaPlayers(arena).contains(player.getName()))
+						{
+							//update bar
+							Bars.setBar(player, Bars.playing, plugin.pdata.getArenaPlayers(arena).size(), timelimit/20, timelimit*5/arena.getTimeLimit());
+							//handle player
+							handlePlayer(player);
+						}
+					}
+					//decrease timelimit
+					timelimit--;
 				}
 			}
 		}, 0, 1);
 	}
 	public void stopArena()
 	{
+		arena.setRunning(false);
 		Bukkit.getScheduler().cancelTask(arenahandler);
+		plugin.signEditor.modifySigns(arena.getArenaName(), SignMode.ENABLED, plugin.pdata.getArenaPlayers(arena).size(), arena.getMaxPlayers());
 		if (arena.isArenaEnabled())
 		{
 			startArenaRegen();
-		}
-	}
-	private void handleArenaTick()
-	{
-		if (timelimit < 0)
-		{
-			for (Player player : Bukkit.getOnlinePlayers())
-			{
-				if (plugin.pdata.getArenaPlayers(arena).contains(player.getName()))
-				{
-					//kick player
-					arena.arenaph.leavePlayer(player, Messages.arenatimeout, "");
-				}
-			}
-			//stop arena
-			stopArena();
-		} else
-		{
-			for (Player player : Bukkit.getOnlinePlayers())
-			{
-				if (plugin.pdata.getArenaPlayers(arena).contains(player.getName()))
-				{
-					//update bar
-					Bars.setBar(player, Bars.playing, plugin.pdata.getArenaPlayers(arena).size(), timelimit/20, timelimit*5/arena.getTimeLimit());
-					//handle player
-					handlePlayer(player);
-				}
-			}
-			//decrease timelimit
-			timelimit--;
 		}
 	}
 
@@ -263,7 +255,6 @@ public class GameHandler {
 						public void run()
 						{
 							arena.setRegenerating(false);
-							arena.setRunning(false);
 						}
 					});
 				} catch (Exception e) {}

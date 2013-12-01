@@ -148,7 +148,6 @@ public class Arena {
 	public void disableArena()
 	{
 		enabled = false;
-		running = false;
 		//drop players
 		for (Player player : Bukkit.getOnlinePlayers())
 		{

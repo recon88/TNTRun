@@ -103,6 +103,7 @@ public class GameCommands implements CommandExecutor{
 			{
 				if (!arena.isArenaEnabled()) {Messages.sendMessage(player, Messages.arenadisabled); return true;}
 				if (arena.isArenaRunning()) {Messages.sendMessage(player, Messages.arenarunning); return true;}
+				if (arena.isArenaRegenerating()) {Messages.sendMessage(player, Messages.arenarunning); return true;}
 				arena.arenaph.spawnPlayer(player, Messages.playerjoinedtoplayer, Messages.playerjoinedtoothers);
 				return true;
 			} else
