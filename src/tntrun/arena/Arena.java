@@ -342,8 +342,8 @@ public class Arena {
 		FileConfiguration config = YamlConfiguration.loadConfiguration(arenafile);
 		//load arena world location
 		world = config.getString("world", null);
-		//stop arena loading if world is not loaded
-		if (Bukkit.getWorld(world) == null)
+		//stop arena loading if world is not loaded or null
+		if (world == null || Bukkit.getWorld(world) == null)
 		{
 			plugin.logSevere("World "+world+" is not loaded. Stopping arena "+arenaname+" loading");
 		}
