@@ -86,7 +86,7 @@ public class GameLevel {
 					public void run()
 					{
 						blockstodestroy.remove(block);
-						if (arena.isArenaRunning() && !arena.isArenaRegenerating() && block.getType() != Material.AIR)
+						if (arena.isArenaRunning() && block.getType() != Material.AIR)
 						{
 							removeGLBlocks(block);
 						}
