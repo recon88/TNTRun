@@ -89,7 +89,7 @@ public class TNTRun extends JavaPlugin {
 				//load arenas
 				for (String file : arenasfolder.list())
 				{
-					Arena arena = new Arena(file.split("[.]")[0], instance);
+					Arena arena = new Arena(file.substring(0,file.length()-4), instance);
 					arena.loadFromConfig();
 				}
 				//load signs
