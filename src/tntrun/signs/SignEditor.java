@@ -35,14 +35,32 @@ public class SignEditor {
 		}
 		return this;
 	}
-	public SignEditor addSign(Block sign, String arena) 
+	public SignEditor removeArena(String arena)
 	{
-		addArena(arena).signs.get(arena).add(sign);
+		for (Block block : new HashSet<Block>(getSigns(arena)))
+		{
+			removeSign(block, arena);
+		}
+		signs.remove(arena);
 		return this;
 	}
-	public SignEditor removeSign(Block sign, String arena) 
+	public SignEditor addSign(Block block, String arena) 
 	{
-		addArena(arena).signs.get(arena).remove(sign);
+		addArena(arena).getSigns(arena).add(block);
+		return this;
+	}
+	public SignEditor removeSign(Block block, String arena) 
+	{
+		if (block.getState() instanceof Sign)
+		{
+			Sign sign = (Sign) block.getState();
+			sign.setLine(1, "");
+			sign.setLine(2, "");
+			sign.setLine(3, "");
+			sign.setLine(4, "");
+			sign.update();
+		}
+		addArena(arena).getSigns(arena).remove(block);
 		return this;
 	}
 	protected HashSet<Block> getSigns(String arena) 

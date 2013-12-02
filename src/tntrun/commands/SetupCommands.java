@@ -109,8 +109,9 @@ public class SetupCommands implements CommandExecutor {
 				sender.sendMessage("Disable arena first");
 				return true;
 			}
+			new File(plugin.getDataFolder()+File.separator+"arenas"+File.separator+arena.getArenaName()+".yml").delete();
+			plugin.signEditor.removeArena(arena.getArenaName());
 			plugin.pdata.removeArenaFromHashMap(arena);
-			new File("plugins/TNTRun/arenas/"+arena.getArenaName()+".yml").delete();
 			sender.sendMessage("Arena deleted");
 			return true;
 		}
