@@ -24,6 +24,7 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import tntrun.arena.Arena;
+import tntrun.arena.lobby.GlobalLobby;
 import tntrun.bars.Bars;
 import tntrun.commands.ConsoleCommands;
 import tntrun.commands.GameCommands;
@@ -49,7 +50,7 @@ public class TNTRun extends JavaPlugin {
 	public RestrictionHandler rhandler;
 	public PlayerLeaveArenaChecker plachecker;
 	public SignHandler signs;
-	
+	public GlobalLobby globallobby;
 	public SignEditor signEditor;
 	
 	@Override
@@ -57,6 +58,7 @@ public class TNTRun extends JavaPlugin {
 	{
 		log = getLogger();
 		signEditor = new SignEditor(this);
+		globallobby = new GlobalLobby(this);
 		Messages.loadMessages(this);
 		Bars.loadBars(this);
 		pdata = new PlayerDataStore();
@@ -82,11 +84,15 @@ public class TNTRun extends JavaPlugin {
 		{
 			public void run()
 			{
+				//load globallobyy
+				globallobby.loadFromConfig();
+				//load arenas
 				for (String file : arenasfolder.list())
 				{
 					Arena arena = new Arena(file.split("[.]")[0], instance);
 					arena.loadFromConfig();
 				}
+				//load signs
 				signEditor.loadConfiguration();
 			}
 		},20);
@@ -101,6 +107,13 @@ public class TNTRun extends JavaPlugin {
 			arena.disableArena();
 			arena.saveToConfig();
 		}
+		//save lobby
+		globallobby.saveToConfig();
+		globallobby = null;
+		//save signs
+		signEditor.saveConfiguration();
+		signEditor = null;
+		//unload other things
 		HandlerList.unregisterAll(this);
 		scommands = null;
 		gcommands = null;
@@ -110,8 +123,6 @@ public class TNTRun extends JavaPlugin {
 		signs = null;
 		pdata = null;
 		log = null;
-		signEditor.saveConfiguration();
-		signEditor = null;
 	}
 	
 	public void logSevere(String message)
