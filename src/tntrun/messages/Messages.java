@@ -15,6 +15,8 @@ public class Messages {
 	
 	public static String nopermission = "&4You don't have permission to do this";
 	
+	public static String teleporttolobby = "&6Teleported to lobby";
+	
 	public static String availablearenas = "&6Available arenas:&r ";
 	public static String arenadisabled = "&6Arena is disabled";
 	public static String arenarunning = "&6Arena already running"; 
@@ -69,6 +71,7 @@ public class Messages {
 		File messageconfig = new File(plugin.getDataFolder(),"configmsg.yml");
 		FileConfiguration config = YamlConfiguration.loadConfiguration(messageconfig);
 		nopermission = config.getString("nopermission",nopermission);
+		teleporttolobby = config.getString("teleporttolobby",teleporttolobby);
 		availablearenas = config.getString("availablearenas",availablearenas);
 		arenadisabled = config.getString("arenadisabled",arenadisabled);
 		arenarunning = config.getString("arenarunning",arenarunning);
@@ -94,6 +97,7 @@ public class Messages {
 	{
 		FileConfiguration config = new YamlConfiguration();
 		config.set("nopermission",nopermission);
+		config.set("teleporttolobby",teleporttolobby);
 		config.set("availablearenas",availablearenas);
 		config.set("arenadisabled",arenadisabled);
 		config.set("arenarunning",arenarunning);
