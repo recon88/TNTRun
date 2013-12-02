@@ -75,6 +75,13 @@ public class SetupCommands implements CommandExecutor {
 			sender.sendMessage("points cleared");
 			return true;
 		}
+		//set lobby
+		else if (args.length == 2 && args[0].equalsIgnoreCase("setlobby"))
+		{
+			plugin.globallobby.setLobbyLocation(player.getLocation());
+			sender.sendMessage("Lobby set");
+			return;
+		}
 		//create arena
 		else if (args.length == 2 && args[1].equalsIgnoreCase("create"))
 		{
