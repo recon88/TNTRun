@@ -17,6 +17,9 @@
 
 package tntrun.eventhandler;
 
+import java.util.Arrays;
+import java.util.HashSet;
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -36,6 +39,7 @@ public class RestrictionHandler implements Listener {
 		this.plugin = plugin;
 	}
 	
+	private HashSet<String> allowedcommands = new HashSet<String>(Arrays.asList("/tntrun leave","/tntrun vote","/tr leave","/tr vote"));
 	//player should not be able to issue any commands besides /tr leave and /tr vote while in arena
 	@EventHandler(priority=EventPriority.HIGHEST,ignoreCancelled = true)
 	public void onPlayerCommand(PlayerCommandPreprocessEvent e)
@@ -47,7 +51,7 @@ public class RestrictionHandler implements Listener {
 		//allow use any command if player has permission
 		if (player.hasPermission("tntrun.cmdblockbypass")) {return;}
 		//now check command
-		if (!(e.getMessage().equalsIgnoreCase("/tr leave") || e.getMessage().equalsIgnoreCase("/tr vote")))
+		if (!allowedcommands.contains(e.getMessage().toLowerCase()))
 		{
 			e.setCancelled(true);
 		}
