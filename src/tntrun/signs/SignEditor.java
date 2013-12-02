@@ -61,6 +61,8 @@ public class SignEditor {
 			text = ChatColor.RED.toString() + ChatColor.BOLD.toString() + "In game";
 		} else if(mode == SignMode.DISABLED) {
 			text = ChatColor.RED.toString() + ChatColor.BOLD.toString() + "Disabled";
+		} else if (mode == SignMode.REGENERATING) {
+			text = ChatColor.RED.toString() + ChatColor.BOLD.toString() + "Regenerating";
 		} else if(players == maxPlayers) {
 			text = ChatColor.RED.toString() + ChatColor.BOLD.toString() + Integer.toString(players) + "/" + Integer.toString(maxPlayers);
 		} else {

@@ -225,6 +225,8 @@ public class GameHandler {
 	{
 		//set arena is regenerating status
 		arena.setRegenerating(true);
+		//modify signs
+		plugin.signEditor.modifySigns(arena.getArenaName(), SignMode.REGENERATING);
 		//start arena regen
 		Thread regen = new Thread()
 		{
@@ -235,11 +237,15 @@ public class GameHandler {
 					//regen
 					for (final GameLevel gl : arena.getGameLevels())
 					{
-						int regentask =Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable()
+						if (!arena.isArenaEnabled()) {break;}
+						int regentask = Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable()
 						{
 							public void run()
 							{
-								gl.regen(arena.getWorld());
+								if (arena.isArenaEnabled())
+								{
+									gl.regen(arena.getWorld());
+								}
 							}
 						});
 						while (Bukkit.getScheduler().isCurrentlyRunning(regentask) || Bukkit.getScheduler().isQueued(regentask))
@@ -249,12 +255,16 @@ public class GameHandler {
 						Thread.sleep(100);
 					}
 					Thread.sleep(100);
+					if (!arena.isArenaEnabled()) {return;}
 					//update arena status
 					Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable()
 					{
 						public void run()
 						{
+							//set not regenerating status
 							arena.setRegenerating(false);
+							//modify signs
+							plugin.signEditor.modifySigns(arena.getArenaName(), SignMode.ENABLED, plugin.pdata.getArenaPlayers(arena).size(), arena.getMaxPlayers());
 						}
 					});
 				} catch (Exception e) {}
