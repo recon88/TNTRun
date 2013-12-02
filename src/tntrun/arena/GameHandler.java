@@ -244,7 +244,7 @@ public class GameHandler {
 							{
 								if (arena.isArenaEnabled())
 								{
-									gl.regen(arena.getWorld());
+									gl.regen();
 								}
 							}
 						});

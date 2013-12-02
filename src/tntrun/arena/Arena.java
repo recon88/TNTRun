@@ -161,7 +161,7 @@ public class Arena {
 		//regen gamelevels
 		for (GameLevel gl : gamelevels)
 		{
-			gl.regen(getWorld());
+			gl.regen();
 		}
 		plugin.signEditor.modifySigns(getArenaName(), SignMode.DISABLED);
 	}

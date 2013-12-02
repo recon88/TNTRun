@@ -129,7 +129,7 @@ public class GameLevel {
 		blocks.add(block.getState());
 		block.setType(Material.AIR);
 	}
-	protected void regen(World w)
+	protected void regen()
 	{
 		for (BlockState bs : blocks)
 		{
