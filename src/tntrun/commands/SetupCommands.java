@@ -80,7 +80,7 @@ public class SetupCommands implements CommandExecutor {
 		{
 			plugin.globallobby.setLobbyLocation(player.getLocation());
 			sender.sendMessage("Lobby set");
-			return;
+			return true;
 		}
 		//create arena
 		else if (args.length == 2 && args[1].equalsIgnoreCase("create"))
