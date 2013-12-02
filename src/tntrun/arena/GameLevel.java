@@ -138,7 +138,7 @@ public class GameLevel {
 		blocks.clear();
 	}
 	
-	protected void setGameLocation(Location p1, Location p2, World w)
+	protected void setGameLocation(Location p1, Location p2)
 	{
 		this.p1 = p1.toVector();
 		this.p2 = p2.toVector();
@@ -146,7 +146,7 @@ public class GameLevel {
 		this.gp2 = p2.add(0, 1, 0).toVector();
 		this.glb1 = gp1.clone().add(new Vector(1,0,1));
 		this.glb2 = gp2.clone().add(new Vector(-1,0,-1));
-		fillArea(w);
+		fillArea(p1.getWorld());
 	}
 	private void fillArea(World w)
 	{

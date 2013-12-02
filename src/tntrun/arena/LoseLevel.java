@@ -18,7 +18,6 @@
 package tntrun.arena;
 
 import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.util.Vector;
 
@@ -47,7 +46,7 @@ public class LoseLevel {
 		return loc.toVector().isInAABB(p1, p2);
 	};
 	
-	protected void setLooseLocation(Location p1, Location p2, World w)
+	protected void setLooseLocation(Location p1, Location p2)
 	{
 		this.p1 = p1.toVector();
 		this.p2 = p2.toVector();

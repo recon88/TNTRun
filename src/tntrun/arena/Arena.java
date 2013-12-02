@@ -221,7 +221,7 @@ public class Arena {
 				gl = new GameLevel(glname);
 				gamelevels.add(gl);
 			}
-			gl.setGameLocation(loc1, loc2, Bukkit.getWorld(world));
+			gl.setGameLocation(loc1, loc2);
 			return true;
 		}
 		return false;
@@ -245,9 +245,9 @@ public class Arena {
 	{
 		if (isInArenaBounds(loc1) && isInArenaBounds(loc2))
 		{
-			loselevel.setLooseLocation(loc1, loc2, Bukkit.getWorld(world));			
+			loselevel.setLooseLocation(loc1, loc2);			
 			return true;
-		} 
+		}
 		return false;
 	}
 	public boolean setSpawnPoint(Location loc)
