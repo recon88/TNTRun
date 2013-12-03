@@ -63,6 +63,10 @@ public class SignEditor {
 		addArena(arena).getSigns(arena).remove(block);
 		return this;
 	}
+	public HashSet<Block> getSignsCopy(String arena)
+	{
+		return new HashSet<Block>(getSigns(arena));
+	}
 	protected HashSet<Block> getSigns(String arena) 
 	{
 		return addArena(arena).signs.get(arena);
