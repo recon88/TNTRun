@@ -49,6 +49,8 @@ public class JoinSign {
 				mode = SignMode.DISABLED;
 			} else if(arena.isArenaRunning()) {
 				mode = SignMode.GAME_IN_PROGRESS;
+			} else if (arena.isArenaRegenerating()) {
+				mode = SignMode.REGENERATING;
 			} else {
 				mode = SignMode.ENABLED;
 			}
