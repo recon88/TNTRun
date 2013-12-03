@@ -70,6 +70,7 @@ public class JoinSign {
 		{
 			if (!arena.isArenaEnabled()) {Messages.sendMessage(e.getPlayer(), Messages.arenadisabled); return;}
 			if (arena.isArenaRunning()) {Messages.sendMessage(e.getPlayer(), Messages.arenarunning); return;}
+			if (arena.isArenaRegenerating()) {Messages.sendMessage(e.getPlayer(), Messages.arenarunning); return;}
 			arena.arenaph.spawnPlayer(e.getPlayer(), Messages.playerjoinedtoplayer, Messages.playerjoinedtoothers);
 			e.setCancelled(true);
 		} else
