@@ -15,7 +15,7 @@
  * 
  */
 
-package tntrun.arena.lobby;
+package tntrun.lobby;
 
 import java.io.File;
 
