@@ -91,7 +91,7 @@ public class SignEditor {
 			text = ChatColor.GREEN.toString() + ChatColor.BOLD.toString() + Integer.toString(players) + "/" + Integer.toString(maxPlayers);
 		}
 		
-		for(Block block : getSigns(arena)) 
+		for(Block block : getSignsCopy(arena)) 
 		{
 			if (block.getState() instanceof Sign)
 			{
