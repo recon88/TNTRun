@@ -78,9 +78,12 @@ public class PlayerHandler {
 		if (!arena.isArenaStarting())
 		{
 			HashSet<String> arenaplayers = plugin.pdata.getArenaPlayers(arena);
-			for (String pname : arenaplayers)
+			for (Player oplayer : Bukkit.getOnlinePlayers())
 			{
-				Bars.setBar(Bukkit.getPlayerExact(pname), Bars.waiting, arenaplayers.size(), 0, arenaplayers.size()*100/arena.getMinPlayers());
+				if (arenaplayers.contains(oplayer.getName()))
+				{
+					Bars.setBar(oplayer, Bars.waiting, arenaplayers.size(), 0, arenaplayers.size()*100/arena.getMinPlayers());
+				}
 			}
 		}
 		//check for game start
@@ -97,19 +100,27 @@ public class PlayerHandler {
 		removePlayerFromArenaAndRestoreState(player, false);
 		//send message to player
 		Messages.sendMessage(player, msgtoplayer);
+		//modify signs
+		SignMode mode;
+		if (arena.isArenaRunning()) {
+			mode = SignMode.GAME_IN_PROGRESS;
+		} else {
+			mode = SignMode.ENABLED;
+		}
+		plugin.signEditor.modifySigns(arena.getArenaName(), mode, plugin.pdata.getArenaPlayers(arena).size(), arena.getMaxPlayers());
 		//send message to other players and update bars
 		HashSet<String> arenaplayers = plugin.pdata.getArenaPlayers(arena);
-		for (String pname : arenaplayers)
+		for (Player oplayer : Bukkit.getOnlinePlayers())
 		{
-			Player p = Bukkit.getPlayerExact(pname);
-			Messages.sendMessage(p, player.getName(), msgtoarenaplayers);
-			if (!arena.isArenaStarting() && !arena.isArenaRunning())
+			if (arenaplayers.contains(oplayer.getName()))
 			{
-				Bars.setBar(p, Bars.waiting, arenaplayers.size(), 0, arenaplayers.size()*100/arena.getMinPlayers());
+				Messages.sendMessage(oplayer, player.getName(), msgtoarenaplayers);
+				if (!arena.isArenaStarting() && !arena.isArenaRunning())
+				{
+					Bars.setBar(oplayer, Bars.waiting, arenaplayers.size(), 0, arenaplayers.size()*100/arena.getMinPlayers());
+				}
 			}
 		}
-		//modify signs
-		plugin.signEditor.modifySigns(arena.getArenaName(), SignMode.ENABLED, plugin.pdata.getArenaPlayers(arena).size(), arena.getMaxPlayers());
 	}
 	protected void leaveWinner(Player player, String msgtoplayer)
 	{
