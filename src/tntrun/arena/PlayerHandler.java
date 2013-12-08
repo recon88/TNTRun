@@ -108,6 +108,8 @@ public class PlayerHandler {
 				Bars.setBar(p, Bars.waiting, arenaplayers.size(), 0, arenaplayers.size()*100/arena.getMinPlayers());
 			}
 		}
+		//modify signs
+		plugin.signEditor.modifySigns(arena.getArenaName(), SignMode.ENABLED, plugin.pdata.getArenaPlayers(arena).size(), arena.getMaxPlayers());
 	}
 	protected void leaveWinner(Player player, String msgtoplayer)
 	{
