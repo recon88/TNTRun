@@ -26,7 +26,6 @@ import org.bukkit.entity.Player;
 import tntrun.TNTRun;
 import tntrun.bars.Bars;
 import tntrun.messages.Messages;
-import tntrun.signs.SignMode;
 
 public class GameHandler {
 
@@ -91,7 +90,7 @@ public class GameHandler {
 						if (arenaplayers.contains(player.getName()))
 						{
 							Bars.setBar(player, Bars.waiting, arenaplayers.size(), 0, arenaplayers.size()*100/arena.getMinPlayers());
-							plugin.signEditor.modifySigns(arena.getArenaName(), SignMode.ENABLED, arenaplayers.size(), arena.getMaxPlayers());
+							plugin.signEditor.modifySigns(arena.getArenaName());
 						}
 					}
 					stopArenaCountdown();
@@ -137,7 +136,7 @@ public class GameHandler {
 				Messages.sendMessage(player, Messages.arenastarted, arena.getTimeLimit());
 			}
 		}
-		plugin.signEditor.modifySigns(arena.getArenaName(), SignMode.GAME_IN_PROGRESS);
+		plugin.signEditor.modifySigns(arena.getArenaName());
 		timelimit = arena.getTimeLimit()*20; //timelimit is in ticks
 		arenahandler = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable()
 		{
@@ -177,7 +176,7 @@ public class GameHandler {
 	{
 		arena.setRunning(false);
 		Bukkit.getScheduler().cancelTask(arenahandler);
-		plugin.signEditor.modifySigns(arena.getArenaName(), SignMode.ENABLED, plugin.pdata.getArenaPlayers(arena).size(), arena.getMaxPlayers());
+		plugin.signEditor.modifySigns(arena.getArenaName());
 		if (arena.isArenaEnabled())
 		{
 			startArenaRegen();
@@ -226,7 +225,7 @@ public class GameHandler {
 		//set arena is regenerating status
 		arena.setRegenerating(true);
 		//modify signs
-		plugin.signEditor.modifySigns(arena.getArenaName(), SignMode.REGENERATING);
+		plugin.signEditor.modifySigns(arena.getArenaName());
 		//start arena regen
 		Thread regen = new Thread()
 		{
@@ -264,7 +263,7 @@ public class GameHandler {
 							//set not regenerating status
 							arena.setRegenerating(false);
 							//modify signs
-							plugin.signEditor.modifySigns(arena.getArenaName(), SignMode.ENABLED, plugin.pdata.getArenaPlayers(arena).size(), arena.getMaxPlayers());
+							plugin.signEditor.modifySigns(arena.getArenaName());
 						}
 					});
 				} catch (Exception e) {}

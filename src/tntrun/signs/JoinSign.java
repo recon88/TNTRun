@@ -44,17 +44,7 @@ public class JoinSign {
 			e.setLine(0, ChatColor.BLUE+"[TNTRun]");
 			e.getPlayer().sendMessage("Sign succesfully created");
 			plugin.signEditor.addSign(e.getBlock(), arena.getArenaName());
-			SignMode mode;
-			if(!arena.isArenaEnabled()) {
-				mode = SignMode.DISABLED;
-			} else if(arena.isArenaRunning()) {
-				mode = SignMode.GAME_IN_PROGRESS;
-			} else if (arena.isArenaRegenerating()) {
-				mode = SignMode.REGENERATING;
-			} else {
-				mode = SignMode.ENABLED;
-			}
-			plugin.signEditor.modifySigns(arena.getArenaName(), mode, plugin.pdata.getArenaPlayers(arena).size(), arena.getMaxPlayers());
+			plugin.signEditor.modifySigns(arena.getArenaName());
 		} else
 		{
 			e.getPlayer().sendMessage("Arena does not exist");

@@ -15,6 +15,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import tntrun.TNTRun;
+import tntrun.arena.Arena;
 
 public class SignEditor {
 	
@@ -72,20 +73,21 @@ public class SignEditor {
 		return addArena(arena).signs.get(arena);
 	}
 
-	public void modifySigns(String arena, SignMode mode) 
+	public void modifySigns(String arena) 
 	{
-		modifySigns(arena, mode, 0, 1);
-	}
-	public void modifySigns(String arena, SignMode mode, int players, int maxPlayers) 
-	{
+		Arena arenainst = plugin.pdata.getArenaByName(arena);
+		if (arena == null) {return;}
+
 		String text = null;
-		if(mode == SignMode.GAME_IN_PROGRESS) {
-			text = ChatColor.RED.toString() + ChatColor.BOLD.toString() + "In game";
-		} else if(mode == SignMode.DISABLED) {
+		int players = plugin.pdata.getArenaPlayers(arenainst).size();
+		int maxPlayers = arenainst.getMaxPlayers();
+		if(!arenainst.isArenaEnabled()) {
 			text = ChatColor.RED.toString() + ChatColor.BOLD.toString() + "Disabled";
-		} else if (mode == SignMode.REGENERATING) {
+		} else if (arenainst.isArenaRunning()) {
+			text = ChatColor.RED.toString() + ChatColor.BOLD.toString() + "In Game";
+		} else if (arenainst.isArenaRegenerating()) {
 			text = ChatColor.RED.toString() + ChatColor.BOLD.toString() + "Regenerating";
-		} else if(players == maxPlayers) {
+		}  else if(players == maxPlayers) {
 			text = ChatColor.RED.toString() + ChatColor.BOLD.toString() + Integer.toString(players) + "/" + Integer.toString(maxPlayers);
 		} else {
 			text = ChatColor.GREEN.toString() + ChatColor.BOLD.toString() + Integer.toString(players) + "/" + Integer.toString(maxPlayers);
@@ -119,7 +121,7 @@ public class SignEditor {
 				Block sign = l.getBlock();
 				addSign(sign, arena);
 			}
-			modifySigns(arena, SignMode.ENABLED, 0, plugin.pdata.getArenaByName(arena).getMaxPlayers());
+			modifySigns(arena);
 		}
 	}
 

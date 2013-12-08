@@ -33,7 +33,6 @@ import org.bukkit.util.Vector;
 
 import tntrun.TNTRun;
 import tntrun.messages.Messages;
-import tntrun.signs.SignMode;
 
 public class Arena {
 
@@ -138,9 +137,9 @@ public class Arena {
 	{
 		if (isArenaConfigured().equalsIgnoreCase("yes"))
 		{
-			plugin.signEditor.modifySigns(getArenaName(), SignMode.ENABLED, plugin.pdata.getArenaPlayers(this).size(), getMaxPlayers());
-			arenagh.startArenaAntiLeaveHandler();
 			enabled = true;
+			arenagh.startArenaAntiLeaveHandler();
+			plugin.signEditor.modifySigns(getArenaName());
 			return true;
 		}
 		return false;
@@ -163,7 +162,7 @@ public class Arena {
 		{
 			gl.regen();
 		}
-		plugin.signEditor.modifySigns(getArenaName(), SignMode.DISABLED);
+		plugin.signEditor.modifySigns(getArenaName());
 	}
 	public boolean isArenaStarting()
 	{

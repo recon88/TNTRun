@@ -25,7 +25,6 @@ import org.bukkit.entity.Player;
 import tntrun.TNTRun;
 import tntrun.bars.Bars;
 import tntrun.messages.Messages;
-import tntrun.signs.SignMode;
 
 public class PlayerHandler {
 
@@ -73,7 +72,7 @@ public class PlayerHandler {
 		//send message about arena player count
 		Messages.sendMessage(player, Messages.playerscount+plugin.pdata.getArenaPlayers(arena).size());
 		//modify signs
-		plugin.signEditor.modifySigns(arena.getArenaName(), SignMode.ENABLED, plugin.pdata.getArenaPlayers(arena).size(), arena.getMaxPlayers());
+		plugin.signEditor.modifySigns(arena.getArenaName());
 		//modify bars
 		if (!arena.isArenaStarting())
 		{
@@ -101,13 +100,7 @@ public class PlayerHandler {
 		//send message to player
 		Messages.sendMessage(player, msgtoplayer);
 		//modify signs
-		SignMode mode;
-		if (arena.isArenaRunning()) {
-			mode = SignMode.GAME_IN_PROGRESS;
-		} else {
-			mode = SignMode.ENABLED;
-		}
-		plugin.signEditor.modifySigns(arena.getArenaName(), mode, plugin.pdata.getArenaPlayers(arena).size(), arena.getMaxPlayers());
+		plugin.signEditor.modifySigns(arena.getArenaName());
 		//send message to other players and update bars
 		HashSet<String> arenaplayers = plugin.pdata.getArenaPlayers(arena);
 		for (Player oplayer : Bukkit.getOnlinePlayers())
