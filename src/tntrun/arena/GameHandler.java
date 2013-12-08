@@ -90,9 +90,9 @@ public class GameHandler {
 						if (arenaplayers.contains(player.getName()))
 						{
 							Bars.setBar(player, Bars.waiting, arenaplayers.size(), 0, arenaplayers.size()*100/arena.getMinPlayers());
-							plugin.signEditor.modifySigns(arena.getArenaName());
 						}
 					}
+					plugin.signEditor.modifySigns(arena.getArenaName());
 					stopArenaCountdown();
 				} else
 				//start arena if countdown is 0
