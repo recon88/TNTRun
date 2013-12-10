@@ -154,21 +154,29 @@ public class GameHandler {
 					}
 					//stop arena
 					stopArena();
-				} else
-				{
-					for (Player player : Bukkit.getOnlinePlayers())
-					{
-						if (plugin.pdata.getArenaPlayers(arena).contains(player.getName()))
-						{
-							//update bar
-							Bars.setBar(player, Bars.playing, plugin.pdata.getArenaPlayers(arena).size(), timelimit/20, timelimit*5/arena.getTimeLimit());
-							//handle player
-							handlePlayer(player);
-						}
-					}
-					//decrease timelimit
-					timelimit--;
+					return;
 				}
+				HashSet<String> arenaplayers = plugin.pdata.getArenaPlayers(arena);
+				//stop arena if player count is 0 (just in case)
+				if (arenaplayers.size() == 0)
+				{
+					//stop arena
+					stopArena();
+					return;
+				}
+				//handle players
+				for (Player player : Bukkit.getOnlinePlayers())
+				{
+					if (arenaplayers.contains(player.getName()))
+					{
+						//update bar
+						Bars.setBar(player, Bars.playing, arenaplayers.size(), timelimit/20, timelimit*5/arena.getTimeLimit());
+						//handle player
+						handlePlayer(player);
+					}
+				}
+				//decrease timelimit
+				timelimit--;
 			}
 		}, 0, 1);
 	}
