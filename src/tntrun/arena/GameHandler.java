@@ -68,10 +68,12 @@ public class GameHandler {
 	
 	
 	//arena start handler (running status updater)
-	int runtaskid;
+	Integer runtaskid = null;
 	int count;
 	protected void runArenaCountdown()
 	{
+		if (runtaskid != null) {return;}
+		
 		arena.setStarting(true);
 		runtaskid = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() 
 		{
@@ -120,7 +122,11 @@ public class GameHandler {
 	{
 		arena.setStarting(false);
 		count = arena.getCountdown();
-		Bukkit.getScheduler().cancelTask(runtaskid);
+		if (runtaskid != null)
+		{
+			Bukkit.getScheduler().cancelTask(runtaskid);
+			runtaskid = null;
+		}
 	}
 	
 	//main arena handler
