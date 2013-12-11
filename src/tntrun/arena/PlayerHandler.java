@@ -124,6 +124,8 @@ public class PlayerHandler {
 	}
 	private void removePlayerFromArenaAndRestoreState(Player player, boolean winner)
 	{
+		//remove bar
+		Bars.removeBar(player);
 		//remove player on arena data
 		plugin.pdata.removePlayerFromArena(player.getName());
 		//restore location
@@ -141,8 +143,6 @@ public class PlayerHandler {
 		plugin.pdata.restorePlayerGameMode(player.getName());
 		//remove vote
 		votes.remove(player.getName());
-		//remove bar
-		Bars.removeBar(player);
 	}
 	
 
