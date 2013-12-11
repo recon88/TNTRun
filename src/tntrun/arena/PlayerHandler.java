@@ -86,7 +86,7 @@ public class PlayerHandler {
 			}
 		}
 		//check for game start
-		if (!arena.isArenaStarting() && plugin.pdata.getArenaPlayers(arena).size() == arena.getMaxPlayers() || plugin.pdata.getArenaPlayers(arena).size() == arena.getMinPlayers())
+		if (!arena.isArenaStarting() && (plugin.pdata.getArenaPlayers(arena).size() == arena.getMaxPlayers() || plugin.pdata.getArenaPlayers(arena).size() == arena.getMinPlayers()))
 		{
 			arena.arenagh.runArenaCountdown();
 		}
@@ -153,7 +153,7 @@ public class PlayerHandler {
 		if (!votes.contains(player.getName()))
 		{
 			votes.add(player.getName());
-			if (!arena.isArenaStarting() && plugin.pdata.getArenaPlayers(arena).size() > 1 && (votes.size() >= plugin.pdata.getArenaPlayers(arena).size()*arena.getVotePercent()))
+			if (!arena.isArenaStarting() && (plugin.pdata.getArenaPlayers(arena).size() > 1 && (votes.size() >= plugin.pdata.getArenaPlayers(arena).size()*arena.getVotePercent())))
 			{
 				arena.arenagh.runArenaCountdown();
 			}	
