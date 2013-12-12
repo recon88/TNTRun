@@ -90,10 +90,11 @@ public class Arena {
 	{
 		return loselevel;
 	}
-	private Location spawnpoint = null;
+	private Vector spawnpoint = null;
 	public Location getSpawnPoint()
 	{
-		return spawnpoint;
+		Location spawn = new Location(getWorld(),spawnpoint.getX(),spawnpoint.getY(),spawnpoint.getZ());
+		return spawn;
 	}
 	
 	private int maxPlayers = 6;
@@ -253,7 +254,7 @@ public class Arena {
 	{
 		if (isInArenaBounds(loc))
 		{
-			spawnpoint = loc;
+			spawnpoint = loc.toVector();
 			return true;
 		}
 		return false;
@@ -315,7 +316,7 @@ public class Arena {
 		} catch (Exception e) {}
 		//save spawnpoint
 		try {
-			config.set("spawnpoint", spawnpoint.toVector());
+			config.set("spawnpoint", spawnpoint);
 		} catch (Exception e) {}
 		//save maxplayers
 		config.set("maxPlayers", maxPlayers);
@@ -340,11 +341,6 @@ public class Arena {
 		FileConfiguration config = YamlConfiguration.loadConfiguration(arenafile);
 		//load arena world location
 		world = config.getString("world", null);
-		//stop arena loading if world is not loaded or null
-		if (world == null || Bukkit.getWorld(world) == null)
-		{
-			plugin.logSevere("World "+world+" is not loaded. Stopping arena "+arenaname+" loading");
-		}
 		//load arena bounds
 		p1 = config.getVector("p1", null);
 		p2 = config.getVector("p2", null);
@@ -365,11 +361,8 @@ public class Arena {
 		gameleveldestroydelay = config.getInt("gameleveldestroydelay",gameleveldestroydelay);
 		//load looselevel
 		loselevel.loadFromConfig(config);
-		//load spawnpoint
-		try {
-			Vector v = config.getVector("spawnpoint", null);
-			spawnpoint = new Location(Bukkit.getWorld(world), v.getX(), v.getY(), v.getZ());
-		} catch (Exception e) {}
+		//load spawnpoint			
+		spawnpoint = config.getVector("spawnpoint", null);
 		//load maxplayers
 		maxPlayers = config.getInt("maxPlayers",maxPlayers);
 		//load minplayers
