@@ -34,8 +34,8 @@ import tntrun.eventhandler.PlayerStatusHandler;
 import tntrun.eventhandler.RestrictionHandler;
 import tntrun.lobby.GlobalLobby;
 import tntrun.messages.Messages;
-import tntrun.signs.SignEditor;
 import tntrun.signs.SignHandler;
+import tntrun.signs.editor.SignEditor;
 
 public class TNTRun extends JavaPlugin {
 

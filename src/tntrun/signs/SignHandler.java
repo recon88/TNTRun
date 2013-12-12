@@ -30,6 +30,9 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 import tntrun.TNTRun;
 import tntrun.messages.Messages;
+import tntrun.signs.type.JoinSign;
+import tntrun.signs.type.LeaveSign;
+import tntrun.signs.type.VoteSign;
 
 public class SignHandler implements Listener {
 

@@ -15,7 +15,7 @@
  * 
  */
 
-package tntrun.signs;
+package tntrun.signs.type;
 
 import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
@@ -36,7 +36,7 @@ public class JoinSign {
 	}
 
 	
-	protected void handleCreation(SignChangeEvent e)
+	public void handleCreation(SignChangeEvent e)
 	{
 		Arena arena = plugin.pdata.getArenaByName(e.getLine(2));
 		if (arena!=null)
@@ -53,7 +53,7 @@ public class JoinSign {
 		}
 	}
 	
-	protected void handleClick(PlayerInteractEvent e)
+	public void handleClick(PlayerInteractEvent e)
 	{
 		Arena arena = plugin.pdata.getArenaByName(((Sign)e.getClickedBlock().getState()).getLine(2));
 		if (arena!=null)
@@ -69,7 +69,8 @@ public class JoinSign {
 		}
 	}
 	
-	protected void handleDestroy(Block b) {
+	public void handleDestroy(Block b) 
+	{
 		plugin.signEditor.removeSign(b, ((Sign)b.getState()).getLine(2));
 	}
 	

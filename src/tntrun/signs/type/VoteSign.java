@@ -15,7 +15,7 @@
  * 
  */
 
-package tntrun.signs;
+package tntrun.signs.type;
 
 import org.bukkit.ChatColor;
 import org.bukkit.event.block.SignChangeEvent;
@@ -23,29 +23,28 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 import tntrun.TNTRun;
 import tntrun.arena.Arena;
-import tntrun.messages.Messages;
 
-public class LeaveSign {
+public class VoteSign {
 
 	private TNTRun plugin;
-	public LeaveSign(TNTRun plugin)
+	public VoteSign(TNTRun plugin)
 	{
 		this.plugin = plugin;
 	}
 
 	
-	protected void handleCreation(SignChangeEvent e)
+	public void handleCreation(SignChangeEvent e)
 	{
 		e.setLine(0, ChatColor.BLUE+"[TNTRun]");
 		e.getPlayer().sendMessage("Sign succesfully created");
 	}
 	
-	protected void handleClick(PlayerInteractEvent e)
+	public void handleClick(PlayerInteractEvent e)
 	{
 		Arena arena = plugin.pdata.getPlayerArena(e.getPlayer().getName());
 		if (arena!=null)
 		{
-			arena.arenaph.leavePlayer(e.getPlayer(), Messages.playerlefttoplayer, Messages.playerlefttoothers);
+			arena.arenaph.vote(e.getPlayer());
 			e.setCancelled(true);
 		} else
 		{

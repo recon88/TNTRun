@@ -1,4 +1,4 @@
-package tntrun.signs;
+package tntrun.signs.editor;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,37 +20,37 @@ import tntrun.arena.Arena;
 public class SignEditor {
 	
 	private TNTRun plugin;
-	private HashMap<String, HashSet<Block>> signs = new HashMap<String, HashSet<Block>>();
+	private HashMap<String, HashSet<SignInfo>> signs = new HashMap<String, HashSet<SignInfo>>();
 
 	private File configfile;
-	public SignEditor(TNTRun plugin) {
+	public SignEditor(TNTRun plugin) 
+	{
 		this.plugin = plugin;
 		configfile = new File(plugin.getDataFolder().getAbsolutePath() + File.separator+ "signs.yml");
 	}
 
-	public SignEditor addArena(String arena) 
+	public void addArena(String arena) 
 	{
 		if(!signs.containsKey(arena)) 
 		{
-			signs.put(arena, new HashSet<Block>());
+			signs.put(arena, new HashSet<SignInfo>());
 		}
-		return this;
 	}
-	public SignEditor removeArena(String arena)
+	public void removeArena(String arena)
 	{
-		for (Block block : new HashSet<Block>(getSigns(arena)))
+		for (Block block : getSignsBlocks(arena))
 		{
 			removeSign(block, arena);
 		}
 		signs.remove(arena);
-		return this;
 	}
-	public SignEditor addSign(Block block, String arena) 
+	public void addSign(Block block, String arena) 
 	{
-		addArena(arena).getSigns(arena).add(block);
-		return this;
+		SignInfo signinfo = new SignInfo(block);
+		addArena(arena);
+		getSigns(arena).add(signinfo);
 	}
-	public SignEditor removeSign(Block block, String arena) 
+	public void removeSign(Block block, String arena) 
 	{
 		if (block.getState() instanceof Sign)
 		{
@@ -61,16 +61,24 @@ public class SignEditor {
 			sign.setLine(4, "");
 			sign.update();
 		}
-		addArena(arena).getSigns(arena).remove(block);
-		return this;
+		SignInfo signinfo = new SignInfo(block);
+		addArena(arena);
+		getSigns(arena).remove(signinfo);
 	}
-	public HashSet<Block> getSignsCopy(String arena)
+	public HashSet<Block> getSignsBlocks(String arena)
 	{
-		return new HashSet<Block>(getSigns(arena));
+		HashSet<Block> signs = new HashSet<Block>();
+		for (SignInfo signinfo : getSigns(arena))
+		{
+			signs.add(signinfo.getBlock());
+		}
+		return signs;
 	}
-	protected HashSet<Block> getSigns(String arena) 
+
+	private HashSet<SignInfo> getSigns(String arena) 
 	{
-		return addArena(arena).signs.get(arena);
+		addArena(arena);
+		return signs.get(arena);
 	}
 
 	public void modifySigns(String arena) 
@@ -93,7 +101,7 @@ public class SignEditor {
 			text = ChatColor.GREEN.toString() + ChatColor.BOLD.toString() + Integer.toString(players) + "/" + Integer.toString(maxPlayers);
 		}
 		
-		for(Block block : getSignsCopy(arena)) 
+		for(Block block : getSignsBlocks(arena)) 
 		{
 			if (block.getState() instanceof Sign)
 			{
@@ -133,7 +141,7 @@ public class SignEditor {
 		{
 			ConfigurationSection section = file.createSection(arena);
 			int i = 0;
-			for(Block b : signs.get(arena)) 
+			for(Block b : getSignsBlocks(arena)) 
 			{
 				ConfigurationSection blockSection = section.createSection(Integer.toString(i++));
 				blockSection.set("x", b.getX());
