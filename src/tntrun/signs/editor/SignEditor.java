@@ -70,7 +70,10 @@ public class SignEditor {
 		HashSet<Block> signs = new HashSet<Block>();
 		for (SignInfo signinfo : getSigns(arena))
 		{
-			signs.add(signinfo.getBlock());
+			if (signinfo != null)
+			{
+				signs.add(signinfo.getBlock());
+			}
 		}
 		return signs;
 	}
