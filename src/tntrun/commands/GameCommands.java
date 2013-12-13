@@ -115,7 +115,7 @@ public class GameCommands implements CommandExecutor{
 			Arena arena = plugin.pdata.getArenaByName(args[1]);
 			if (arena != null)
 			{
-				if (arena.getWorld() == null) {player.sendMessage("Arena world is unloaded, can't join arena"); return;}
+				if (arena.getWorld() == null) {player.sendMessage("Arena world is unloaded, can't join arena"); return true;}
 				if (!arena.isArenaEnabled()) {Messages.sendMessage(player, Messages.arenadisabled); return true;}
 				if (arena.isArenaRunning()) {Messages.sendMessage(player, Messages.arenarunning); return true;}
 				if (arena.isArenaRegenerating()) {Messages.sendMessage(player, Messages.arenarunning); return true;}
