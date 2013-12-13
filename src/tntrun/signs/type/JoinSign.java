@@ -58,6 +58,7 @@ public class JoinSign {
 		Arena arena = plugin.pdata.getArenaByName(((Sign)e.getClickedBlock().getState()).getLine(2));
 		if (arena!=null)
 		{
+			if (arena.getWorld() == null) {e.getPlayer().sendMessage("Arena world is unloaded, can't join arena"); return;}
 			if (!arena.isArenaEnabled()) {Messages.sendMessage(e.getPlayer(), Messages.arenadisabled); return;}
 			if (arena.isArenaRunning()) {Messages.sendMessage(e.getPlayer(), Messages.arenarunning); return;}
 			if (arena.isArenaRegenerating()) {Messages.sendMessage(e.getPlayer(), Messages.arenarunning); return;}
