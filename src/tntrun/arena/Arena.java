@@ -158,11 +158,14 @@ public class Arena {
 		}
 		//stop arena
 		arenagh.stopArena();
+		//stop antileave handler
+		arenagh.stopArenaAntiLeaveHandler();
 		//regen gamelevels
 		for (GameLevel gl : gamelevels)
 		{
 			gl.regen();
 		}
+		//modify signs
 		plugin.signEditor.modifySigns(getArenaName());
 	}
 	public boolean isArenaStarting()

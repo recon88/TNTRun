@@ -46,24 +46,22 @@ public class GameHandler {
 		{
 			public void run()
 			{
-				if (arena.isArenaEnabled())
+				for (Player player : Bukkit.getOnlinePlayers())
 				{
-					for (Player player : Bukkit.getOnlinePlayers())
+					if (plugin.pdata.getArenaPlayers(arena).contains(player.getName()))
 					{
-						if (plugin.pdata.getArenaPlayers(arena).contains(player.getName()))
+						if (!arena.isInArenaBounds(player.getLocation()))
 						{
-							if (!arena.isInArenaBounds(player.getLocation()))
-							{
-								arena.arenaph.leavePlayer(player, Messages.playerlefttoplayer, Messages.playerlefttoothers);
-							}
+							arena.arenaph.leavePlayer(player, Messages.playerlefttoplayer, Messages.playerlefttoothers);
 						}
 					}
-				} else
-				{
-					Bukkit.getScheduler().cancelTask(leavetaskid);
 				}
 			}
 		},0,1);
+	}
+	public void stopArenaAntiLeaveHandler()
+	{
+		Bukkit.getScheduler().cancelTask(leavetaskid);
 	}
 	
 	
