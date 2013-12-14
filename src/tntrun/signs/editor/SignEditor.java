@@ -5,9 +5,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.configuration.ConfigurationSection;
@@ -78,6 +76,11 @@ public class SignEditor {
 		return signs;
 	}
 
+	private void addSignInfo(SignInfo si, String arena)
+	{
+		addArena(arena);
+		getSigns(arena).add(si);
+	}
 	private HashSet<SignInfo> getSigns(String arena) 
 	{
 		addArena(arena);
@@ -128,9 +131,8 @@ public class SignEditor {
 			for(String block : section.getKeys(false)) 
 			{
 				ConfigurationSection blockSection = section.getConfigurationSection(block);
-				Location l = new Location(Bukkit.getWorld(blockSection.getString("world")), (double)blockSection.getInt("x"), (double)blockSection.getInt("y"), (double)blockSection.getInt("z"));
-				Block sign = l.getBlock();
-				addSign(sign, arena);
+				SignInfo si = new SignInfo(blockSection.getString("world"), blockSection.getInt("x"), blockSection.getInt("y"), blockSection.getInt("z"));
+				addSignInfo(si, arena);
 			}
 			modifySigns(arena);
 		}
@@ -144,13 +146,13 @@ public class SignEditor {
 		{
 			ConfigurationSection section = file.createSection(arena);
 			int i = 0;
-			for(Block b : getSignsBlocks(arena)) 
+			for(SignInfo si : getSigns(arena)) 
 			{
 				ConfigurationSection blockSection = section.createSection(Integer.toString(i++));
-				blockSection.set("x", b.getX());
-				blockSection.set("y", b.getY());
-				blockSection.set("z", b.getZ());
-				blockSection.set("world", b.getWorld().getName());
+				blockSection.set("x", si.getX());
+				blockSection.set("y", si.getY());
+				blockSection.set("z", si.getZ());
+				blockSection.set("world", si.getWorldName());
 			}
 		}
 		

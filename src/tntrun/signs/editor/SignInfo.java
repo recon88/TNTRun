@@ -35,4 +35,21 @@ public class SignInfo {
 		return null;
 	}
 	
+	protected String getWorldName()
+	{
+		return worldname;
+	}
+	protected int getX()
+	{
+		return x;
+	}
+	protected int getY()
+	{
+		return y;
+	}
+	protected int getZ()
+	{
+		return z;
+	}
+	
 }
