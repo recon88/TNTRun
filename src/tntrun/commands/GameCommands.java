@@ -66,8 +66,14 @@ public class GameCommands implements CommandExecutor{
 		{
 			if (plugin.globallobby.isLobbyLocationSet())
 			{
-				player.teleport(plugin.globallobby.getLobbyLocation());
-				Messages.sendMessage(player, Messages.teleporttolobby);
+				if (plugin.globallobby.isLobbyLocationWorldAvailable())
+				{
+					player.teleport(plugin.globallobby.getLobbyLocation());
+					Messages.sendMessage(player, Messages.teleporttolobby);
+				} else
+				{
+					player.sendMessage("Lobby world is unloaded, can't join lobby");
+				}
 			} else
 			{
 				sender.sendMessage("Lobby is not set");
