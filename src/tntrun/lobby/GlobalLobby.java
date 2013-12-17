@@ -79,7 +79,10 @@ public class GlobalLobby {
 		Vector vector = config.getVector("lobby.vector", null);
 		float yaw = (float) config.getDouble("lobby.yaw",0.0);
 		float pitch = (float) config.getDouble("lobby.pitch", 0.0);
-		lobbyLocation = new LobbyLocation(worldname, vector, yaw, pitch);
+		if (worldname != null && vector != null)
+		{
+			lobbyLocation = new LobbyLocation(worldname, vector, yaw, pitch);
+		}
 	}
 	
 }
