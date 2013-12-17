@@ -68,7 +68,7 @@ public class GameHandler {
 	//arena start handler (running status updater)
 	int runtaskid;
 	int count;
-	protected void runArenaCountdown()
+	public void runArenaCountdown()
 	{
 		arena.setStarting(true);
 		runtaskid = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() 
@@ -114,7 +114,7 @@ public class GameHandler {
 			}
 		}, 0, 20);
 	}
-	private void stopArenaCountdown()
+	public void stopArenaCountdown()
 	{
 		arena.setStarting(false);
 		count = arena.getCountdown();

@@ -158,6 +158,8 @@ public class Arena {
 		}
 		//stop arena
 		arenagh.stopArena();
+		//stop countdown
+		arenagh.stopArenaCountdown();
 		//stop antileave handler
 		arenagh.stopArenaAntiLeaveHandler();
 		//regen gamelevels
