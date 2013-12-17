@@ -31,7 +31,6 @@ public class LobbyLocation {
 	public LobbyLocation(String worldname, Vector vector, float yaw, float pitch)
 	{
 		this.worldname = worldname;
-		if (vector != null)
 		this.x = vector.getX();
 		this.y = vector.getY();
 		this.z = vector.getZ();
