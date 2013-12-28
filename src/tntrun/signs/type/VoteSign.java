@@ -23,6 +23,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 import tntrun.TNTRun;
 import tntrun.arena.Arena;
+import tntrun.messages.Messages;
 
 public class VoteSign {
 
@@ -44,7 +45,13 @@ public class VoteSign {
 		Arena arena = plugin.pdata.getPlayerArena(e.getPlayer().getName());
 		if (arena!=null)
 		{
-			arena.arenaph.vote(e.getPlayer());
+			if (arena.arenaph.vote(e.getPlayer()))
+			{
+				Messages.sendMessage(e.getPlayer(), Messages.playervotedforstart);
+			} else
+			{
+				Messages.sendMessage(e.getPlayer(), Messages.playeralreadyvotedforstart);
+			}
 			e.setCancelled(true);
 		} else
 		{
