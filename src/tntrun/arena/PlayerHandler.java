@@ -60,6 +60,8 @@ public class PlayerHandler {
 		//teleport player to arena
 		plugin.pdata.storePlayerLocation(player.getName());
 		player.teleport(arena.getSpawnPoint());
+		//update inventory
+		player.updateInventory();
 		//send message to player
 		Messages.sendMessage(player, msgtoplayer);
 		//send message to other players and update bar
@@ -121,9 +123,13 @@ public class PlayerHandler {
 		removePlayerFromArenaAndRestoreState(player, true);
 		//send message to player
 		Messages.sendMessage(player, msgtoplayer);
+		//modify signs
+		plugin.signEditor.modifySigns(arena.getArenaName());
 	}
 	private void removePlayerFromArenaAndRestoreState(Player player, boolean winner)
 	{
+		//remove vote
+		votes.remove(player.getName());
 		//remove bar
 		Bars.removeBar(player);
 		//remove player on arena data
@@ -141,8 +147,8 @@ public class PlayerHandler {
 			arena.getRewards().rewardPlayer(player);
 		}
 		plugin.pdata.restorePlayerGameMode(player.getName());
-		//remove vote
-		votes.remove(player.getName());
+		//update inventory
+		player.updateInventory();
 	}
 	
 
