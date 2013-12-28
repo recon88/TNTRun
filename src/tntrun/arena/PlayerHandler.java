@@ -36,6 +36,17 @@ public class PlayerHandler {
 		this.arena = arena;
 	}
 
+	//check if player can join the arena
+	public boolean tryJoin(Player player)
+	{
+		if (arena.getWorld() == null) {player.sendMessage("Arena world is unloaded, can't join arena"); return false;}
+		if (!arena.isArenaEnabled()) {Messages.sendMessage(player, Messages.arenadisabled); return false;}
+		if (arena.isArenaRunning()) {Messages.sendMessage(player, Messages.arenarunning); return false;}
+		if (arena.isArenaRegenerating()) {Messages.sendMessage(player, Messages.arenarunning); return false;}
+		if (player.isInsideVehicle()) {player.sendMessage("You can't join the game while sitting inside vehicle"); return false;}
+		return true;
+	}
+	
 	//spawn player on arena
 	public void spawnPlayer(final Player player, String msgtoplayer, String msgtoarenaplayers)
 	{
