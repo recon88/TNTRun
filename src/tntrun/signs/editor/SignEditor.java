@@ -53,10 +53,10 @@ public class SignEditor {
 		if (block.getState() instanceof Sign)
 		{
 			Sign sign = (Sign) block.getState();
+			sign.setLine(0, "");
 			sign.setLine(1, "");
 			sign.setLine(2, "");
 			sign.setLine(3, "");
-			sign.setLine(4, "");
 			sign.update();
 		}
 		SignInfo signinfo = new SignInfo(block);
