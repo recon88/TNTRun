@@ -37,7 +37,7 @@ public class PlayerHandler {
 	}
 
 	//check if player can join the arena
-	public boolean tryJoin(Player player)
+	public boolean checkJoin(Player player)
 	{
 		if (arena.getWorld() == null) {player.sendMessage("Arena world is unloaded, can't join arena"); return false;}
 		if (!arena.isArenaEnabled()) {Messages.sendMessage(player, Messages.arenadisabled); return false;}

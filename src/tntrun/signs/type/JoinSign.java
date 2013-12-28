@@ -58,7 +58,7 @@ public class JoinSign {
 		Arena arena = plugin.pdata.getArenaByName(((Sign)e.getClickedBlock().getState()).getLine(2));
 		if (arena!=null)
 		{
-			boolean canJoin = arena.arenaph.tryJoin(e.getPlayer());
+			boolean canJoin = arena.arenaph.checkJoin(e.getPlayer());
 			if (canJoin)
 			{
 				arena.arenaph.spawnPlayer(e.getPlayer(), Messages.playerjoinedtoplayer, Messages.playerjoinedtoothers);

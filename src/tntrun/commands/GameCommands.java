@@ -121,7 +121,7 @@ public class GameCommands implements CommandExecutor{
 			Arena arena = plugin.pdata.getArenaByName(args[1]);
 			if (arena != null)
 			{
-				boolean canJoin = arena.arenaph.tryJoin(player);
+				boolean canJoin = arena.arenaph.checkJoin(player);
 				if (canJoin)
 				{
 					arena.arenaph.spawnPlayer(player, Messages.playerjoinedtoplayer, Messages.playerjoinedtoothers);
