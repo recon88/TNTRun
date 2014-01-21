@@ -48,6 +48,7 @@ public class PlayerHandler {
 	}
 	
 	//spawn player on arena
+	@SuppressWarnings("deprecation")
 	public void spawnPlayer(final Player player, String msgtoplayer, String msgtoarenaplayers)
 	{
 		if (plugin.pdata.getArenaPlayers(arena).size() == arena.getMaxPlayers())
@@ -132,6 +133,7 @@ public class PlayerHandler {
 		//modify signs
 		plugin.signEditor.modifySigns(arena.getArenaName());
 	}
+	@SuppressWarnings("deprecation")
 	private void removePlayerFromArenaAndRestoreState(Player player, boolean winner)
 	{
 		//remove vote
