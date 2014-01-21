@@ -43,7 +43,7 @@ public class LoseLevel {
 	
 	protected boolean isLooseLocation(Location loc)
 	{
-		return loc.toVector().isInAABB(p1, p2);
+		return loc.getY() < Math.max(p2.getBlockY(), p1.getBlockY()) + 1;
 	};
 	
 	protected void setLooseLocation(Location p1, Location p2)
