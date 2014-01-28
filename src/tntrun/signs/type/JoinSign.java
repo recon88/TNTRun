@@ -63,7 +63,6 @@ public class JoinSign {
 			{
 				arena.arenaph.spawnPlayer(e.getPlayer(), Messages.playerjoinedtoplayer, Messages.playerjoinedtoothers);
 			}
-			arena.arenaph.spawnPlayer(e.getPlayer(), Messages.playerjoinedtoplayer, Messages.playerjoinedtoothers);
 			e.setCancelled(true);
 		} else
 		{
