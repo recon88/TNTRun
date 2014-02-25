@@ -2,16 +2,25 @@ package tntrun.messages;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.bukkit.Bukkit;
+import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 import tntrun.FormattingCodesParser;
 import tntrun.TNTRun;
+import tntrun.arena.Rewards;
 
 public class Messages {
+	
+	private static File messageconfig;
+	private static FileConfiguration config;
+	
+	private static List<String> worldsenabledformessages;
 	
 	public static String nopermission = "&4You don't have permission to do this";
 	
@@ -37,6 +46,7 @@ public class Messages {
 	public static String playerlosttoplayer = "&6You lost the game";
 	public static String playerlosttoothers = "&6Player {PLAYER} lost the game";
 	public static String playerwonbroadcast = "&9[TNTRun] &a{PLAYER}&r won the game on arena &c{ARENA}";
+	public static String playerreward = "&9[TNTRun] &6You won &c{MONEYREWARD}";
 	
 	public static void sendMessage(Player player, String message) {
 		if (!message.equals("")) {
@@ -56,20 +66,35 @@ public class Messages {
 			player.sendMessage(FormattingCodesParser.parseFormattingCodes(message));
 		}
 	}
+	public static void sendMessage(Player player, String message, double reward) {
+		if (!message.equals("")) {
+			message = message.replace("{MONEYREWARD}", Rewards.getEconomy().format(reward));
+			player.sendMessage(FormattingCodesParser.parseFormattingCodes(message));
+		}
+	}
 	
 	public static void broadsactMessage(String plname, String arena, String message)
 	{
 		if (!message.equals("")) {
 			message = message.replace("{PLAYER}", plname);
 			message = message.replace("{ARENA}", arena);
-			Bukkit.broadcastMessage(FormattingCodesParser.parseFormattingCodes(message));
+			for (String worlds : worldsenabledformessages) {
+				World world = Bukkit.getServer().getWorld(worlds);
+				if (world == null) {
+					continue;
+				}
+				for (Player players : world.getPlayers()) {
+					players.sendMessage(FormattingCodesParser.parseFormattingCodes(message));
+				}
+			}
 		}
 	}
 
 	public static void loadMessages(TNTRun plugin)
 	{
-		File messageconfig = new File(plugin.getDataFolder(),"configmsg.yml");
-		FileConfiguration config = YamlConfiguration.loadConfiguration(messageconfig);
+		messageconfig = new File(plugin.getDataFolder(),"configmsg.yml");
+		config = YamlConfiguration.loadConfiguration(messageconfig);
+		worldsenabledformessages = config.getStringList("worldsenabledformessages");
 		nopermission = config.getString("nopermission",nopermission);
 		teleporttolobby = config.getString("teleporttolobby",teleporttolobby);
 		availablearenas = config.getString("availablearenas",availablearenas);
@@ -91,11 +116,16 @@ public class Messages {
 		playerlosttoplayer = config.getString("playerlosttoplayer",playerlosttoplayer);
 		playerlosttoothers = config.getString("playerlosttoothers",playerlosttoothers);
 		playerwonbroadcast = config.getString("playerwonbroadcast",playerwonbroadcast);
+		playerreward = config.getString("playerreward","playerreward");
 		saveMessages(messageconfig);
 	}
 	private static void saveMessages(File messageconfig)
 	{
 		FileConfiguration config = new YamlConfiguration();
+		List<String> worlds = new ArrayList<String>();
+		worlds.add("world");
+		worlds.add("example");
+		config.set("worldsenabledformessages", worlds);
 		config.set("nopermission",nopermission);
 		config.set("teleporttolobby",teleporttolobby);
 		config.set("availablearenas",availablearenas);

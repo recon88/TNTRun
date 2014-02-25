@@ -33,6 +33,7 @@ public class GlobalLobby {
 	public GlobalLobby(TNTRun plugin)
 	{
 		lobbyFile = new File(plugin.getDataFolder()+File.separator+"lobby.yml");
+		loadFromConfig();
 	}
 	
 	private LobbyLocation lobbyLocation;
@@ -56,6 +57,7 @@ public class GlobalLobby {
 	public void setLobbyLocation(Location location)
 	{
 		this.lobbyLocation = new LobbyLocation(location.getWorld().getName(), location.toVector(), location.getYaw(), location.getPitch());
+		saveToConfig();
 	}
 	
 	

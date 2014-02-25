@@ -30,7 +30,7 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 
 public class Rewards {
 
-	private Object economy = null;
+	private static Object economy = null;
 	public Rewards()
 	{
 		if (Bukkit.getPluginManager().getPlugin("Vault") != null)
@@ -113,6 +113,14 @@ public class Rewards {
 		{
 			itemrewards = (List<ItemStack>) obj;
 		}
+	}
+	
+	public static Economy getEconomy() {
+		if (economy != null)
+		{
+			return (Economy) economy;
+		}
+		return null;
 	}
 	
 }

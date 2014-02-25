@@ -142,8 +142,8 @@ public class PlayerHandler {
 		Bars.removeBar(player);
 		//remove player on arena data
 		plugin.pdata.removePlayerFromArena(player.getName());
-		//restore location
-		plugin.pdata.restorePlayerLocation(player.getName());
+		//teleport player back to lobby
+		player.teleport(plugin.globallobby.getLobbyLocation());
 		//restore player status
 		plugin.pdata.restorePlayerHunger(player.getName());
 		plugin.pdata.restorePlayerPotionEffects(player.getName());
